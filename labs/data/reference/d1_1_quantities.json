@@ -1,0 +1,22 @@
+{
+ "__frame__": [
+  {
+   "model": "tier-l",
+   "uncached_input": 59952588.0,
+   "cached_input": 146377344.0,
+   "output": 36277857.0
+  },
+  {
+   "model": "tier-m",
+   "uncached_input": 567382027.0,
+   "cached_input": 113964800.0,
+   "output": 27982230.0
+  },
+  {
+   "model": "tier-s",
+   "uncached_input": 48715.0,
+   "cached_input": 0.0,
+   "output": 8580.0
+  }
+ ]
+}

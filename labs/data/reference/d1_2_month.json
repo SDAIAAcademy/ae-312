@@ -1,0 +1,24 @@
+{
+ "__frame__": [
+  {
+   "part": "base",
+   "sar": 1889.6643291937,
+   "share_pct": 75.1329533039
+  },
+  {
+   "part": "context_growth",
+   "sar": 455.2523474063,
+   "share_pct": 18.1008091388
+  },
+  {
+   "part": "extra_steps",
+   "sar": 131.780766,
+   "share_pct": 5.2395962528
+  },
+  {
+   "part": "retries",
+   "sar": 38.3964624,
+   "share_pct": 1.5266413045
+  }
+ ]
+}

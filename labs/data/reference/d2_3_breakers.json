@@ -1,0 +1,18 @@
+[
+ {
+  "layout": "the current layout",
+  "equal_up_to_token": 13
+ },
+ {
+  "layout": "the clock moved to the end",
+  "equal_up_to_token": 2
+ },
+ {
+  "layout": "then the profile after the policies",
+  "equal_up_to_token": 1597
+ },
+ {
+  "layout": "then the policy sections sorted",
+  "equal_up_to_token": 8301
+ }
+]

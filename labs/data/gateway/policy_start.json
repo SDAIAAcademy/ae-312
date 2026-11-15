@@ -1,0 +1,13 @@
+{
+ "note": "Maabar's policy on 1 October: one budget for the whole gateway",
+ "window": "day",
+ "budgets": [
+  {
+   "scope": "gateway",
+   "match": "*",
+   "soft_sar": 208.0,
+   "hard_sar": 260.0
+  }
+ ],
+ "rate_limits": []
+}

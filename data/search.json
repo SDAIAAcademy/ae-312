@@ -1,0 +1,1309 @@
+{
+  "v": 1,
+  "engine": "1.0.0",
+  "build": {
+    "at": "2026-11-15T15:39:40Z",
+    "version": "2027.1.0",
+    "commit": "2f622db"
+  },
+  "lang": "en",
+  "dir": "ltr",
+  "slides": [
+    {
+      "deck": "day1",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Where the money goes",
+      "text": "SDAIA Academy · AI Cost Engineering and Model Routing Where the money goes Day 1: A cost model that matches the invoice, the sessions that cost the most, who spent what, and budgets that hold AI Engineering Track3 teaching days + capstone day4 sessions · 4 labsAE-312",
+      "href": "../slides/day1.html#title"
+    },
+    {
+      "deck": "day1",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Where the money goes",
+      "text": "Today Where the money goes Session 1 · The token cost model What a request costs: uncached, cached, output and reasoning tokens, and what the provider bills when a call fails Session 2 · Agents, retries and long contexts Why an agent session costs far more than its number of steps suggests, and where retries and long contexts hide Session 3 · Attribution and showback From one invoice to who spent what: keys, tags, a showback table and the costs nobody owns Session 4 · Budgets and limits Budgets that warn and budgets that refuse, and why their scope decides who is refused",
+      "href": "../slides/day1.html#agenda"
+    },
+    {
+      "deck": "day1",
+      "id": "s1",
+      "n": 3,
+      "session": 1,
+      "title": "The token cost model",
+      "text": "Session 1 The token cost model Price one request from its token counts and a price sheet Explain why cached, reasoning and failed tokens change the bill Reconcile a cost model with an invoice line by line 01",
+      "href": "../slides/day1.html#s1"
+    },
+    {
+      "deck": "day1",
+      "id": "mawj-three-applications",
+      "n": 4,
+      "session": 1,
+      "title": "Mawj Telecom runs three applications behind one gateway",
+      "text": "The case study Mawj Telecom runs three applications behind one gateway Anis A bilingual care assistant. 37,974 requests in October, SAR 911. Khulasa A job that summarises calls. 25,633 tagged requests, SAR 846, and a pilot on a leased node. Fasil An agent that handles billing disputes. 3,200 sessions, SAR 2,515. All three call the provider through Maabar, the gateway, which logs one row per attempt: 97,318 rows for the month. The invoice says SAR 8,242.62. You are the cost engineer who has to explain it.",
+      "href": "../slides/day1.html#mawj-three-applications"
+    },
+    {
+      "deck": "day1",
+      "id": "price-sheet",
+      "n": 5,
+      "session": 1,
+      "title": "A request costs its tokens times the price of each kind",
+      "text": "Recap from AE-203 A request costs its tokens times the price of each kind Tier Input Cached input Output tier-s 0.60 0.06 2.40 tier-m 3.00 0.30 12.00 tier-l 12.00 1.20 48.00 SAR per million tokens. A synthetic price sheet for the labs, not a provider's. The shape is what lasts. Output costs several times input, cached input a fraction of input, and each tier several times the one below. The figures change every few months.",
+      "href": "../slides/day1.html#price-sheet"
+    },
+    {
+      "deck": "day1",
+      "id": "prefill-and-decode",
+      "n": 6,
+      "session": 1,
+      "title": "Reading a prompt and writing an answer are different work",
+      "text": "Why the prices differ Reading a prompt and writing an answer are different work Prefill The model reads the whole prompt in one pass. Cheap per token, and paid again on every call. Decode The model writes one token at a time, each needing a pass. Expensive per token, and it sets the latency. Cached prefix A prompt start the provider has already read is not read again. Billed at a fraction of the input price. One answer of Anis: 6,831 tokens in, 199 out, SAR 0.0229. The input side is 90% of it, because every turn resends the instructions and the policy text.",
+      "href": "../slides/day1.html#prefill-and-decode"
+    },
+    {
+      "deck": "day1",
+      "id": "four-kinds-of-token",
+      "n": 7,
+      "session": 1,
+      "title": "A log row holds four kinds of token, and they overlap",
+      "text": "The cost model A log row holds four kinds of token, and they overlap uncached = input_tokens - cached_tokens # input INCLUDES cached cost = ( uncached * price[\"input\"] + cached_tokens * price[\"cached_input\"] + (output_tokens + reasoning_tokens) * price[\"output\"] # output EXCLUDES reasoning ) / 1e6 What goes wrong. Each provider and each gateway defines these fields its own way. Read the definition before you sum a column: whether input includes cached tokens, and whether output includes reasoning tokens.",
+      "href": "../slides/day1.html#four-kinds-of-token"
+    },
+    {
+      "deck": "day1",
+      "id": "what-a-failure-costs",
+      "n": 8,
+      "session": 1,
+      "title": "A failed call can still be a billed call",
+      "text": "Retries A failed call can still be a billed call Status in the log What happened Billed? ok The answer arrived Yes timeout The client gave up; the provider had started to answer Yes: the prompt and what was written so far error The provider refused the request No October has 1,751 timeouts in the log. They cost SAR 57 and nobody received their answers.",
+      "href": "../slides/day1.html#what-a-failure-costs"
+    },
+    {
+      "deck": "day1",
+      "id": "close-for-the-wrong-reasons",
+      "n": 9,
+      "session": 1,
+      "title": "The naive model is 2% off, for two large reasons that cancel",
+      "text": "Lab 1.1 · the result The naive model is 2% off, for two large reasons that cancel Cost model SAR Against the invoice Naive: successful rows, input and output 4,870.75 +2.1% + cached input at the cached price 3,076.23 -35.5% + reasoning tokens as output 4,651.17 -2.5% + billed timeouts 4,708.59 -1.3% Close is not correct. A model that lands near the invoice because two errors cancel breaks in the month the traffic mix changes.",
+      "href": "../slides/day1.html#close-for-the-wrong-reasons"
+    },
+    {
+      "deck": "day1",
+      "id": "accelerator-hours",
+      "n": 10,
+      "session": 1,
+      "title": "A leased accelerator is paid by the hour, used or idle",
+      "text": "The other unit of cost A leased accelerator is paid by the hour, used or idle Khulasa's pilot leased one node for 8 hours a night: 248 hours at SAR 14, SAR 3,472 on the invoice. It served 4,500 summaries and was busy 18% of its leased time. Cost per request is the lease over the requests served. Tokens on the node have no price. 0.772 SAR per summary on the node 0.033 SAR for the same job on the API",
+      "href": "../slides/day1.html#accelerator-hours"
+    },
+    {
+      "deck": "day1",
+      "id": "reconcile-by-line",
+      "n": 11,
+      "session": 1,
+      "title": "Reconcile by invoice line, and give the gap a name",
+      "text": "The evidence for this outcome Reconcile by invoice line, and give the gap a name 1 · Quantities tokens by model and kind, from the log → 2 · Lines beside each invoice line → 3 · Gap what has no row of yours Every line billed to the gateway's key matches the log token for token. The cost model gives SAR 8,180.59 against SAR 8,242.62: a gap of 0.75%, all of it on a provider key the gateway never issued.",
+      "href": "../slides/day1.html#reconcile-by-line"
+    },
+    {
+      "deck": "day1",
+      "id": "check-cost-model",
+      "n": 12,
+      "session": 1,
+      "title": "A model that is 1% under",
+      "text": "Checkpoint A model that is 1% under A colleague's cost model sums the successful rows of the log and lands 1% under the invoice in a calm month. The next month has a two-hour provider incident. What happens to the gap? It stays near 1%, because failed calls are not billed It shrinks, because fewer requests succeed It widens, because timeouts are billed and the model leaves them out It moves at random from month to month",
+      "href": "../slides/day1.html#check-cost-model"
+    },
+    {
+      "deck": "day1",
+      "id": "lab-1-1",
+      "n": 13,
+      "session": 1,
+      "title": "A cost model that matches the invoice",
+      "text": "Lab 1.1 · 25 min A cost model that matches the invoice Compute cost per request for the three applications and reconcile it with the synthetic invoice: from a naive model that is close for the wrong reasons to one that matches line by line, within 2% in total. D1_1_cost_model.ipynb Price one request by hand from the price sheet 5 min The month with a naive model, against the invoice 5 min Add cached tokens, reasoning tokens and billed failures 7 min Add the accelerator-hours of the pilot node 4 min Reconcile line by line and state the gap 4 min ✱ Stretch: Find the spend the gateway never saw",
+      "href": "../slides/day1.html#lab-1-1"
+    },
+    {
+      "deck": "day1",
+      "id": "s2",
+      "n": 14,
+      "session": 2,
+      "title": "Agents, retries and long contexts",
+      "text": "Session 2 Agents, retries and long contexts Compute cost per session from request rows Split a session into first attempts, retries, context growth and extra steps Size the saving of a step budget and of a trimmed tool result 02",
+      "href": "../slides/day1.html#s2"
+    },
+    {
+      "deck": "day1",
+      "id": "session-is-the-unit",
+      "n": 15,
+      "session": 2,
+      "title": "An agent's bill is counted in sessions, not in requests",
+      "text": "The unit of work An agent's bill is counted in sessions, not in requests 0.72 SAR, the median session of the dispute agent 11.07 SAR, its most expensive session 15x the median, in one session of 70 steps The ten most expensive sessions of October all belong to the dispute agent. An average cost per request hides every one of them.",
+      "href": "../slides/day1.html#session-is-the-unit"
+    },
+    {
+      "deck": "day1",
+      "id": "every-step-resends",
+      "n": 16,
+      "session": 2,
+      "title": "Every step resends everything before it",
+      "text": "Context growth Every step resends everything before it step 1 3,980 tokens in, none cached step 2 6,377 tokens in, 3,968 of them cached step 8 9,441 tokens in, 9,088 cached step 70 34,823 tokens in, 34,304 cached, after one billed timeout Cost grows faster than steps. Twice the steps is more than twice the cost, since each step's prompt holds all the earlier ones. In this session half of the cost came after step 44.",
+      "href": "../slides/day1.html#every-step-resends"
+    },
+    {
+      "deck": "day1",
+      "id": "cache-carries-the-agent",
+      "n": 17,
+      "session": 2,
+      "title": "An agent loop is affordable because its prefix is cached",
+      "text": "Cached tokens, again An agent loop is affordable because its prefix is cached The agent's month, as billed SAR 2,515 The same month with no cached token SAR 4,339 Each step's prompt starts with the previous step's prompt, so most of it is billed at the cached price. Anything that breaks that prefix, such as a new model or an edited history, is paid at the full input price.",
+      "href": "../slides/day1.html#cache-carries-the-agent"
+    },
+    {
+      "deck": "day1",
+      "id": "retries-multiply",
+      "n": 18,
+      "session": 2,
+      "title": "A retry resends the whole prompt, and an incident multiplies retries",
+      "text": "Retries A retry resends the whole prompt, and an incident multiplies retries The worst session made 95 attempts for 70 steps; 24 of them were billed timeouts. A client that retries at once, up to four times, turns one provider incident into several times the load. Retries are small in SAR here, 1.5% of the agent's month, and large in waiting: each timeout is a customer who waited a minute. What to configure Fewer attempts, a growing pause between them, and a circuit breaker that stops calling a provider that keeps failing.",
+      "href": "../slides/day1.html#retries-multiply"
+    },
+    {
+      "deck": "day1",
+      "id": "four-parts-of-a-session",
+      "n": 19,
+      "session": 2,
+      "title": "Split a session's bill into four parts",
+      "text": "Lab 1.2 · the split Split a session's bill into four parts Part What it is October, SAR Share Base the steps within a budget of 12, at the first step's prompt size 1,889.66 75.1% Context growth input beyond the first step's prompt 455.25 18.1% Extra steps steps beyond the budget 131.78 5.2% Retries billed attempts that did not succeed 38.40 1.5%",
+      "href": "../slides/day1.html#four-parts-of-a-session"
+    },
+    {
+      "deck": "day1",
+      "id": "tool-that-returns-a-year",
+      "n": 20,
+      "session": 2,
+      "title": "One tool without paging fills the context for the rest of the session",
+      "text": "Long contexts One tool without paging fills the context for the rest of the session In 124 of 3,200 sessions a tool returned a year of itemised bills, and returned it again on later calls. Those 4% of sessions hold SAR 188 of the SAR 455 of context growth. One of them reached a prompt of 436,891 tokens in 8 steps and cost SAR 7.42. The fix is in the tool Return the three bills the dispute names, with a way to ask for more. A result the model does not need is paid for at every later step.",
+      "href": "../slides/day1.html#tool-that-returns-a-year"
+    },
+    {
+      "deck": "day1",
+      "id": "three-fixes-sized",
+      "n": 21,
+      "session": 2,
+      "title": "Three causes, three fixes, each with its size",
+      "text": "Measure before optimising Three causes, three fixes, each with its size Cause Fix At stake in October The agent loops a step budget and a stop rule for \"pending\" SAR 131.78 A tool returns too much page and trim tool results up to SAR 188.47 Timeouts retried at once fewer attempts, a pause, a circuit breaker SAR 38.40 Size first. The fix that sounds most urgent after an incident is not always the largest. A table like this is what a cost review is made of.",
+      "href": "../slides/day1.html#three-fixes-sized"
+    },
+    {
+      "deck": "day1",
+      "id": "check-agent-cost",
+      "n": 22,
+      "session": 2,
+      "title": "Twice the steps",
+      "text": "Checkpoint Twice the steps After a change to a tool, the dispute agent takes 12 steps per session where it took 6. Nothing else changed and the prefix cache still works. What happens to the cost of a session? It more than doubles, because each added step also resends a longer history It doubles, because cost is proportional to steps It barely moves, because the history is cached It stays the same, because only failed steps add cost",
+      "href": "../slides/day1.html#check-agent-cost"
+    },
+    {
+      "deck": "day1",
+      "id": "lab-1-2",
+      "n": 23,
+      "session": 2,
+      "title": "The ten most expensive sessions",
+      "text": "Lab 1.2 · 25 min The ten most expensive sessions Find the ten most expensive sessions and attribute their cost to steps, retries and context growth, then size a fix for each cause. D1_2_expensive_sessions.ipynb Cost per session, and the top ten 5 min Split each session: base, context growth, extra steps, retries 9 min Read the worst session step by step 5 min Three causes, three fixes and their size 6 min ✱ Stretch: What the agent would cost without its prefix cache",
+      "href": "../slides/day1.html#lab-1-2"
+    },
+    {
+      "deck": "day1",
+      "id": "s3",
+      "n": 24,
+      "session": 3,
+      "title": "Attribution and showback",
+      "text": "Session 3 Attribution and showback Attribute spend to team, application and environment through gateway keys and tags Produce a showback table that adds up to the invoice, with an unallocated row Compare two ways to allocate a cost that two teams share 03",
+      "href": "../slides/day1.html#s3"
+    },
+    {
+      "deck": "day1",
+      "id": "allocate-first",
+      "n": 25,
+      "session": 3,
+      "title": "Allocate first, then optimise",
+      "text": "Attribution Allocate first, then optimise One invoice, five teams: until spend has an owner, nobody has a reason to lower it. An owner is a team, an application and an environment. The gateway is where that is recorded, because every request passes through it. At Mawj Shurooq in finance receives one PDF a month. The question she is asked is always \"whose is it?\", and the invoice has no column for that.",
+      "href": "../slides/day1.html#allocate-first"
+    },
+    {
+      "deck": "day1",
+      "id": "keys-and-tags",
+      "n": 26,
+      "session": 3,
+      "title": "A key says who is calling; a tag says what for",
+      "text": "Two mechanisms A key says who is calling; a tag says what for A gateway key Issued to one team, for one application, in one environment. Attribution costs nothing: it is the join of the log with the key register. A tag on the request Sent by the application: app=khulasa;caller=fasil. Finer than a key, and only as reliable as the code that sets it. Prefer keys. A key cannot be forgotten: a request without one is refused. A tag can be left out, and in October it was on 8% of the shared key's requests.",
+      "href": "../slides/day1.html#keys-and-tags"
+    },
+    {
+      "deck": "day1",
+      "id": "shared-key",
+      "n": 27,
+      "session": 3,
+      "title": "The register says one team spent SAR 1,157. Three things are inside",
+      "text": "Lab 1.3 · what the register hides The register says one team spent SAR 1,157. Three things are inside On key-shared-legacy Requests SAR Khulasa, tagged 25,633 846.21 Another team's experiment on the large tier 1,115 239.90 No tag at all 2,161 70.48 What goes wrong. A key issued \"for now\" before keys per application existed. A team without a key borrowed it for a week, at SAR 0.215 a request against Khulasa's SAR 0.033.",
+      "href": "../slides/day1.html#shared-key"
+    },
+    {
+      "deck": "day1",
+      "id": "unallocated-is-a-row",
+      "n": 28,
+      "session": 3,
+      "title": "What nobody owns gets its own row",
+      "text": "Honest tables What nobody owns gets its own row Untagged requests on the shared key: SAR 70.48. A provider key outside the gateway : SAR 62.02, on the invoice and in no log. Together 1.6% of the invoice: small, visible, and somebody's job to shrink. Do not spread it Giving unallocated spend to the largest team, or to everyone by share, makes the table add up and removes the reason to fix the tags.",
+      "href": "../slides/day1.html#unallocated-is-a-row"
+    },
+    {
+      "deck": "day1",
+      "id": "showback-table",
+      "n": 29,
+      "session": 3,
+      "title": "The showback table adds up to the invoice",
+      "text": "Lab 1.3 · the result The showback table adds up to the invoice Contact-centre analytics SAR 4,318 · 52.4% Billing operations SAR 2,581 · 31.3% Customer care SAR 971 · 11.8% Network analytics SAR 240 · 2.9% Unallocated SAR 133 · 1.6% Contact-centre analytics leads because of the node lease, SAR 3,472, not because of Khulasa's tokens.",
+      "href": "../slides/day1.html#showback-table"
+    },
+    {
+      "deck": "day1",
+      "id": "showback-before-chargeback",
+      "n": 30,
+      "session": 3,
+      "title": "Showback before chargeback",
+      "text": "A durable rule Showback before chargeback 1 · Showback each team sees its spend; no money moves → 2 · Corrections \"that is not ours\": tags and keys get fixed → 3 · Chargeback budgets are charged, from a table people trust Why the order. The first tables are wrong in ways only the teams can see. A team charged from a table it never saw disputes the table, not its spend.",
+      "href": "../slides/day1.html#showback-before-chargeback"
+    },
+    {
+      "deck": "day1",
+      "id": "caller-or-owner",
+      "n": 31,
+      "session": 3,
+      "title": "When one application calls another, there is no settled way to split the cost",
+      "text": "An open question When one application calls another, there is no settled way to split the cost Owner pays Khulasa's team pays for every summary, whoever asked. Simple; the owner carries other teams' demand. Caller pays The dispute agent's team pays for the summaries it requests. Fairer on demand; the owner loses a reason to make the service cheaper. At Mawj the rule moves SAR 46.05 between two teams and changes nothing in the total. State the rule on the table; show what the other one would give.",
+      "href": "../slides/day1.html#caller-or-owner"
+    },
+    {
+      "deck": "day1",
+      "id": "check-untagged",
+      "n": 32,
+      "session": 3,
+      "title": "The untagged 8%",
+      "text": "Checkpoint The untagged 8% 8% of the requests on a shared key carry no tag. Finance wants the showback table finished today. What do you do with their cost? Give it to the team that owns the key Spread it over all teams by their share of spend Leave it out, since it cannot be attributed Report it in an \"unallocated\" row and open the fix: a key per application",
+      "href": "../slides/day1.html#check-untagged"
+    },
+    {
+      "deck": "day1",
+      "id": "lab-1-3",
+      "n": 33,
+      "session": 3,
+      "title": "A showback table from gateway keys",
+      "text": "Lab 1.3 · 25 min A showback table from gateway keys Tag spend by team, application and environment through gateway keys and produce a showback table that adds up to the invoice. D1_3_showback.ipynb Join the usage log to the key register 5 min Split the shared key by its tags 6 min Showback by team, application and environment 7 min Calls between applications: caller pays or owner pays 7 min ✱ Stretch: Spread the idle accelerator-hours by tokens and by requests",
+      "href": "../slides/day1.html#lab-1-3"
+    },
+    {
+      "deck": "day1",
+      "id": "s4",
+      "n": 34,
+      "session": 4,
+      "title": "Budgets and limits",
+      "text": "Session 4 Budgets and limits Write soft and hard budgets per application and environment Replay a spike and read which requests the gateway refused Choose between a budget and a rate limit for a given failure 04",
+      "href": "../slides/day1.html#s4"
+    },
+    {
+      "deck": "day1",
+      "id": "soft-and-hard",
+      "n": 35,
+      "session": 4,
+      "title": "A soft budget tells someone; a hard budget refuses requests",
+      "text": "Budgets A soft budget tells someone; a hard budget refuses requests Soft level An alert when spend in the window crosses it. Nothing is refused. Hard level Every later request in the scope is refused until the window ends. Window and scope A day or a month; a key, an application, an environment, a team. Use both. Soft without hard is a message nobody must act on. Hard without soft is an outage with no warning.",
+      "href": "../slides/day1.html#soft-and-hard"
+    },
+    {
+      "deck": "day1",
+      "id": "scope-decides",
+      "n": 36,
+      "session": 4,
+      "title": "One budget for the whole gateway refused the wrong application",
+      "text": "17 October, replayed One budget for the whole gateway refused the wrong application A tool outage made the dispute agent loop all afternoon. The gateway's single daily budget, SAR 260, was spent before the evening. Refused for the rest of the day: 474 requests of the care assistant, 261 of the agent, 216 of Khulasa. 229 customers of Anis got no answer in its busiest hours. The budget worked It stopped the spend. Its scope was the problem: the first application to overspend used up everyone's allowance.",
+      "href": "../slides/day1.html#scope-decides"
+    },
+    {
+      "deck": "day1",
+      "id": "levels-from-data",
+      "n": 37,
+      "session": 4,
+      "title": "Levels come from the month's data, not from a round number",
+      "text": "Choosing the levels Levels come from the month's data, not from a round number Application Median day Highest normal day Hard Soft Anis 32.9 36.0 60 48 Khulasa 28.3 32.1 70 56 Fasil 79.9 106.6 165 132 SAR per day, October without the incident day. Hard at about one and a half times the highest normal day; soft at 80% of hard.",
+      "href": "../slides/day1.html#levels-from-data"
+    },
+    {
+      "deck": "day1",
+      "id": "policy-as-data",
+      "n": 38,
+      "session": 4,
+      "title": "The policy is a file you can review, replay and version",
+      "text": "Lab 1.4 · the policy The policy is a file you can review, replay and version {\"window\": \"day\", \"budgets\": [ {\"scope\": \"app\", \"match\": \"anis\", \"soft_sar\": 48, \"hard_sar\": 60}, {\"scope\": \"app\", \"match\": \"khulasa\", \"soft_sar\": 56, \"hard_sar\": 70}, {\"scope\": \"app\", \"match\": \"fasil\", \"soft_sar\": 132, \"hard_sar\": 165}], \"rate_limits\": [ {\"scope\": \"app\", \"match\": \"fasil\", \"requests_per_minute\": 12}]}",
+      "href": "../slides/day1.html#policy-as-data"
+    },
+    {
+      "deck": "day1",
+      "id": "hard-limit-trips",
+      "n": 39,
+      "session": 4,
+      "title": "With budgets per application the hard limit trips on the agent only",
+      "text": "Lab 1.4 · the result With budgets per application the hard limit trips on the agent only 39 min from soft alert to hard limit 961 agent requests refused, in 28 sessions 0 requests of Anis refused SAR 80 not spent that day A refusal is not free. Those 28 sessions were customers with a billing dispute. A hard limit needs a plan for them: hand the case to a person and say so.",
+      "href": "../slides/day1.html#hard-limit-trips"
+    },
+    {
+      "deck": "day1",
+      "id": "rate-limit-or-budget",
+      "n": 40,
+      "session": 4,
+      "title": "A rate limit acts in a minute; a budget acts in a day",
+      "text": "Limits A rate limit acts in a minute; a budget acts in a day Rate limit Requests or tokens per minute. For bursts and loops. At 12 requests a minute, twice the agent's busiest calm minute, the loop was slowed 2 hours 46 minutes before the budget ran out. Budget SAR per day or month. For the total. It does not notice a burst until the money is gone. The cheapest control of all was not at the gateway: a step budget in the agent (Lab 1.2) ends a loop at step 12.",
+      "href": "../slides/day1.html#rate-limit-or-budget"
+    },
+    {
+      "deck": "day1",
+      "id": "check-budget-scope",
+      "n": 41,
+      "session": 4,
+      "title": "Three applications, one budget",
+      "text": "Checkpoint Three applications, one budget A gateway has one hard daily budget for all applications. An internal batch job doubles its volume. At the end of the afternoon the budget is reached. Who is refused in the evening? Only the batch job, since it caused the overspend Every application in the scope, the customer-facing one included Nobody: the gateway sends an alert and keeps serving The applications with the lowest priority first",
+      "href": "../slides/day1.html#check-budget-scope"
+    },
+    {
+      "deck": "day1",
+      "id": "lab-1-4",
+      "n": 42,
+      "session": 4,
+      "title": "Soft and hard budgets, and a spike",
+      "text": "Lab 1.4 · 25 min Soft and hard budgets, and a spike Set soft and hard budgets per application on the gateway and trip the hard limit with the replayed spike of day 17, without refusing the care assistant. D1_4_budgets.ipynb Read the policy and replay a calm day 5 min Replay the spike under one global budget 5 min Budgets per application: soft and hard 8 min Trip the hard limit and read the gateway log 4 min A requests-per-minute limit for the agent 3 min ✱ Stretch: A budget per environment, so that staging cannot spend production money",
+      "href": "../slides/day1.html#lab-1-4"
+    },
+    {
+      "deck": "day1",
+      "id": "wrap-up",
+      "n": 43,
+      "session": 4,
+      "title": "Where the money goes",
+      "text": "Day 1 · three things to keep Where the money goes Cost follows tokens, steps and utilisation Four kinds of token, billed failures, sessions that grow, and hours that are paid idle. Measure before optimising Reconcile with the invoice, split the bill into parts, size each fix. Allocate, then limit Keys per application, an unallocated row, showback first, budgets whose scope matches what they protect.",
+      "href": "../slides/day1.html#wrap-up"
+    },
+    {
+      "deck": "day1",
+      "id": "next",
+      "n": 44,
+      "session": 4,
+      "title": "Route and cache",
+      "text": "Tomorrow Route and cache Set the quality floor first, in Arabic and in English. Then find the cheapest configuration that keeps it, a router with a fallback, and two caches that are measured before they are trusted. Optional: a free key for a hosted model, for one step of Lab 2.1. Without it the step uses supplied outputs. Read the 100 tasks of one application in labs/data/eval/.",
+      "href": "../slides/day1.html#next"
+    },
+    {
+      "deck": "day2",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Route and cache",
+      "text": "SDAIA Academy · AI Cost Engineering and Model Routing Route and cache Day 2: The cheapest configuration that keeps the quality floor, a router with a fallback, and two caches measured AI Engineering Track3 teaching days + capstone day4 sessions · 4 labsAE-312",
+      "href": "../slides/day2.html#title"
+    },
+    {
+      "deck": "day2",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Route and cache",
+      "text": "Today Route and cache Session 1 · Own tasks, several settings Choosing a tier and a reasoning setting on your own tasks, with a quality floor in each language Session 2 · Routing and cascades Sending each request to the cheapest tier that can do it, and paying for the times it could not Session 3 · Prompt layout for prefix caching A provider reuses a prompt only as far as it is identical from its first token: lay the prompt out for that Session 4 · Semantic caches and their risks Answering a new question with an old answer: hit rates, wrong answers, stale answers and one customer seeing another's",
+      "href": "../slides/day2.html#agenda"
+    },
+    {
+      "deck": "day2",
+      "id": "review-day-1",
+      "n": 3,
+      "session": 0,
+      "title": "Which request is on the bill?",
+      "text": "Review of Day 1 Which request is on the bill? The dispute agent sends a prompt of 20,000 tokens, 19,200 of them cached. The client times out after the provider has written 300 tokens. How is this attempt billed? Not at all, because no answer arrived 800 input tokens at the input price, 19,200 at the cached price, 300 at the output price 20,000 tokens at the input price and 300 at the output price 20,000 at the input price, 19,200 more at the cached price, 300 at the output price",
+      "href": "../slides/day2.html#review-day-1"
+    },
+    {
+      "deck": "day2",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "Own tasks, several settings",
+      "text": "Session 1 Own tasks, several settings Write a code grader for the care assistant and score six configurations Report quality, latency and cost per task, split by language Check supplied results against a live rerun of ten tasks 01",
+      "href": "../slides/day2.html#s1"
+    },
+    {
+      "deck": "day2",
+      "id": "floor-first",
+      "n": 5,
+      "session": 1,
+      "title": "Set the quality floor first, then cut cost",
+      "text": "The order of work Set the quality floor first, then cut cost 1 · Floor the owner states the lowest acceptable pass rate → 2 · Measure every candidate on your own tasks → 3 · Choose the cheapest candidate above the floor What goes wrong. Prices are compared first, a cheap configuration is chosen, and the floor is then set wherever that configuration happens to land.",
+      "href": "../slides/day2.html#floor-first"
+    },
+    {
+      "deck": "day2",
+      "id": "own-tasks",
+      "n": 6,
+      "session": 1,
+      "title": "A leaderboard does not know your plans or your customers' Arabic",
+      "text": "Own-task evaluation A leaderboard does not know your plans or your customers' Arabic 100 labelled tasks per application , half in English and half in Arabic, each with the facts a right answer must hold. A grader in code : the facts are there and the answer is in the customer's language. Every candidate on the same tasks : three tiers, two reasoning settings, with tokens and latency recorded. One task of Anis كم سعر باقة Mawj 55 في الشهر وماذا تشمل؟ Must include: 55, 10. Language: Arabic.",
+      "href": "../slides/day2.html#own-tasks"
+    },
+    {
+      "deck": "day2",
+      "id": "six-configurations",
+      "n": 7,
+      "session": 1,
+      "title": "Six configurations on 100 tasks: quality, latency, cost",
+      "text": "Lab 2.1 · the care assistant Six configurations on 100 tasks: quality, latency, cost Tier Reasoning Pass rate Median latency SAR per task tier-s off 83% 1.1 s 0.0050 tier-s high 85% 3.6 s 0.0065 tier-m off 95% 1.8 s 0.0257 tier-m high 96% 6.7 s 0.0333 tier-l off 97% 2.8 s 0.1020 tier-l high 98% 10.6 s 0.1347",
+      "href": "../slides/day2.html#six-configurations"
+    },
+    {
+      "deck": "day2",
+      "id": "floor-per-language",
+      "n": 8,
+      "session": 1,
+      "title": "The small tier passes in English and fails in Arabic",
+      "text": "The floor holds in each language The small tier passes in English and fails in Arabic tier-s · English 92% tier-s · Arabic 74% tier-m · English 96% tier-m · Arabic 94% Floor: 92% in each language. An average of 83% says \"a bit low\"; the split says who pays for it. Six in ten of Anis's customers write in Arabic.",
+      "href": "../slides/day2.html#floor-per-language"
+    },
+    {
+      "deck": "day2",
+      "id": "what-reasoning-buys",
+      "n": 9,
+      "session": 1,
+      "title": "Reasoning is paid in output tokens and in seconds: buy it where it helps",
+      "text": "Reasoning settings Reasoning is paid in output tokens and in seconds: buy it where it helps Anis, a lookup High reasoning on the medium tier: 95% to 96%, one task. Cost up 30%, latency from 1.8 s to 6.7 s. Fasil, a decision in several steps High reasoning on the medium tier: 76% to 91%. Without it, no tier reaches the floor of 90%. A setting per application. The reasoning setting is a second dial beside the tier, and the right position differs by task.",
+      "href": "../slides/day2.html#what-reasoning-buys"
+    },
+    {
+      "deck": "day2",
+      "id": "three-applications-three-answers",
+      "n": 10,
+      "session": 1,
+      "title": "Three applications, three different answers",
+      "text": "The results table Three applications, three different answers Application Runs on Cheapest above the floor Finding Anis tier-m, off tier-m, off right-sized as one tier; routing is the next step Khulasa tier-m, off tier-s, off: 94%, SAR 0.0067 a task 79% cheaper per task at the floor Fasil tier-l, high tier-m, high: 91%, SAR 0.21 a task passes the floor by one task: not settled",
+      "href": "../slides/day2.html#three-applications-three-answers"
+    },
+    {
+      "deck": "day2",
+      "id": "one-task-is-two-points",
+      "n": 11,
+      "session": 1,
+      "title": "With 50 tasks per language, one task is two points",
+      "text": "How much a table can say With 50 tasks per language, one task is two points 94% and 92% differ by one task. Do not rank on that. A configuration exactly on the floor has passed once, on this sample. More tasks, repeated runs, or a paired comparison narrow it. The size of the saving says how much care it deserves. Report it this way \"45 of 50 in Arabic, floor 46 of 50\" is harder to misread than \"90%\".",
+      "href": "../slides/day2.html#one-task-is-two-points"
+    },
+    {
+      "deck": "day2",
+      "id": "check-the-recording",
+      "n": 12,
+      "session": 1,
+      "title": "Supplied outputs are a recording: check a sample of it live",
+      "text": "Lab 2.1 · step 4 Supplied outputs are a recording: check a sample of it live 1 · Sample ten tasks, five per language → 2 · Rerun the same prompt against a live model → 3 · Compare the same grader; read each disagreement What it proves. That the prompt, the task and the grader work on a real model. A free hosted model is not the provider's tier, so it does not confirm the pass rates.",
+      "href": "../slides/day2.html#check-the-recording"
+    },
+    {
+      "deck": "day2",
+      "id": "check-floor-language",
+      "n": 13,
+      "session": 1,
+      "title": "95% overall",
+      "text": "Checkpoint 95% overall A cheaper configuration scores 95% on 100 tasks: 50 of 50 in English, 45 of 50 in Arabic. The floor is 92% in each language. Most customers write in Arabic. What do you report? It passes: 95% is above the floor It passes if the floor for Arabic is lowered to 90% It fails and should be dropped from the table It fails the floor in Arabic; it is a candidate for English traffic only",
+      "href": "../slides/day2.html#check-floor-language"
+    },
+    {
+      "deck": "day2",
+      "id": "lab-2-1",
+      "n": 14,
+      "session": 1,
+      "title": "Three tiers, two reasoning settings, your own tasks",
+      "text": "Lab 2.1 · 25 min Three tiers, two reasoning settings, your own tasks Score supplied outputs of three model tiers at two reasoning settings on 100 tasks for quality, latency and cost, and rerun ten tasks live to check them. D2_1_own_tasks.ipynb A grader for the care assistant 6 min Score six configurations: quality, latency, cost 7 min Split by language and apply the quality floor 5 min Rerun ten tasks live and compare 7 min ✱ Stretch: The same table for the call-summary job and the dispute agent",
+      "href": "../slides/day2.html#lab-2-1"
+    },
+    {
+      "deck": "day2",
+      "id": "s2",
+      "n": 15,
+      "session": 2,
+      "title": "Routing and cascades",
+      "text": "Session 2 Routing and cascades Build a cascade with a quality check that needs no label and a fallback on errors Measure cost per successful outcome, failed first attempts included Write a router configuration that keeps the floor in Arabic and English 02",
+      "href": "../slides/day2.html#s2"
+    },
+    {
+      "deck": "day2",
+      "id": "not-every-request",
+      "n": 16,
+      "session": 2,
+      "title": "Most requests do not need the tier that the hardest ones need",
+      "text": "Routing Most requests do not need the tier that the hardest ones need 5x the price of tier-m over tier-s 46 of 50 English tasks of Anis the small tier answers right 37 of 50 Arabic tasks it answers right One tier for everything pays the high price on every easy request. A router sends each request to the cheapest tier that can do it, and has to know which that is.",
+      "href": "../slides/day2.html#not-every-request"
+    },
+    {
+      "deck": "day2",
+      "id": "three-kinds-of-router",
+      "n": 17,
+      "session": 2,
+      "title": "Three ways to decide where a request goes",
+      "text": "Tiers, cascades and learned routers Three ways to decide where a request goes A rule before the call By something known up front: language, application, intent. Costs nothing. As good as the measurement behind it. A cascade Try the cheap tier, check the answer, escalate when the check fails. Pays twice for escalated requests. A learned router A small model predicts whether the cheap tier will do. Needs training data and its own evaluation. Lab 2.2 builds the first two. Whichever you use, it is judged the same way: cost per successful outcome at the floor.",
+      "href": "../slides/day2.html#three-kinds-of-router"
+    },
+    {
+      "deck": "day2",
+      "id": "check-without-label",
+      "n": 18,
+      "session": 2,
+      "title": "In production nobody tells the router that an answer was wrong",
+      "text": "The quality check of a cascade In production nobody tells the router that an answer was wrong What a check can see The call errored. The answer is empty. It is not in the language of the question. It hedges. It does not parse or breaks the schema. What it cannot see A fluent answer, in the right language, with the wrong fee. Seeing that needs the right answer, or a grader as good as the large tier. Measure the check too. On labelled tasks, count the failures it catches, the failures it lets through and the right answers it rejects.",
+      "href": "../slides/day2.html#check-without-label"
+    },
+    {
+      "deck": "day2",
+      "id": "what-the-check-misses",
+      "n": 19,
+      "session": 2,
+      "title": "The check catches the visible failures; in Arabic most are not visible",
+      "text": "Lab 2.2 · the check, measured The check catches the visible failures; in Arabic most are not visible Failures of the small tier English Arabic Caught by the check, escalated 2 5 Let through: confident and wrong 2 8 Right answers rejected 0 0 A plain cascade therefore ends at 48 of 50 in English and 42 of 50 in Arabic: below the floor in the language of most customers.",
+      "href": "../slides/day2.html#what-the-check-misses"
+    },
+    {
+      "deck": "day2",
+      "id": "cost-per-successful-outcome",
+      "n": 20,
+      "session": 2,
+      "title": "Failed first attempts are paid: divide all spend by the successes",
+      "text": "The number to choose by Failed first attempts are paid: divide all spend by the successes spend = sum(cost of EVERY attempt, the rejected ones too) successes = number of requests whose final answer was right cost_per_successful_outcome = spend / successes Two ways to fool yourself. Counting only the final attempt's cost flatters a cascade. Dividing by requests instead of successes flatters a tier that is cheap and wrong.",
+      "href": "../slides/day2.html#cost-per-successful-outcome"
+    },
+    {
+      "deck": "day2",
+      "id": "router-results",
+      "n": 21,
+      "session": 2,
+      "title": "The router that keeps both floors costs 38% less per success",
+      "text": "Lab 2.2 · the result The router that keeps both floors costs 38% less per success Policy English Arabic SAR per success Floor Always tier-s 92% 74% 0.0060 fails Always tier-m 96% 94% 0.0271 holds Cascade, s then m 96% 84% 0.0075 fails Cascade for English, Arabic direct to m 96% 94% 0.0167 holds 100 tasks of the care assistant, half in each language; supplied outputs.",
+      "href": "../slides/day2.html#router-results"
+    },
+    {
+      "deck": "day2",
+      "id": "fallback-is-not-escalation",
+      "n": 22,
+      "session": 2,
+      "title": "A fallback answers an outage; an escalation answers a doubt",
+      "text": "Two reasons to call a second model A fallback answers an outage; an escalation answers a doubt Fallback The first model errored or timed out after its retries. The gateway calls another model. Protects availability. Escalation The first model answered and the check rejected the answer. The router calls a stronger tier. Protects quality. A fallback target must have passed the same floor, or an outage quietly becomes a quality incident. Both are extra calls: both belong in cost per successful outcome.",
+      "href": "../slides/day2.html#fallback-is-not-escalation"
+    },
+    {
+      "deck": "day2",
+      "id": "switching-costs-cache",
+      "n": 23,
+      "session": 2,
+      "title": "A cache belongs to one model: a switch in mid-conversation starts cold",
+      "text": "Cache cost of switching models A cache belongs to one model: a switch in mid-conversation starts cold 0.0047 SAR, a turn on tier-m with a warm cache 0.0247 SAR, the same turn right after a switch The tier that takes over has never seen the prompt: 7,600 input tokens at the full price, 5.3 times a warm turn. Route a conversation once, at its start, when you can. For an agent, a switch at step 20 repays the whole history.",
+      "href": "../slides/day2.html#switching-costs-cache"
+    },
+    {
+      "deck": "day2",
+      "id": "check-cascade-cost",
+      "n": 24,
+      "session": 2,
+      "title": "What the cascade costs",
+      "text": "Checkpoint What the cascade costs A cascade sends 100 requests to a tier at SAR 0.005 each. 20 fail the check and go to a tier at SAR 0.025. In the end 95 answers are right. What is the cost per successful outcome? SAR 0.0105: all 120 calls are paid, divided by 95 successes SAR 0.0100: total spend divided by 100 requests SAR 0.0095: 80 cheap calls and 20 dear ones, divided by 95 SAR 0.0150: the mean of the two tiers' prices",
+      "href": "../slides/day2.html#check-cascade-cost"
+    },
+    {
+      "deck": "day2",
+      "id": "lab-2-2",
+      "n": 25,
+      "session": 2,
+      "title": "A two-tier router with a quality check",
+      "text": "Lab 2.2 · 25 min A two-tier router with a quality check Build a two-tier router with a quality check and fallback and measure cost per successful outcome against always using one tier. D2_2_router.ipynb Baselines: always small, always medium 4 min A quality check that needs no label 6 min The cascade, with fallback on errors 8 min Cost per successful outcome, and the router file 7 min ✱ Stretch: What a tier switch in the middle of a session costs in cache",
+      "href": "../slides/day2.html#lab-2-2"
+    },
+    {
+      "deck": "day2",
+      "id": "s3",
+      "n": 26,
+      "session": 3,
+      "title": "Prompt layout for prefix caching",
+      "text": "Session 3 Prompt layout for prefix caching Explain how a prefix cache matches and how long it keeps an entry Find what breaks the shared prefix of two prompts Measure hit rate, cost and time to first token before and after a new layout 03",
+      "href": "../slides/day2.html#s3"
+    },
+    {
+      "deck": "day2",
+      "id": "nothing-cached",
+      "n": 27,
+      "session": 3,
+      "title": "Anis resends 8,400 tokens per request and none of them is cached",
+      "text": "The care assistant in October Anis resends 8,400 tokens per request and none of them is cached Part of the prompt Tokens Clock 14 Customer profile 27 Instructions and plan sheet 1,593 Policy sections 6,706 History and question 13 and up 99% of the prompt is the same text for every customer. The provider caches prefixes and the log shows 0 cached tokens for Anis. The parts are in the order above.",
+      "href": "../slides/day2.html#nothing-cached"
+    },
+    {
+      "deck": "day2",
+      "id": "how-a-prefix-cache-matches",
+      "n": 28,
+      "session": 3,
+      "title": "A prompt is reused only as far as it is identical from its first token",
+      "text": "How a prefix cache works A prompt is reused only as far as it is identical from its first token From the start The cache compares prompts from token 1. The first difference ends the match. A minimum, in steps One large provider caches from 1,024 tokens and reports cached tokens in multiples of 128. For minutes An unused entry expires after about 5 minutes with two large providers; a use refreshes it. Longer lifetimes exist, at a price. Prices differ too. With one large provider a cached read costs a tenth of the input price and writing a 5-minute entry costs 1.25 times it.",
+      "href": "../slides/day2.html#how-a-prefix-cache-matches"
+    },
+    {
+      "deck": "day2",
+      "id": "three-breakers",
+      "n": 29,
+      "session": 3,
+      "title": "Three things break the shared prefix, and one is invisible in the template",
+      "text": "Lab 2.3 · the diagnosis Three things break the shared prefix, and one is invisible in the template Layout Two prompts are equal up to token What differs there Today 13 a clock with seconds in the first line Clock moved to the end 2 the customer's profile Profile after the policies 1,597 the policy sections, in another order each time Policy sections sorted 8,301 the two customers' profiles",
+      "href": "../slides/day2.html#three-breakers"
+    },
+    {
+      "deck": "day2",
+      "id": "stable-first",
+      "n": 30,
+      "session": 3,
+      "title": "Stable first, variable last",
+      "text": "Prompt layout Stable first, variable last 1 · Same for everyone instructions, plan sheet, policy sections in a fixed order → 2 · Same in a conversation profile, then history → 3 · New each request the question, then the clock History is a prefix too. Turn 2 extends turn 1, so a conversation reuses its own earlier turns, if nothing that changes sits in front of them.",
+      "href": "../slides/day2.html#stable-first"
+    },
+    {
+      "deck": "day2",
+      "id": "before-and-after",
+      "n": 31,
+      "session": 3,
+      "title": "The same words in another order: 82% cheaper and first token sooner",
+      "text": "Lab 2.3 · the result The same words in another order: 82% cheaper and first token sooner 0 → 98% of input tokens read from the cache 60.19 SAR for two busy hours before 10.73 SAR after -47% median time to first token, 578 to 307 ms 2,219 replayed requests of two evening hours through the cache model. Every request hits once the cache is warm.",
+      "href": "../slides/day2.html#before-and-after"
+    },
+    {
+      "deck": "day2",
+      "id": "when-caching-loses",
+      "n": 32,
+      "session": 3,
+      "title": "A cache pays when entries are reused before they expire",
+      "text": "The limits of the result A cache pays when entries are reused before they expire 45 requests, several minutes apart Hit rate SAR No cache 0% 1.214 5-minute entries, writes at 1.25 times input 16% 1.297 One-hour entries, writes at 2 times input 98% 0.282 Do not multiply the peak by the month. At night most entries expire between requests. With a write premium, a short-lived cache then costs more than no cache.",
+      "href": "../slides/day2.html#when-caching-loses"
+    },
+    {
+      "deck": "day2",
+      "id": "check-prefix",
+      "n": 33,
+      "session": 3,
+      "title": "The template looks right",
+      "text": "Checkpoint The template looks right A prompt template puts 6,000 tokens of instructions and retrieved policy text first and the user's question last. Traffic is steady. The provider reports cached tokens on almost no request. What do you check first? Whether the cache lifetime is too short Whether the prompt is too short to be cached Whether two real prompts are identical token for token in that first part Whether a larger tier caches better",
+      "href": "../slides/day2.html#check-prefix"
+    },
+    {
+      "deck": "day2",
+      "id": "lab-2-3",
+      "n": 34,
+      "session": 3,
+      "title": "Prompt layout for prefix reuse",
+      "text": "Lab 2.3 · 25 min Prompt layout for prefix reuse Move stable content to the front of the care assistant's prompt and measure the cache hit rate and cost on two hours of replayed traffic. D2_3_prefix_cache.ipynb Replay the current layout through the prefix cache 5 min Find what breaks the prefix 5 min Reorder: stable first, variable last 8 min Hit rate, cost and time to first token, before and after 7 min ✱ Stretch: A quiet period: when does a cache with a write premium lose money?",
+      "href": "../slides/day2.html#lab-2-3"
+    },
+    {
+      "deck": "day2",
+      "id": "s4",
+      "n": 35,
+      "session": 4,
+      "title": "Semantic caches and their risks",
+      "text": "Session 4 Semantic caches and their risks Measure hit rate and wrong-answer rate of a semantic cache at several thresholds Scope cache entries so that no answer crosses customers Write the isolation test that proves it 04",
+      "href": "../slides/day2.html#s4"
+    },
+    {
+      "deck": "day2",
+      "id": "response-caches",
+      "n": 36,
+      "session": 4,
+      "title": "A response cache skips the model: it serves an answer it gave before",
+      "text": "The other kind of cache A response cache skips the model: it serves an answer it gave before Prefix cache At the provider. The model still answers; it reads less. Cannot return a wrong answer. Exact response cache In your application. The same question, word for word, gets the stored answer. Semantic response cache A question that is close enough to a stored one gets its answer. \"Close enough\" is a threshold on similarity. A new kind of failure. A response cache can serve an answer that was right for another question, another day or another customer.",
+      "href": "../slides/day2.html#response-caches"
+    },
+    {
+      "deck": "day2",
+      "id": "hits-and-wrong-answers",
+      "n": 37,
+      "session": 4,
+      "title": "A hit rate is half of a measurement",
+      "text": "Lab 2.4 · a cache with no scope A hit rate is half of a measurement Cache Hit rate Wrong answers, of all questions Another customer's answer Exact match 44.6% 20.5% 490 Semantic, threshold 0.80 74.8% 40.4% 490 Semantic, threshold 0.90 54.4% 24.2% 490 Semantic, threshold 0.95 45.7% 20.8% 490 2,400 labelled questions to the care assistant over a month.",
+      "href": "../slides/day2.html#hits-and-wrong-answers"
+    },
+    {
+      "deck": "day2",
+      "id": "close-is-not-same",
+      "n": 38,
+      "session": 4,
+      "title": "Two questions that differ in the one word that matters",
+      "text": "What a wrong hit looks like Two questions that differ in the one word that matters Askedبعد الانتقال والهاتف الثابت في الطائف: لا توجد بيانات. ماذا أفعل؟ Served from the cacheThe answer stored for: بعد الانتقال والهاتف الثابت في الطائف: رمز الخطأ 31. ماذا أفعل؟ Same device, same city, same wording; one says \"no data\", the other \"error code 31\". At threshold 0.80 they are close enough. Plans that differ by a number and \"activate\" against \"deactivate\" fail the same way.",
+      "href": "../slides/day2.html#close-is-not-same"
+    },
+    {
+      "deck": "day2",
+      "id": "isolation-is-not-a-threshold",
+      "n": 39,
+      "session": 4,
+      "title": "No threshold stops one customer's answer reaching another",
+      "text": "Isolation between customers No threshold stops one customer's answer reaching another \"What is my current balance?\" from two customers is the same question: similarity 1, and an exact match too. The answers differ because the data differs, not the words. 490 answers crossed at every threshold, and with the exact cache. This is a disclosure A balance or a bill shown to the wrong person is personal data disclosed. It is an incident to report to the data protection officer, not a quality metric.",
+      "href": "../slides/day2.html#isolation-is-not-a-threshold"
+    },
+    {
+      "deck": "day2",
+      "id": "scope-the-entries",
+      "n": 40,
+      "session": 4,
+      "title": "Scope every entry by whose data produced it, and test that nothing crosses",
+      "text": "Lab 2.4 · the fix and its test Scope every entry by whose data produced it, and test that nothing crosses def scope_of(q): # known when the answer is written return f\"customer:{q['customer']}\" if q[\"used_customer_data\"] else \"public\" def test_no_answer_crosses_customers(served): assert served.crossed.sum() == 0 An answer that read the customer's account lives in that customer's partition; everything else is shared. The test needs no labels. It fails on the unscoped cache and passes on the scoped one, at every threshold.",
+      "href": "../slides/day2.html#scope-the-entries"
+    },
+    {
+      "deck": "day2",
+      "id": "choose-the-threshold",
+      "n": 41,
+      "session": 4,
+      "title": "With isolation fixed, the threshold trades hits for wrong answers",
+      "text": "Lab 2.4 · the scoped cache With isolation fixed, the threshold trades hits for wrong answers Scoped cache, threshold Hit rate Wrong answers, of all questions Crossed 0.80 54.7% 20.0% 0 0.90 34.3% 3.8% 0 0.95 25.6% 0.3% 0 With at most 1% wrong answers allowed, 0.95 is the choice: a quarter of the questions served without the model, about SAR 233 of Anis's SAR 911 a month.",
+      "href": "../slides/day2.html#choose-the-threshold"
+    },
+    {
+      "deck": "day2",
+      "id": "stale-answers",
+      "n": 42,
+      "session": 4,
+      "title": "A cached answer is right until the world changes",
+      "text": "Staleness A cached answer is right until the world changes On day 15 the price of one plan changed. At 0.95 the cache served the old price twice, on days 23 and 25. A 3-day lifetime on every entry removes both, and cuts the hit rate from 25.6% to 9.0%. Better: tie entries to the version of what they were built from, and drop them when it changes. Three questions for any cache Whose data is in the entry? How long is it true? What tells the cache that it no longer is?",
+      "href": "../slides/day2.html#stale-answers"
+    },
+    {
+      "deck": "day2",
+      "id": "check-semantic-cache",
+      "n": 43,
+      "session": 4,
+      "title": "The balance of another customer",
+      "text": "Checkpoint The balance of another customer A semantic cache at threshold 0.90 served one customer the account balance of another. The team proposes to raise the threshold to 0.97. What do you answer? Agreed: at 0.97 only near-identical questions match It will not help: partition entries by customer when the answer used account data, and test it Use a stronger embedding model so the two questions separate Give the entries a lifetime of one hour",
+      "href": "../slides/day2.html#check-semantic-cache"
+    },
+    {
+      "deck": "day2",
+      "id": "lab-2-4",
+      "n": 44,
+      "session": 4,
+      "title": "A semantic cache and its wrong answers",
+      "text": "Lab 2.4 · 25 min A semantic cache and its wrong answers Add a semantic cache to the care assistant, measure hit and wrong-answer rates at three thresholds and test that no answer crosses customers. D2_4_semantic_cache.ipynb An exact-match cache as the baseline 4 min A semantic cache at three thresholds 7 min The wrong-answer rate from labelled questions 6 min An isolation test: failing, then passing 8 min ✱ Stretch: A price changes on day 15: how long does the cache serve the old one?",
+      "href": "../slides/day2.html#lab-2-4"
+    },
+    {
+      "deck": "day2",
+      "id": "wrap-up",
+      "n": 45,
+      "session": 4,
+      "title": "Route and cache",
+      "text": "Day 2 · three things to keep Route and cache The floor first, per language Own tasks, counts beside percentages, and no choice on a one-task difference. Cost per successful outcome Every attempt is paid. A router is a result with a date and a traffic mix. Measure a cache before trusting it Layout for the prefix cache; wrong answers, isolation and staleness for a response cache.",
+      "href": "../slides/day2.html#wrap-up"
+    },
+    {
+      "deck": "day2",
+      "id": "next",
+      "n": 46,
+      "session": 4,
+      "title": "Host or buy, and report",
+      "text": "Tomorrow Host or buy, and report Where each dataset may be processed comes before any price. Then utilisation, a batch tier, the cost of a resolved dispute, and two pages for engineering and finance. Read labs/data/hosting/classification_register.csv: six rows. Think of one saving from today you would defend to a finance partner, and what you would say about its risk.",
+      "href": "../slides/day2.html#next"
+    },
+    {
+      "deck": "day3",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Host or buy, and report",
+      "text": "SDAIA Academy · AI Cost Engineering and Model Routing Host or buy, and report Day 3: Self-hosting against API prices after the data rules, a batch tier, cost per successful outcome and the review AI Engineering Track3 teaching days + capstone day4 sessions · 4 labsAE-312",
+      "href": "../slides/day3.html#title"
+    },
+    {
+      "deck": "day3",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "Host or buy, and report",
+      "text": "Today Host or buy, and report Session 1 · Self-hosting economics A leased accelerator costs the same used or idle: self-hosting is a question of utilisation, after the data rules Session 2 · Batch versus interactive Work that can wait costs half: what waiting means for a job, and which requests cannot wait Session 3 · Cost per successful outcome The unit that decides is the outcome the business wanted, with the failures and the people who clean up after them in the cost Session 4 · The cost review Two pages for engineering and finance: three measured options, what each does to quality, risk and energy",
+      "href": "../slides/day3.html#agenda"
+    },
+    {
+      "deck": "day3",
+      "id": "review-day-2",
+      "n": 3,
+      "session": 0,
+      "title": "A hit rate of zero",
+      "text": "Review of Day 2 A hit rate of zero An assistant sends 8,400 tokens per request, 8,000 of them identical for every customer. The provider reports no cached tokens. The prompt begins with the current time in seconds. What do you change first? Move the time to the end of the prompt, so the identical part comes first Add a semantic cache in front of the model Shorten the instructions to 6,000 tokens Ask the provider for a longer cache lifetime",
+      "href": "../slides/day3.html#review-day-2"
+    },
+    {
+      "deck": "day3",
+      "id": "s1",
+      "n": 4,
+      "session": 1,
+      "title": "Self-hosting economics",
+      "text": "Session 1 Self-hosting economics Compute cost per request of a self-hosted model as a function of utilisation Find break-even utilisation against API prices and draw it Apply the classification register before comparing prices 01",
+      "href": "../slides/day3.html#s1"
+    },
+    {
+      "deck": "day3",
+      "id": "placement-before-price",
+      "n": 5,
+      "session": 1,
+      "title": "Where a dataset may be processed comes before any price",
+      "text": "The first question Where a dataset may be processed comes before any price Dataset Application Classification Placement rule Transfer assessment Plan sheet and policy sections Anis Public any region not needed Profile line and chat history Anis Restricted in-Kingdom, or outside with an approved assessment approved Call transcripts Khulasa Restricted in-Kingdom, or outside with an approved assessment not approved Itemised bills and payment records Fasil Restricted in-Kingdom, or outside with an approved assessment not approved Dispute decisions and refunds Fasil Restricted in-Kingdom only not applicable Mawj's classification register, kept by Yaqoub Al-Nughaimshi, the data protection officer. Synthetic, like every file of the case.",
+      "href": "../slides/day3.html#placement-before-price"
+    },
+    {
+      "deck": "day3",
+      "id": "what-the-register-rules-out",
+      "n": 6,
+      "session": 1,
+      "title": "October's placement of two applications is not allowed",
+      "text": "Reading the register against the log October's placement of two applications is not allowed Anis Global region or in-Kingdom: its transfer assessment was approved in September. Khulasa In-Kingdom only. In October every transcript went to the global region. Fasil In-Kingdom only. In October every bill went to the global region. A cost review can raise a cost. The in-Kingdom region is priced 30% above the global one on Mawj's sheet. Moving Fasil adds about SAR 755 a month, and it is not an option to decline.",
+      "href": "../slides/day3.html#what-the-register-rules-out"
+    },
+    {
+      "deck": "day3",
+      "id": "a-node-bills-hours",
+      "n": 7,
+      "session": 1,
+      "title": "A leased accelerator bills hours, used or idle",
+      "text": "Self-hosting A leased accelerator bills hours, used or idle 14.00 SAR an hour, on demand 8.33 SAR an hour, reserved for the month (SAR 6,200) 3.36 SAR an hour of operations (SAR 2,500 a month of an engineer's time) An API bills tokens: no traffic, no bill. A node bills time: the cost per request is the hourly cost divided by the requests served in that hour.",
+      "href": "../slides/day3.html#a-node-bills-hours"
+    },
+    {
+      "deck": "day3",
+      "id": "capacity-at-the-objective",
+      "n": 8,
+      "session": 1,
+      "title": "Capacity is what the node serves while it still meets the latency objective",
+      "text": "The throughput benchmark Capacity is what the node serves while it still meets the latency objective Concurrent requests Requests a minute 95th percentile latency 1 5.5 11.0 s 4 20.0 12.5 s 16 60.0 17.0 s 32 84.0 26.0 s 64 96.0 48.0 s Objective: 95% of summaries within 20 seconds. Capacity at the objective: 3,600 an hour. A nightly job with no objective can take 5,760.",
+      "href": "../slides/day3.html#capacity-at-the-objective"
+    },
+    {
+      "deck": "day3",
+      "id": "cost-against-utilisation",
+      "n": 9,
+      "session": 1,
+      "title": "Cost per request falls with utilisation, and only with utilisation",
+      "text": "Lab 3.1 · step 2 Cost per request falls with utilisation, and only with utilisation served = capacity_per_hour * utilisation cost_per_request = hourly_cost / served # hourly_cost: the lease, plus operations Utilisation SAR per summary 1% 0.3248 5% 0.0650 18% 0.0180 50% 0.0065 90% 0.0036 Reserved node with operations, SAR 11.69 an hour. The API price of the same summary: SAR 0.0434 on the medium tier and 0.0087 on the small tier, both in-Kingdom.",
+      "href": "../slides/day3.html#cost-against-utilisation"
+    },
+    {
+      "deck": "day3",
+      "id": "break-even",
+      "n": 10,
+      "session": 1,
+      "title": "Break-even depends on which API price the node has to beat",
+      "text": "Lab 3.1 · step 3 Break-even depends on which API price the node has to beat Against Break-even utilisation Summaries a month needed Times today's volume Medium tier, global 9.7% 260,000 10.4 Medium tier, in-Kingdom 7.5% 200,000 8.0 Small tier, global 48.6% 1,302,000 51.9 Small tier, in-Kingdom 37.4% 1,002,000 39.9 Compare with the right alternative. Yesterday the small tier passed Khulasa's floor. The node has to beat that price, and it needs forty times today's volume to do it.",
+      "href": "../slides/day3.html#break-even"
+    },
+    {
+      "deck": "day3",
+      "id": "khulasa-four-options",
+      "n": 11,
+      "session": 1,
+      "title": "Four options for Khulasa: placement, floor, then price",
+      "text": "Lab 3.1 · step 4 Four options for Khulasa: placement, floor, then price Option SAR a month Weaker language Placement allowed API, medium tier, global (October) 838 96% no API, medium tier, in-Kingdom 1,090 96% yes API, small tier, in-Kingdom 218 92% yes Self-hosted, reserved node with operations 8,700 94% yes Floor: 92% in each language. The recommendation: the small tier in the in-Kingdom region, SAR 218 a month, with no margin in Arabic.",
+      "href": "../slides/day3.html#khulasa-four-options"
+    },
+    {
+      "deck": "day3",
+      "id": "when-to-host-anyway",
+      "n": 12,
+      "session": 1,
+      "title": "Three reasons to host that the chart does not show, and three costs",
+      "text": "Beyond the break-even Three reasons to host that the chart does not show, and three costs Reasons A dataset no outside processor may see. A latency or availability need the provider does not meet. Steady volume near the node's capacity, day and night. Costs The open-weight model has to pass the same floor, in both languages. Someone operates it. Every new model release reopens the comparison. Write the conditions down. \"API today; revisit at 200,000 summaries a month or if the classification changes\" is a recommendation. \"Self-hosting is too expensive\" is not.",
+      "href": "../slides/day3.html#when-to-host-anyway"
+    },
+    {
+      "deck": "day3",
+      "id": "check-break-even",
+      "n": 13,
+      "session": 1,
+      "title": "A node at 15%",
+      "text": "Checkpoint A node at 15% A team's leased node runs at 15% utilisation. Its break-even against the API tier the team uses today is 10%. A cheaper tier passed the quality floor last week; against it the break-even is 45%. What do you recommend? Keep the node: it is above its break-even Lease a second node to bring the cost per request down Move the work to the cheaper tier, and revisit the node if volume triples Reserve the node for a year to lower its hourly price",
+      "href": "../slides/day3.html#check-break-even"
+    },
+    {
+      "deck": "day3",
+      "id": "lab-3-1",
+      "n": 14,
+      "session": 1,
+      "title": "Break-even utilisation for self-hosting",
+      "text": "Lab 3.1 · 25 min Break-even utilisation for self-hosting Fill a cost model for serving an open-weight model and find break-even utilisation against API prices, after the classification register has said where each dataset may go. D3_1_break_even.ipynb Capacity at the latency objective, from the benchmark 5 min Cost per request against utilisation 6 min Break-even against the API prices, as a chart 7 min The classification register first, then the recommendation 7 min ✱ Stretch: Lease the node one hour a night: does the nightly job change the answer?",
+      "href": "../slides/day3.html#lab-3-1"
+    },
+    {
+      "deck": "day3",
+      "id": "s2",
+      "n": 15,
+      "session": 2,
+      "title": "Batch versus interactive",
+      "text": "Session 2 Batch versus interactive Recompute the cost of a job on a batch tier Estimate turnaround under a submission schedule from completion times Split a workload into what can wait and what cannot 02",
+      "href": "../slides/day3.html#s2"
+    },
+    {
+      "deck": "day3",
+      "id": "work-that-can-wait",
+      "n": 16,
+      "session": 2,
+      "title": "Work that can wait costs half",
+      "text": "Batch tiers Work that can wait costs half You submit a file of requests; the provider answers them when it has spare capacity. The published terms of the large providers: half the price, results within 24 hours. No streaming and no conversation: each request stands alone and is matched to its answer by an identifier you set. At Mawj Khulasa summarises a call after it has ended. Nobody is waiting on the line. It has run on the interactive tier since its first day.",
+      "href": "../slides/day3.html#work-that-can-wait"
+    },
+    {
+      "deck": "day3",
+      "id": "the-month-on-batch",
+      "n": 17,
+      "session": 2,
+      "title": "The same month on the batch tier: half, and the failed attempts disappear",
+      "text": "Lab 3.2 · steps 1 and 2 The same month on the batch tier: half, and the failed attempts disappear 1,132 SAR, 26,000 calls on the interactive tier, in-Kingdom 561 SAR, the same calls on the batch tier 546 failed interactive attempts that were billed: SAR 10 A batch has no client waiting, so no client times out and pays for an answer it never read.",
+      "href": "../slides/day3.html#the-month-on-batch"
+    },
+    {
+      "deck": "day3",
+      "id": "within-24-hours",
+      "n": 18,
+      "session": 2,
+      "title": "The promise is a ceiling; what you plan with is a distribution",
+      "text": "What \"within 24 hours\" means The promise is a ceiling; what you plan with is a distribution 38 min median completion of a batch 2 h 43 95th percentile 6 h 49 the longest of the month What goes wrong. A team tests one batch, sees it finish in half an hour and promises that to the business. One batch in twenty takes more than five times as long.",
+      "href": "../slides/day3.html#within-24-hours"
+    },
+    {
+      "deck": "day3",
+      "id": "turnaround",
+      "n": 19,
+      "session": 2,
+      "title": "Turnaround is the wait for the next submission plus the completion time",
+      "text": "Lab 3.2 · step 3 Turnaround is the wait for the next submission plus the completion time Submission schedule Median 95th percentile Within 12 hours Every hour 1.2 h 3.0 h 100% Every 4 hours 2.6 h 4.6 h 100% Once a day 11.1 h 15.9 h 58% Qutaiba Al-Ajaji's need: a summary in the customer's record within 12 hours of the call. The price is the same under all three schedules.",
+      "href": "../slides/day3.html#turnaround"
+    },
+    {
+      "deck": "day3",
+      "id": "what-cannot-wait",
+      "n": 20,
+      "session": 2,
+      "title": "Split the workload: 8% of the calls cannot wait",
+      "text": "Lab 3.2 · step 4 Split the workload: 8% of the calls cannot wait Urgent · 7.8% complaints flagged for a call back: interactive tier, answer in seconds + The rest · 92.2% batch tier, submitted every 4 hours → SAR 605 a month 47% less than interactive, every summary on time The headline discount is a ceiling. What you save is the discount times the share of work that can wait.",
+      "href": "../slides/day3.html#what-cannot-wait"
+    },
+    {
+      "deck": "day3",
+      "id": "stacking-discounts",
+      "n": 21,
+      "session": 2,
+      "title": "Discounts stack only on the tokens they both touch",
+      "text": "Lab 3.2 · stretch Discounts stack only on the tokens they both touch Batch halves every token. A cached prefix discounts the stable part of the input only. Khulasa's stable part is its instructions: about 1,000 tokens, 10% of an average prompt. The transcript is the rest and never repeats. Batch plus cache: 7.8% more off the batch price. Worth an afternoon, and it does not change the decision. Compare with Anis Nearly all of Anis's prompt is stable, and the layout change saved 82%. The same technique, a different prompt, a different answer.",
+      "href": "../slides/day3.html#stacking-discounts"
+    },
+    {
+      "deck": "day3",
+      "id": "batch-in-operation",
+      "n": 22,
+      "session": 2,
+      "title": "A batch job needs the same controls as an interactive one",
+      "text": "Before it ships A batch job needs the same controls as an interactive one Attribution The batch carries the tags of its application, or its spend lands in \"unallocated\" on the showback. Budget One submitted file can hold a day's spend. The budget is checked before submission, not per request. Partial results Some requests of a batch fail or expire. The job resubmits those, and counts them.",
+      "href": "../slides/day3.html#batch-in-operation"
+    },
+    {
+      "deck": "day3",
+      "id": "check-batch",
+      "n": 23,
+      "session": 2,
+      "title": "A report by the morning",
+      "text": "Checkpoint A report by the morning A job classifies 40,000 tickets a day. Its report is read the next morning, and 5% of the tickets are outage reports that an engineer must see within minutes. The batch tier costs half. What do you propose? Move every ticket to the batch tier, submitted once a day Keep every ticket on the interactive tier Move every ticket to the batch tier, submitted every five minutes Outage reports interactive, the rest in batches timed so the report is ready by the morning",
+      "href": "../slides/day3.html#check-batch"
+    },
+    {
+      "deck": "day3",
+      "id": "lab-3-2",
+      "n": 24,
+      "session": 2,
+      "title": "The call-summary job on a batch tier",
+      "text": "Lab 3.2 · 25 min The call-summary job on a batch tier Move the call-summary job to a batch tier and recompute cost and turnaround under three submission schedules, keeping urgent calls interactive. D3_2_batch_tier.ipynb What the job costs on the interactive tier 4 min The same month on the batch tier 5 min Turnaround under three submission schedules 9 min Keep the urgent calls interactive, and decide 7 min ✱ Stretch: Stack the batch discount with a cached prefix",
+      "href": "../slides/day3.html#lab-3-2"
+    },
+    {
+      "deck": "day3",
+      "id": "s3",
+      "n": 25,
+      "session": 3,
+      "title": "Cost per successful outcome",
+      "text": "Session 3 Cost per successful outcome Join session cost with evaluation outcomes and report what did not join Compute cost per request, per session and per resolved dispute Compare two configurations at a quality floor, human escalations included 03",
+      "href": "../slides/day3.html#s3"
+    },
+    {
+      "deck": "day3",
+      "id": "three-denominators",
+      "n": 26,
+      "session": 3,
+      "title": "The same money over three denominators gives three different stories",
+      "text": "The unit that decides The same money over three denominators gives three different stories 0.11 SAR per request of the dispute agent 0.79 SAR per session 1.05 SAR per dispute resolved correctly Humoud Al-Rubaian, who owns Fasil, does not buy requests. He needs disputes resolved, correctly. The unit of the review is the outcome the business wanted.",
+      "href": "../slides/day3.html#three-denominators"
+    },
+    {
+      "deck": "day3",
+      "id": "what-did-not-join",
+      "n": 27,
+      "session": 3,
+      "title": "Cost and outcomes live in two systems, and the join never matches completely",
+      "text": "Lab 3.3 · step 1 Cost and outcomes live in two systems, and the join never matches completely Rows Count Sessions in the gateway log 3,200 Reviewed outcomes in the billing tool 3,136 Joined 3,076 Sessions without an outcome 124 Outcomes without a session 60 The 124 unreviewed sessions cost SAR 85.82. They were paid for. Cost in and outcome out makes the unit cost look worse; both out makes it look better. Choose one, say which, and report the other number beside it.",
+      "href": "../slides/day3.html#what-did-not-join"
+    },
+    {
+      "deck": "day3",
+      "id": "two-configurations",
+      "n": 28,
+      "session": 3,
+      "title": "On the invoice, configuration B resolves a dispute for a third of the price",
+      "text": "Lab 3.3 · step 3 On the invoice, configuration B resolves a dispute for a third of the price Configuration Sessions SAR per session Resolved correctly SAR per resolved dispute A · large tier, high reasoning 733 0.917 81.4% 1.125 B · medium tier, high reasoning 748 0.241 65.0% 0.371 Same period for both: from the day B started, without the incident day. B has taken half of the sessions since then.",
+      "href": "../slides/day3.html#two-configurations"
+    },
+    {
+      "deck": "day3",
+      "id": "the-floor-in-production",
+      "n": 29,
+      "session": 3,
+      "title": "B resolves fewer disputes, escalates twice as many and gets more of them wrong",
+      "text": "The quality floor, in production B resolves fewer disputes, escalates twice as many and gets more of them wrong A · escalated to a person 11.3% B · escalated to a person 24.9% A · wrong, of those it resolved 5.1% B · wrong, of those it resolved 10.5% Humoud's floor for production: at most 6% of the disputes the agent resolves may be resolved wrongly. A holds it. B does not.",
+      "href": "../slides/day3.html#the-floor-in-production"
+    },
+    {
+      "deck": "day3",
+      "id": "the-people-in-the-cost",
+      "n": 30,
+      "session": 3,
+      "title": "With the people who handle its failures, the cheaper configuration costs twice as much",
+      "text": "Lab 3.3 · step 4 With the people who handle its failures, the cheaper configuration costs twice as much Per resolved dispute A B Model cost, SAR 1.13 0.37 With escalations and rework, SAR 6.99 14.86 The model's share of the total 16% 2% What a failure costs An escalated dispute is handled by a person: SAR 21. A wrong resolution comes back and is reworked: SAR 55. Figures from billing operations. A review that stops at the invoice would have recommended B. The saving moves to another team's budget, doubled.",
+      "href": "../slides/day3.html#the-people-in-the-cost"
+    },
+    {
+      "deck": "day3",
+      "id": "choosing-the-outcome",
+      "n": 31,
+      "session": 3,
+      "title": "Choose the outcome with the owner of the application, before you measure",
+      "text": "For your own applications Choose the outcome with the owner of the application, before you measure Application A request is The outcome is Who records it Anis one answer a conversation closed without a call to an agent the contact centre Khulasa one summary a summary an agent used without editing the customer record tool Fasil one step a dispute resolved correctly the billing review No outcome recorded, no unit cost. When nobody records the outcome, the first recommendation of the review is to start recording it.",
+      "href": "../slides/day3.html#choosing-the-outcome"
+    },
+    {
+      "deck": "day3",
+      "id": "check-cost-per-outcome",
+      "n": 32,
+      "session": 3,
+      "title": "Half the price per session",
+      "text": "Checkpoint Half the price per session A new configuration of an agent costs SAR 0.40 per session against 0.80 today. It completes 60% of sessions correctly against 80%, and each failed session is finished by a person at SAR 10. Which costs less per correctly completed task, people included? The new one: it costs half per session Today's: about SAR 3.50 against about SAR 7.30 The new one: SAR 0.67 against 1.00 per success It cannot be said without the number of sessions",
+      "href": "../slides/day3.html#check-cost-per-outcome"
+    },
+    {
+      "deck": "day3",
+      "id": "lab-3-3",
+      "n": 33,
+      "session": 3,
+      "title": "Cost per resolved dispute",
+      "text": "Lab 3.3 · 25 min Cost per resolved dispute Join cost with evaluation outcomes and report cost per resolved dispute for two configurations of the dispute agent, with and without the cost of human escalations. D3_3_cost_per_outcome.ipynb Join session cost with outcomes, and count what did not join 6 min Three unit costs: request, session, resolved dispute 6 min Two configurations at the quality floor 7 min Add the cost of human escalations 6 min ✱ Stretch: An interval for the difference, by resampling sessions",
+      "href": "../slides/day3.html#lab-3-3"
+    },
+    {
+      "deck": "day3",
+      "id": "s4",
+      "n": 34,
+      "session": 4,
+      "title": "The cost review",
+      "text": "Session 4 The cost review Rank savings options by measured saving, quality effect and risk Report energy per thousand requests beside cost Draft a two-page cost review and choose the capstone scenario 04",
+      "href": "../slides/day3.html#s4"
+    },
+    {
+      "deck": "day3",
+      "id": "two-readers",
+      "n": 35,
+      "session": 4,
+      "title": "Two pages, two readers, one decision",
+      "text": "The cost review Two pages, two readers, one decision Shurooq Al-Hamli, finance Reads the total, the three actions and their owners. Asks: is the saving real, and when does it show on the invoice? Murtada Al-Awami, platform Reads how each figure was measured. Asks: on which traffic, at which floor, and what was not measured? The review asks for a decision. It names the actions, an owner for each, and what will be checked a month later.",
+      "href": "../slides/day3.html#two-readers"
+    },
+    {
+      "deck": "day3",
+      "id": "seven-candidates",
+      "n": 36,
+      "session": 4,
+      "title": "Seven candidates from three days, ranked by what they save",
+      "text": "Lab 3.4 · step 2 Seven candidates from three days, ranked by what they save Candidate SAR a month % of the invoice Holds its floor Return the leased node 3,472 42.1 yes Fasil: configuration B for every dispute 2,162 26.2 no Anis: stable prompt layout 749 9.1 yes, to be retested Khulasa: small tier, in-Kingdom 620 7.5 yes, at the floor in Arabic Anis: router, Arabic direct to the medium tier 350 4.2 yes Anis: scoped semantic cache 233 2.8 yes Khulasa: batch every 4 hours 102 1.2 yes",
+      "href": "../slides/day3.html#seven-candidates"
+    },
+    {
+      "deck": "day3",
+      "id": "savings-do-not-add",
+      "n": 37,
+      "session": 4,
+      "title": "Savings add across invoice lines, not on the same tokens",
+      "text": "Before you write a total Savings add across invoice lines, not on the same tokens These three add The node, Anis's layout and Khulasa's tier act on three different lines: SAR 4,841 a month together, 59% of October. These do not The layout, the router and the semantic cache all act on Anis's input tokens. 82% and 38% are not 120%. Each acts on what the one before left. What goes wrong. A slide lists six savings measured separately and sums them. Finance books the sum, and the invoice never shows it.",
+      "href": "../slides/day3.html#savings-do-not-add"
+    },
+    {
+      "deck": "day3",
+      "id": "energy-beside-cost",
+      "n": 38,
+      "session": 4,
+      "title": "Report energy beside cost, and say where the figure comes from",
+      "text": "Energy per thousand requests Report energy beside cost, and say where the figure comes from Application SAR per 1,000 requests Wh per 1,000 requests Anis 24.48 327 Khulasa 33.72 467 Fasil 109.90 2,257 The leased node drew about 451 kWh in October for 4,500 summaries served: 100 Wh each, against under half a watt-hour on the hosted tier. The option that saves the most money saves the most energy, for the same reason: idle capacity. Assumed, and labelled so. The watt-hours per thousand tokens are assumptions in data/hosting/energy.json. They rank the options; they are not a measurement.",
+      "href": "../slides/day3.html#energy-beside-cost"
+    },
+    {
+      "deck": "day3",
+      "id": "anatomy-of-the-review",
+      "n": 39,
+      "session": 4,
+      "title": "Six short sections, in the order the readers ask their questions",
+      "text": "Lab 3.4 · step 3 Six short sections, in the order the readers ask their questions 1 · What the month cost The invoice, how closely the model explains it, the showback by team, what could not be attributed. 2 · Three options Each with its saving, its quality in both languages and its risk. 3 · What we refuse The option someone will find on the invoice, and why it fails. 4 · Energy beside cost Before and after, per option, with the source of the figures. 5 · What was not measured In your own words. At least two things. 6 · The decision The total, a date, and for each action an owner and a check.",
+      "href": "../slides/day3.html#anatomy-of-the-review"
+    },
+    {
+      "deck": "day3",
+      "id": "the-capstone",
+      "n": 40,
+      "session": 4,
+      "title": "The capstone is another month at Mawj: nothing you measured carries over",
+      "text": "Lab 3.4 · step 4 The capstone is another month at Mawj: nothing you measured carries over A · The care assistant doubles A campaign doubles Anis's traffic, and more spend bypasses the gateway. B · The summary job triples Three times the calls, a larger pilot, a node leased twelve hours a night. C · The dispute agent rolls out Twice the disputes, most of them on the cheaper configuration. You submit a public repository: the notebook, the measured results and the two-page review. You defend it in ten minutes : you recompute one savings figure the assessor picks and explain one routing decision.",
+      "href": "../slides/day3.html#the-capstone"
+    },
+    {
+      "deck": "day3",
+      "id": "check-review",
+      "n": 41,
+      "session": 4,
+      "title": "The total on page one",
+      "text": "Checkpoint The total on page one A draft review lists a prompt layout change (82% off the assistant's spend), a router (38% off) and a semantic cache (25% off), each measured alone on the same assistant, and promises finance the three together. What do you change? Measure the three applied together in shipping order, or promise only the first Nothing: the three percentages add up to the total saving Report the average of the three, 48% Keep the largest and delete the other two from the review",
+      "href": "../slides/day3.html#check-review"
+    },
+    {
+      "deck": "day3",
+      "id": "lab-3-4",
+      "n": 42,
+      "session": 4,
+      "title": "The two-page cost review",
+      "text": "Lab 3.4 · 25 min The two-page cost review Draft a two-page review with three measured savings options from the numbers of the three days, then choose the capstone scenario and generate its data. D3_4_cost_review.ipynb Collect the measured numbers of the three days 5 min Three options: saving, quality effect, risk, energy 8 min Write the two pages from the template 7 min Choose the capstone scenario and generate its data 5 min ✱ Stretch: Recompute one savings figure live, as in the defence",
+      "href": "../slides/day3.html#lab-3-4"
+    },
+    {
+      "deck": "day3",
+      "id": "wrap-up",
+      "n": 43,
+      "session": 4,
+      "title": "Host or buy, and report",
+      "text": "Day 3 · three things to keep Host or buy, and report Placement, floor, then price The register first. A node is a question of utilisation against the best allowed alternative. The outcome is the unit Cost per resolved dispute, with the failures and the people who clean up after them. Two pages that ask for a decision Three measured options, one refusal, energy beside cost, and what was not measured.",
+      "href": "../slides/day3.html#wrap-up"
+    },
+    {
+      "deck": "day3",
+      "id": "next",
+      "n": 44,
+      "session": 4,
+      "title": "Your review, defended",
+      "text": "Capstone day Your review, defended An unseen month, a repository with measured results, two pages, and ten minutes in which you recompute one figure while the assessor watches. Generate your scenario and read labs/capstone/README.md before you start. Reconcile the cost model with the invoice first: no other number can be trusted before that. Rehearse the recomputation once, with a timer.",
+      "href": "../slides/day3.html#next"
+    },
+    {
+      "deck": "capstone",
+      "id": "title",
+      "n": 1,
+      "session": 0,
+      "title": "Capstone: the cost review, defended",
+      "text": "SDAIA Academy · AI Cost Engineering and Model Routing Capstone: the cost review, defended Capstone: An unseen scenario, a repository with measured results, a two-page review and a ten-minute live defence AI Engineering Track3 teaching days + capstone day10 min talk and demoAE-312",
+      "href": "../slides/capstone.html#title"
+    },
+    {
+      "deck": "capstone",
+      "id": "agenda",
+      "n": 2,
+      "session": 0,
+      "title": "How the presentations run",
+      "text": "Capstone How the presentations run Expectations and final prep the rubric, a last rehearsal, then the first presentations Presentations ten minutes each, the assessor's questions included Review and closing peer feedback, the trainer's review, what next",
+      "href": "../slides/capstone.html#agenda"
+    },
+    {
+      "deck": "capstone",
+      "id": "rubric",
+      "n": 3,
+      "session": 0,
+      "title": "The rubric",
+      "text": "How presentations are scored The rubric Cost model accuracy 20% Routing evaluation 25% Caching evidence 20% Hosting analysis 20% Review quality 15% Every figure in the review is printed by a cell of the notebook. A saving without a measurement is a plan, not a result.",
+      "href": "../slides/capstone.html#rubric"
+    },
+    {
+      "deck": "capstone",
+      "id": "format",
+      "n": 4,
+      "session": 0,
+      "title": "10 minutes for each defence",
+      "text": "Format 10 minutes for each defence 1 · The month · 2 minutes Three numbers and the decision you ask for. Your review is on the screen. 2 · One figure, live · 5 minutes The assessor picks a savings figure. You recompute it from the log and say what it includes and what it leaves out. 3 · One routing decision · 3 minutes The assessor selects it. Which requests go where, what the check misses, what would change your mind. No assistant during the defence. Peer feedback after each one: a strength, a question and a suggestion.",
+      "href": "../slides/capstone.html#format"
+    },
+    {
+      "deck": "capstone",
+      "id": "running-order",
+      "n": 5,
+      "session": 0,
+      "title": "Who presents when",
+      "text": "Running order Who presents when # Presenter Scenario 1 2 3 4 5 6 7 8",
+      "href": "../slides/capstone.html#running-order"
+    },
+    {
+      "deck": "capstone",
+      "id": "final-prep",
+      "n": 6,
+      "session": 0,
+      "title": "Final prep · 20 minutes",
+      "text": "Before the first presentation Final prep · 20 minutes Run the notebook from the top once, rehearse one recomputation with a timer, open your review on this screen.",
+      "href": "../slides/capstone.html#final-prep"
+    },
+    {
+      "deck": "capstone",
+      "id": "now-presenting",
+      "n": 7,
+      "session": 0,
+      "title": "Defence",
+      "text": "Now presenting Defence",
+      "href": "../slides/capstone.html#now-presenting"
+    },
+    {
+      "deck": "capstone",
+      "id": "review",
+      "n": 8,
+      "session": 0,
+      "title": "What the presentations showed",
+      "text": "Trainer review What the presentations showed Strongest patterns What several projects got right. Common gaps What most projects would fix next. One surprise Something nobody expected.",
+      "href": "../slides/capstone.html#review"
+    },
+    {
+      "deck": "capstone",
+      "id": "what-next",
+      "n": 9,
+      "session": 0,
+      "title": "Keep going",
+      "text": "After the course Keep going Your review stays yours: run it on one month of your own entity's usage log, with the outcome its owner names. The follow-up task: within a month, bring one saving that reached an invoice, with the quality figure beside it. Next Academy courses: AE-307 for cluster capacity planning, AE-401 for the serving engine and its optimisation.",
+      "href": "../slides/capstone.html#what-next"
+    },
+    {
+      "deck": "capstone",
+      "id": "thanks",
+      "n": 10,
+      "session": 0,
+      "title": "Thank you",
+      "text": "SDAIA Academy Thank you AI Cost Engineering and Model Routing",
+      "href": "../slides/capstone.html#thanks"
+    }
+  ]
+}

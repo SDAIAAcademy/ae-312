@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="ai-engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capstone · Capstone: the cost review, defended · AI Cost Engineering and Model Routing</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="capstone.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="AI Cost Engineering and Model Routing" data-track="ai-engineering" data-day="Capstone">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · AI Cost Engineering and Model Routing</div>
+  <h1>Capstone: the cost review, defended</h1>
+  <p class="lead mt">Capstone: An unseen scenario, a repository with measured results, a two-page review and a ten-minute live defence</p>
+  <div class="meta"><span class="track">AI Engineering Track</span><span>3 teaching days + capstone day</span><span>10 min talk and demo</span><span>AE-312</span></div>
+  <aside class="notes">Today is theirs: keep your own talking to the opening and the closing. Confirm the running order and the demo setup (screen sharing, accounts, a recorded backup) first.</aside>
+</section>
+
+<section class="slide" id="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">Capstone</div>
+  <h2>How the presentations run</h2>
+  <div class="agenda">
+    <div class="item now"><div><b>Expectations and final prep</b><small>the rubric, a last rehearsal, then the first presentations</small></div></div>
+    <div class="item"><div><b>Presentations</b><small>ten minutes each, the assessor's questions included</small></div></div>
+    <div class="item"><div><b>Review and closing</b><small>peer feedback, the trainer's review, what next</small></div></div>
+  </div>
+</section>
+
+<section class="slide" id="rubric" data-label="The rubric" data-n="3">
+  <div class="kicker">How presentations are scored</div>
+  <h2>The rubric</h2>
+  <div class="bars">
+    <div class="row"><span>Cost model accuracy</span><div class="bar c-teal" style="--w:80%"></div><span class="val">20%</span></div>
+    <div class="row"><span>Routing evaluation</span><div class="bar c-cyan" style="--w:100%"></div><span class="val">25%</span></div>
+    <div class="row"><span>Caching evidence</span><div class="bar c-coral" style="--w:80%"></div><span class="val">20%</span></div>
+    <div class="row"><span>Hosting analysis</span><div class="bar c-purple" style="--w:80%"></div><span class="val">20%</span></div>
+    <div class="row"><span>Review quality</span><div class="bar c-amber" style="--w:60%"></div><span class="val">15%</span></div>
+  </div>
+  <div class="callout tip mt"><b>Every figure in the review is printed by a cell of the notebook.</b> A saving without a measurement is a plan, not a result.</div>
+  <aside class="notes"><p>Walk through each criterion with one example of full marks, from labs/capstone/README.md. Cost model: within 2% of the invoice, with cached tokens, reasoning tokens, billed timeouts and the node each accounted for. Routing: a table per language with counts, and what the check misses. Caching: a wrong-answer rate and an isolation test that passes. Hosting: the register read before any price. Review: a total the invoice can show, an owner per action, one refusal. The repository counts for 60% of the result and needs 60% on this rubric; the defence counts for 20%.</p></aside>
+</section>
+
+<section class="slide" id="format" data-label="Format" data-n="4">
+  <div class="kicker">Format</div>
+  <h2>10 minutes for each defence</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>1 · The month · 2 minutes</h4><p class="small mb0">Three numbers and the decision you ask for. Your review is on the screen.</p></div>
+    <div class="card c-cyan"><h4>2 · One figure, live · 5 minutes</h4><p class="small mb0">The assessor picks a savings figure. You recompute it from the log and say what it includes and what it leaves out.</p></div>
+    <div class="card c-coral"><h4>3 · One routing decision · 3 minutes</h4><p class="small mb0">The assessor selects it. Which requests go where, what the check misses, what would change your mind.</p></div>
+  </div>
+  <div class="callout note mt"><b>No assistant during the defence.</b> Peer feedback after each one: a strength, a question and a suggestion.</div>
+  <aside class="notes"><p>The defence is where authorship shows: AI assistance is allowed for the repository and the review, and not here. Pick the figure from section 2 of the participant's review, not the largest one every time. For the routing decision ask about the language the router treats differently. Keep to the ten minutes; the questions are inside them.</p></aside>
+</section>
+
+<section class="slide order" id="running-order" data-label="Running order" data-n="5">
+  <div class="kicker">Running order</div>
+  <h2>Who presents when</h2>
+  <table class="t small">
+    <tr><th>#</th><th>Presenter</th><th>Scenario</th></tr>
+    <tr><td>1</td><td><input placeholder="name"></td><td><input placeholder="a, b or c"></td></tr>
+    <tr><td>2</td><td><input placeholder="name"></td><td><input placeholder="a, b or c"></td></tr>
+    <tr><td>3</td><td><input placeholder="name"></td><td><input placeholder="a, b or c"></td></tr>
+    <tr><td>4</td><td><input placeholder="name"></td><td><input placeholder="a, b or c"></td></tr>
+    <tr><td>5</td><td><input placeholder="name"></td><td><input placeholder="a, b or c"></td></tr>
+    <tr><td>6</td><td><input placeholder="name"></td><td><input placeholder="a, b or c"></td></tr>
+    <tr><td>7</td><td><input placeholder="name"></td><td><input placeholder="a, b or c"></td></tr>
+    <tr><td>8</td><td><input placeholder="name"></td><td><input placeholder="a, b or c"></td></tr>
+  </table>
+  <aside class="notes">Type the names in at the start; the fields can be edited live and are not saved, so keep the list in your notes too.</aside>
+</section>
+
+<section class="slide dark" id="final-prep" data-label="Before the first presentation" data-n="6">
+  <div class="kicker">Before the first presentation</div>
+  <h1>Final prep · 20 minutes</h1>
+  <div class="timer" data-minutes="20"></div>
+  <p class="lead">Run the notebook from the top once, rehearse one recomputation with a timer, open your review on this screen.</p>
+  <aside class="notes">Press T to start the timer. Breaks are not slides: press B when the room needs one.</aside>
+</section>
+
+<section class="slide dark presenting" id="now-presenting" data-label="Now presenting" data-n="7">
+  <div class="kicker center">Now presenting</div>
+  <div class="center"><input placeholder="Presenter · scenario"></div>
+  <div class="timers mt">
+    <div><h3>Defence</h3><div class="timer" data-minutes="10"></div></div>
+  </div>
+  <aside class="notes">Type the presenter's name and press T to start the timer. Reuse this slide for every presenter.</aside>
+</section>
+
+<section class="slide" id="review" data-label="Trainer review" data-n="8">
+  <div class="kicker">Trainer review</div>
+  <h2>What the presentations showed</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Strongest patterns</h4><p class="small mb0">What several projects got right.</p></div>
+    <div class="card c-coral"><h4>Common gaps</h4><p class="small mb0">What most projects would fix next.</p></div>
+    <div class="card c-purple"><h4>One surprise</h4><p class="small mb0">Something nobody expected.</p></div>
+  </div>
+  <aside class="notes">Fill these in from your scoring notes during the last break. Name projects for strengths; keep gaps anonymous.</aside>
+</section>
+
+<section class="slide" id="what-next" data-label="After the course" data-n="9">
+  <div class="kicker">After the course</div>
+  <h2>Keep going</h2>
+  <ul class="bullets">
+    <li><b>Your review stays yours:</b> run it on one month of your own entity's usage log, with the outcome its owner names.</li>
+    <li><b>The follow-up task:</b> within a month, bring one saving that reached an invoice, with the quality figure beside it.</li>
+    <li><b>Next Academy courses:</b> AE-307 for cluster capacity planning, AE-401 for the serving engine and its optimisation.</li>
+  </ul>
+  <aside class="notes"><p>The format of the course includes a tracked follow-up task; agree with each participant which saving they will take to their own gateway. The durable ideas to repeat once more: cost follows tokens, steps and utilisation; set the quality floor first, then cut cost; classification before placement; cost per successful outcome.</p></aside>
+</section>
+
+<section class="slide dark" id="thanks" data-label="Thank you" data-n="10">
+  <div class="kicker">SDAIA Academy</div>
+  <h1>Thank you</h1>
+  <p class="lead">AI Cost Engineering and Model Routing</p>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T15:39:40Z","version":"2027.1.0","commit":"2f622db"},"course":{"id":"ae-312","code":"AE-312","title":"AI Cost Engineering and Model Routing","track":"ai-engineering","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ae-312/","repo":"SDAIAAcademy/ae-312","home":"../index.html"},"deck":{"id":"capstone","kind":"capstone","day":4,"label":"Capstone","title":"Capstone: the cost review, defended","prev":"day3.html","next":null,"md":"capstone.md","alt":{}},"sessions":[],"slides":[{"id":"title","n":1,"title":"Capstone: the cost review, defended","kind":"title","session":0,"hash":"59e2cf83","md":"#### [capstone#title] Capstone: the cost review, defended\n\n*SDAIA Academy · AI Cost Engineering and Model Routing*\n\nCapstone: An unseen scenario, a repository with measured results, a two-page review and a ten-minute live defence\n\nAI Engineering Track · 3 teaching days + capstone day · 10 min talk and demo · AE-312","notes":"Today is theirs: keep your own talking to the opening and the closing. Confirm the running order and the demo setup (screen sharing, accounts, a recorded backup) first.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"How the presentations run","kind":"content","session":0,"hash":"f0ad22f2","md":"#### [capstone#agenda] How the presentations run\n\n*Capstone*\n\n- **Expectations and final prep**: the rubric, a last rehearsal, then the first presentations\n- **Presentations**: ten minutes each, the assessor's questions included\n- **Review and closing**: peer feedback, the trainer's review, what next","notes":"","minutes":null,"lo":[]},{"id":"rubric","n":3,"title":"The rubric","kind":"content","session":0,"hash":"262309eb","md":"#### [capstone#rubric] The rubric\n\n*How presentations are scored*\n\n| Item | Value |\n| --- | --- |\n| Cost model accuracy | 20% |\n| Routing evaluation | 25% |\n| Caching evidence | 20% |\n| Hosting analysis | 20% |\n| Review quality | 15% |\n\n> **Every figure in the review is printed by a cell of the notebook.** A saving without a measurement is a plan, not a result.","notes":"Walk through each criterion with one example of full marks, from labs/capstone/README.md. Cost model: within 2% of the invoice, with cached tokens, reasoning tokens, billed timeouts and the node each accounted for. Routing: a table per language with counts, and what the check misses. Caching: a wrong-answer rate and an isolation test that passes. Hosting: the register read before any price. Review: a total the invoice can show, an owner per action, one refusal. The repository counts for 60% of the result and needs 60% on this rubric; the defence counts for 20%.","minutes":null,"lo":[]},{"id":"format","n":4,"title":"10 minutes for each defence","kind":"content","session":0,"hash":"e9fb0926","md":"#### [capstone#format] 10 minutes for each defence\n\n*Format*\n\n- **1 · The month · 2 minutes.** Three numbers and the decision you ask for. Your review is on the screen.\n- **2 · One figure, live · 5 minutes.** The assessor picks a savings figure. You recompute it from the log and say what it includes and what it leaves out.\n- **3 · One routing decision · 3 minutes.** The assessor selects it. Which requests go where, what the check misses, what would change your mind.\n\n> **No assistant during the defence.** Peer feedback after each one: a strength, a question and a suggestion.","notes":"The defence is where authorship shows: AI assistance is allowed for the repository and the review, and not here. Pick the figure from section 2 of the participant's review, not the largest one every time. For the routing decision ask about the language the router treats differently. Keep to the ten minutes; the questions are inside them.","minutes":null,"lo":[]},{"id":"running-order","n":5,"title":"Who presents when","kind":"order","session":0,"hash":"b9bcb4b1","md":"#### [capstone#running-order] Who presents when\n\n*Running order*\n\n| # | Presenter | Scenario |\n| --- | --- | --- |\n| 1 |  |  |\n| 2 |  |  |\n| 3 |  |  |\n| 4 |  |  |\n| 5 |  |  |\n| 6 |  |  |\n| 7 |  |  |\n| 8 |  |  |","notes":"Type the names in at the start; the fields can be edited live and are not saved, so keep the list in your notes too.","minutes":null,"lo":[]},{"id":"final-prep","n":6,"title":"Final prep · 20 minutes","kind":"content","session":0,"hash":"23cfca6b","md":"#### [capstone#final-prep] Final prep · 20 minutes\n\n*Before the first presentation*\n\nRun the notebook from the top once, rehearse one recomputation with a timer, open your review on this screen.","notes":"Press T to start the timer. Breaks are not slides: press B when the room needs one.","minutes":null,"lo":[]},{"id":"now-presenting","n":7,"title":"Defence","kind":"presenting","session":0,"hash":"29367e68","md":"#### [capstone#now-presenting] Defence\n\n*Now presenting*","notes":"Type the presenter's name and press T to start the timer. Reuse this slide for every presenter.","minutes":null,"lo":[]},{"id":"review","n":8,"title":"What the presentations showed","kind":"content","session":0,"hash":"c8c581b8","md":"#### [capstone#review] What the presentations showed\n\n*Trainer review*\n\n- **Strongest patterns.** What several projects got right.\n- **Common gaps.** What most projects would fix next.\n- **One surprise.** Something nobody expected.","notes":"Fill these in from your scoring notes during the last break. Name projects for strengths; keep gaps anonymous.","minutes":null,"lo":[]},{"id":"what-next","n":9,"title":"Keep going","kind":"content","session":0,"hash":"1ae3bf86","md":"#### [capstone#what-next] Keep going\n\n*After the course*\n\n- **Your review stays yours:** run it on one month of your own entity's usage log, with the outcome its owner names.\n- **The follow-up task:** within a month, bring one saving that reached an invoice, with the quality figure beside it.\n- **Next Academy courses:** AE-307 for cluster capacity planning, AE-401 for the serving engine and its optimisation.","notes":"The format of the course includes a tracked follow-up task; agree with each participant which saving they will take to their own gateway. The durable ideas to repeat once more: cost follows tokens, steps and utilisation; set the quality floor first, then cut cost; classification before placement; cost per successful outcome.","minutes":null,"lo":[]},{"id":"thanks","n":10,"title":"Thank you","kind":"content","session":0,"hash":"e7278504","md":"#### [capstone#thanks] Thank you\n\n*SDAIA Academy*\n\nAI Cost Engineering and Model Routing","notes":"","minutes":null,"lo":[]}],"activities":[],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"capstone.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

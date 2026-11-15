@@ -1,0 +1,43 @@
+{
+ "recommendation": "API tier-s, in-Kingdom",
+ "sar_month": 217.94,
+ "today_sar_month": 838.22,
+ "today_allowed": false,
+ "self_hosted_sar_month": 8700.0,
+ "options": {
+  "__frame__": [
+   {
+    "option": "API tier-m, global (October)",
+    "region": "global",
+    "sar_month": 838.218,
+    "worst_language": 0.96,
+    "placement_allowed": false,
+    "floor_held": true
+   },
+   {
+    "option": "API tier-m, in-Kingdom",
+    "region": "in-kingdom",
+    "sar_month": 1089.683,
+    "worst_language": 0.96,
+    "placement_allowed": true,
+    "floor_held": true
+   },
+   {
+    "option": "API tier-s, in-Kingdom",
+    "region": "in-kingdom",
+    "sar_month": 217.937,
+    "worst_language": 0.92,
+    "placement_allowed": true,
+    "floor_held": true
+   },
+   {
+    "option": "Self-hosted, reserved node and operations",
+    "region": "in-kingdom",
+    "sar_month": 8700.0,
+    "worst_language": 0.94,
+    "placement_allowed": true,
+    "floor_held": true
+   }
+  ]
+ }
+}

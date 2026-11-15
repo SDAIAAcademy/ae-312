@@ -1,0 +1,869 @@
+{
+  "v": 1,
+  "engine": "1.0.0",
+  "build": {
+    "at": "2026-11-15T15:39:40Z",
+    "version": "2027.1.0",
+    "commit": "2f622db"
+  },
+  "lang": "en",
+  "dir": "ltr",
+  "langs": [
+    "en"
+  ],
+  "alt": {},
+  "course": {
+    "id": "ae-312",
+    "code": "AE-312",
+    "version": "2027.1.0",
+    "title": "AI Cost Engineering and Model Routing",
+    "tagline": "Make the cost of language model applications measurable, attributable and smaller, without losing quality",
+    "description": "Participants make the cost of language model applications measurable, attributable and smaller without losing quality. For a fictional telecom operator running three applications behind one gateway, a bilingual care assistant, a call-summary job and a billing-dispute agent, they work from a month of synthetic usage traces: they model cost per request and session, attribute spend to teams, set budgets, evaluate model tiers and reasoning settings on their own tasks, route with fallbacks, measure prefix and semantic caches, compare hosted and self-hosted serving and report cost per successful outcome. Cluster capacity planning is AE-307; engine-level optimisation is AE-401.",
+    "track": "ai-engineering",
+    "track_name": "AI Engineering Track",
+    "level": 300,
+    "badge": {
+      "name": "AI Engineering",
+      "level": "Associate"
+    },
+    "audience": "Practitioners. Engineers who have completed the level 200 set or can show equivalent work: a deployed model or language model application they built and can explain.",
+    "prerequisites": [
+      "AE-203 Building Applications on Language Models",
+      "AE-205 Deploying AI Services: Containers, Serving and Monitoring",
+      "Groups and joins usage logs with SQL or dataframes",
+      "Has run an evaluation set against a language model application",
+      "Setup: a laptop CPU with uv, or Google Colab. Eleven of the twelve labs call no model; one step of Lab 2.1 calls a free hosted model and falls back to supplied outputs without a key. Nothing downloads a model. See labs/README.md."
+    ],
+    "url": "https://sdaiaacademy.github.io/ae-312/",
+    "repo": "SDAIAAcademy/ae-312",
+    "home": "../index.html",
+    "format": "intensive",
+    "format_note": "Intensive: 3 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task",
+    "shape": "3 teaching days + capstone day",
+    "hours": {
+      "instruction": 5,
+      "lab": 5,
+      "guided_self_study": 5,
+      "assessment": 1,
+      "capstone": 5,
+      "total": 21
+    },
+    "unit": "day",
+    "outcomes": [
+      {
+        "id": "LO1",
+        "text": "Compute cost per request and per session from prompt, output and cached tokens, retries, agent steps and accelerator-hours, given a month of usage traces and a synthetic invoice",
+        "level": "Applied",
+        "evidence": "a cost model that reconciles with the invoice within 2%"
+      },
+      {
+        "id": "LO2",
+        "text": "Configure attribution, budgets and limits per team, application and environment on a model gateway, given three applications sharing one gateway",
+        "level": "Applied",
+        "evidence": "a showback table and a replayed spike that trips the hard limit"
+      },
+      {
+        "id": "LO3",
+        "text": "Evaluate model tiers, reasoning settings and a routing policy on the operator's own tasks, choosing by cost per successful outcome at a fixed quality floor, given 100 labelled tasks per application",
+        "level": "Performance",
+        "evidence": "a results table and a router configuration with its measured savings"
+      },
+      {
+        "id": "LO4",
+        "text": "Measure how prefix and semantic caching change cost, latency and answer correctness, including isolation between customers, given replayed traffic for the care assistant",
+        "level": "Applied",
+        "evidence": "hit rates, a wrong-answer rate and a passing cross-customer isolation test"
+      },
+      {
+        "id": "LO5",
+        "text": "Decide between hosted APIs and a self-hosted open-weight model with a break-even analysis that includes utilisation and data-placement rules, given price sheets, a throughput benchmark and the operator's classification register",
+        "level": "Performance",
+        "evidence": "a break-even chart and a recommendation"
+      },
+      {
+        "id": "LO6",
+        "text": "Deliver a cost review with three measured savings options to engineering and finance stakeholders, given an unseen capstone scenario",
+        "level": "Performance",
+        "evidence": "a notebook and a two-page review reporting energy beside cost, defended in ten minutes"
+      }
+    ],
+    "case_study": {
+      "name": "Mawj Telecom",
+      "summary": "Mawj Telecom is a fictional regional mobile and fibre operator that runs three applications behind one model gateway, Maabar: Anis, a bilingual care assistant; Khulasa, a job that summarises calls; and Fasil, an agent that handles billing disputes. Participants work as its AI cost engineer on one month of synthetic gateway logs (about 97,000 rows), a provider invoice, a key register, price sheets, 100 labelled tasks per application and a data classification register, all generated with a fixed seed and holding no real personal data."
+    },
+    "days": [
+      {
+        "id": "day1",
+        "kind": "day",
+        "n": 1,
+        "number": 1,
+        "label": "Day 1",
+        "title": "Where the money goes",
+        "subtitle": "A cost model that matches the invoice, the sessions that cost the most, who spent what, and budgets that hold",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day1.html",
+        "md": "../slides/day1.md",
+        "url": "https://sdaiaacademy.github.io/ae-312/slides/day1.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "The token cost model",
+            "summary": "What a request costs: uncached, cached, output and reasoning tokens, and what the provider bills when a call fails",
+            "outcomes": [
+              "Price one request from its token counts and a price sheet",
+              "Explain why cached, reasoning and failed tokens change the bill",
+              "Reconcile a cost model with an invoice line by line"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.1",
+              "title": "A cost model that matches the invoice",
+              "summary": "Compute cost per request for the three applications and reconcile it with the synthetic invoice: from a naive model that is close for the wrong reasons to one that matches line by line, within 2% in total.",
+              "minutes": 25,
+              "href": "../labs/D1_1_cost_model.ipynb",
+              "steps": [
+                {
+                  "text": "Price one request by hand from the price sheet",
+                  "minutes": 5
+                },
+                {
+                  "text": "The month with a naive model, against the invoice",
+                  "minutes": 5
+                },
+                {
+                  "text": "Add cached tokens, reasoning tokens and billed failures",
+                  "minutes": 7
+                },
+                {
+                  "text": "Add the accelerator-hours of the pilot node",
+                  "minutes": 4
+                },
+                {
+                  "text": "Reconcile line by line and state the gap",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "Find the spend the gateway never saw"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Agents, retries and long contexts",
+            "summary": "Why an agent session costs far more than its number of steps suggests, and where retries and long contexts hide",
+            "outcomes": [
+              "Compute cost per session from request rows",
+              "Split a session into first attempts, retries, context growth and extra steps",
+              "Size the saving of a step budget and of a trimmed tool result"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.2",
+              "title": "The ten most expensive sessions",
+              "summary": "Find the ten most expensive sessions and attribute their cost to steps, retries and context growth, then size a fix for each cause.",
+              "minutes": 25,
+              "href": "../labs/D1_2_expensive_sessions.ipynb",
+              "steps": [
+                {
+                  "text": "Cost per session, and the top ten",
+                  "minutes": 5
+                },
+                {
+                  "text": "Split each session: base, context growth, extra steps, retries",
+                  "minutes": 9
+                },
+                {
+                  "text": "Read the worst session step by step",
+                  "minutes": 5
+                },
+                {
+                  "text": "Three causes, three fixes and their size",
+                  "minutes": 6
+                }
+              ],
+              "stretch": "What the agent would cost without its prefix cache"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Attribution and showback",
+            "summary": "From one invoice to who spent what: keys, tags, a showback table and the costs nobody owns",
+            "outcomes": [
+              "Attribute spend to team, application and environment through gateway keys and tags",
+              "Produce a showback table that adds up to the invoice, with an unallocated row",
+              "Compare two ways to allocate a cost that two teams share"
+            ],
+            "lo": [
+              "LO2"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.3",
+              "title": "A showback table from gateway keys",
+              "summary": "Tag spend by team, application and environment through gateway keys and produce a showback table that adds up to the invoice.",
+              "minutes": 25,
+              "href": "../labs/D1_3_showback.ipynb",
+              "steps": [
+                {
+                  "text": "Join the usage log to the key register",
+                  "minutes": 5
+                },
+                {
+                  "text": "Split the shared key by its tags",
+                  "minutes": 6
+                },
+                {
+                  "text": "Showback by team, application and environment",
+                  "minutes": 7
+                },
+                {
+                  "text": "Calls between applications: caller pays or owner pays",
+                  "minutes": 7
+                }
+              ],
+              "stretch": "Spread the idle accelerator-hours by tokens and by requests"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "Budgets and limits",
+            "summary": "Budgets that warn and budgets that refuse, and why their scope decides who is refused",
+            "outcomes": [
+              "Write soft and hard budgets per application and environment",
+              "Replay a spike and read which requests the gateway refused",
+              "Choose between a budget and a rate limit for a given failure"
+            ],
+            "lo": [
+              "LO2"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.4",
+              "title": "Soft and hard budgets, and a spike",
+              "summary": "Set soft and hard budgets per application on the gateway and trip the hard limit with the replayed spike of day 17, without refusing the care assistant.",
+              "minutes": 25,
+              "href": "../labs/D1_4_budgets.ipynb",
+              "steps": [
+                {
+                  "text": "Read the policy and replay a calm day",
+                  "minutes": 5
+                },
+                {
+                  "text": "Replay the spike under one global budget",
+                  "minutes": 5
+                },
+                {
+                  "text": "Budgets per application: soft and hard",
+                  "minutes": 8
+                },
+                {
+                  "text": "Trip the hard limit and read the gateway log",
+                  "minutes": 4
+                },
+                {
+                  "text": "A requests-per-minute limit for the agent",
+                  "minutes": 3
+                }
+              ],
+              "stretch": "A budget per environment, so that staging cannot spend production money"
+            }
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "kind": "day",
+        "n": 2,
+        "number": 2,
+        "label": "Day 2",
+        "title": "Route and cache",
+        "subtitle": "The cheapest configuration that keeps the quality floor, a router with a fallback, and two caches measured",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day2.html",
+        "md": "../slides/day2.md",
+        "url": "https://sdaiaacademy.github.io/ae-312/slides/day2.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Own tasks, several settings",
+            "summary": "Choosing a tier and a reasoning setting on your own tasks, with a quality floor in each language",
+            "outcomes": [
+              "Write a code grader for the care assistant and score six configurations",
+              "Report quality, latency and cost per task, split by language",
+              "Check supplied results against a live rerun of ten tasks"
+            ],
+            "lo": [
+              "LO3"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.1",
+              "title": "Three tiers, two reasoning settings, your own tasks",
+              "summary": "Score supplied outputs of three model tiers at two reasoning settings on 100 tasks for quality, latency and cost, and rerun ten tasks live to check them.",
+              "minutes": 25,
+              "href": "../labs/D2_1_own_tasks.ipynb",
+              "steps": [
+                {
+                  "text": "A grader for the care assistant",
+                  "minutes": 6
+                },
+                {
+                  "text": "Score six configurations: quality, latency, cost",
+                  "minutes": 7
+                },
+                {
+                  "text": "Split by language and apply the quality floor",
+                  "minutes": 5
+                },
+                {
+                  "text": "Rerun ten tasks live and compare",
+                  "minutes": 7
+                }
+              ],
+              "stretch": "The same table for the call-summary job and the dispute agent"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Routing and cascades",
+            "summary": "Sending each request to the cheapest tier that can do it, and paying for the times it could not",
+            "outcomes": [
+              "Build a cascade with a quality check that needs no label and a fallback on errors",
+              "Measure cost per successful outcome, failed first attempts included",
+              "Write a router configuration that keeps the floor in Arabic and English"
+            ],
+            "lo": [
+              "LO3"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.2",
+              "title": "A two-tier router with a quality check",
+              "summary": "Build a two-tier router with a quality check and fallback and measure cost per successful outcome against always using one tier.",
+              "minutes": 25,
+              "href": "../labs/D2_2_router.ipynb",
+              "steps": [
+                {
+                  "text": "Baselines: always small, always medium",
+                  "minutes": 4
+                },
+                {
+                  "text": "A quality check that needs no label",
+                  "minutes": 6
+                },
+                {
+                  "text": "The cascade, with fallback on errors",
+                  "minutes": 8
+                },
+                {
+                  "text": "Cost per successful outcome, and the router file",
+                  "minutes": 7
+                }
+              ],
+              "stretch": "What a tier switch in the middle of a session costs in cache"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Prompt layout for prefix caching",
+            "summary": "A provider reuses a prompt only as far as it is identical from its first token: lay the prompt out for that",
+            "outcomes": [
+              "Explain how a prefix cache matches and how long it keeps an entry",
+              "Find what breaks the shared prefix of two prompts",
+              "Measure hit rate, cost and time to first token before and after a new layout"
+            ],
+            "lo": [
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.3",
+              "title": "Prompt layout for prefix reuse",
+              "summary": "Move stable content to the front of the care assistant's prompt and measure the cache hit rate and cost on two hours of replayed traffic.",
+              "minutes": 25,
+              "href": "../labs/D2_3_prefix_cache.ipynb",
+              "steps": [
+                {
+                  "text": "Replay the current layout through the prefix cache",
+                  "minutes": 5
+                },
+                {
+                  "text": "Find what breaks the prefix",
+                  "minutes": 5
+                },
+                {
+                  "text": "Reorder: stable first, variable last",
+                  "minutes": 8
+                },
+                {
+                  "text": "Hit rate, cost and time to first token, before and after",
+                  "minutes": 7
+                }
+              ],
+              "stretch": "A quiet period: when does a cache with a write premium lose money?"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "Semantic caches and their risks",
+            "summary": "Answering a new question with an old answer: hit rates, wrong answers, stale answers and one customer seeing another's",
+            "outcomes": [
+              "Measure hit rate and wrong-answer rate of a semantic cache at several thresholds",
+              "Scope cache entries so that no answer crosses customers",
+              "Write the isolation test that proves it"
+            ],
+            "lo": [
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.4",
+              "title": "A semantic cache and its wrong answers",
+              "summary": "Add a semantic cache to the care assistant, measure hit and wrong-answer rates at three thresholds and test that no answer crosses customers.",
+              "minutes": 25,
+              "href": "../labs/D2_4_semantic_cache.ipynb",
+              "steps": [
+                {
+                  "text": "An exact-match cache as the baseline",
+                  "minutes": 4
+                },
+                {
+                  "text": "A semantic cache at three thresholds",
+                  "minutes": 7
+                },
+                {
+                  "text": "The wrong-answer rate from labelled questions",
+                  "minutes": 6
+                },
+                {
+                  "text": "An isolation test: failing, then passing",
+                  "minutes": 8
+                }
+              ],
+              "stretch": "A price changes on day 15: how long does the cache serve the old one?"
+            }
+          }
+        ]
+      },
+      {
+        "id": "day3",
+        "kind": "day",
+        "n": 3,
+        "number": 3,
+        "label": "Day 3",
+        "title": "Host or buy, and report",
+        "subtitle": "Self-hosting against API prices after the data rules, a batch tier, cost per successful outcome and the review",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day3.html",
+        "md": "../slides/day3.md",
+        "url": "https://sdaiaacademy.github.io/ae-312/slides/day3.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Self-hosting economics",
+            "summary": "A leased accelerator costs the same used or idle: self-hosting is a question of utilisation, after the data rules",
+            "outcomes": [
+              "Compute cost per request of a self-hosted model as a function of utilisation",
+              "Find break-even utilisation against API prices and draw it",
+              "Apply the classification register before comparing prices"
+            ],
+            "lo": [
+              "LO5"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.1",
+              "title": "Break-even utilisation for self-hosting",
+              "summary": "Fill a cost model for serving an open-weight model and find break-even utilisation against API prices, after the classification register has said where each dataset may go.",
+              "minutes": 25,
+              "href": "../labs/D3_1_break_even.ipynb",
+              "steps": [
+                {
+                  "text": "Capacity at the latency objective, from the benchmark",
+                  "minutes": 5
+                },
+                {
+                  "text": "Cost per request against utilisation",
+                  "minutes": 6
+                },
+                {
+                  "text": "Break-even against the API prices, as a chart",
+                  "minutes": 7
+                },
+                {
+                  "text": "The classification register first, then the recommendation",
+                  "minutes": 7
+                }
+              ],
+              "stretch": "Lease the node one hour a night: does the nightly job change the answer?"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Batch versus interactive",
+            "summary": "Work that can wait costs half: what waiting means for a job, and which requests cannot wait",
+            "outcomes": [
+              "Recompute the cost of a job on a batch tier",
+              "Estimate turnaround under a submission schedule from completion times",
+              "Split a workload into what can wait and what cannot"
+            ],
+            "lo": [
+              "LO5"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.2",
+              "title": "The call-summary job on a batch tier",
+              "summary": "Move the call-summary job to a batch tier and recompute cost and turnaround under three submission schedules, keeping urgent calls interactive.",
+              "minutes": 25,
+              "href": "../labs/D3_2_batch_tier.ipynb",
+              "steps": [
+                {
+                  "text": "What the job costs on the interactive tier",
+                  "minutes": 4
+                },
+                {
+                  "text": "The same month on the batch tier",
+                  "minutes": 5
+                },
+                {
+                  "text": "Turnaround under three submission schedules",
+                  "minutes": 9
+                },
+                {
+                  "text": "Keep the urgent calls interactive, and decide",
+                  "minutes": 7
+                }
+              ],
+              "stretch": "Stack the batch discount with a cached prefix"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Cost per successful outcome",
+            "summary": "The unit that decides is the outcome the business wanted, with the failures and the people who clean up after them in the cost",
+            "outcomes": [
+              "Join session cost with evaluation outcomes and report what did not join",
+              "Compute cost per request, per session and per resolved dispute",
+              "Compare two configurations at a quality floor, human escalations included"
+            ],
+            "lo": [
+              "LO3",
+              "LO6"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.3",
+              "title": "Cost per resolved dispute",
+              "summary": "Join cost with evaluation outcomes and report cost per resolved dispute for two configurations of the dispute agent, with and without the cost of human escalations.",
+              "minutes": 25,
+              "href": "../labs/D3_3_cost_per_outcome.ipynb",
+              "steps": [
+                {
+                  "text": "Join session cost with outcomes, and count what did not join",
+                  "minutes": 6
+                },
+                {
+                  "text": "Three unit costs: request, session, resolved dispute",
+                  "minutes": 6
+                },
+                {
+                  "text": "Two configurations at the quality floor",
+                  "minutes": 7
+                },
+                {
+                  "text": "Add the cost of human escalations",
+                  "minutes": 6
+                }
+              ],
+              "stretch": "An interval for the difference, by resampling sessions"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "The cost review",
+            "summary": "Two pages for engineering and finance: three measured options, what each does to quality, risk and energy",
+            "outcomes": [
+              "Rank savings options by measured saving, quality effect and risk",
+              "Report energy per thousand requests beside cost",
+              "Draft a two-page cost review and choose the capstone scenario"
+            ],
+            "lo": [
+              "LO6"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.4",
+              "title": "The two-page cost review",
+              "summary": "Draft a two-page review with three measured savings options from the numbers of the three days, then choose the capstone scenario and generate its data.",
+              "minutes": 25,
+              "href": "../labs/D3_4_cost_review.ipynb",
+              "steps": [
+                {
+                  "text": "Collect the measured numbers of the three days",
+                  "minutes": 5
+                },
+                {
+                  "text": "Three options: saving, quality effect, risk, energy",
+                  "minutes": 8
+                },
+                {
+                  "text": "Write the two pages from the template",
+                  "minutes": 7
+                },
+                {
+                  "text": "Choose the capstone scenario and generate its data",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "Recompute one savings figure live, as in the defence"
+            }
+          }
+        ]
+      },
+      {
+        "id": "capstone",
+        "kind": "capstone",
+        "n": 4,
+        "number": null,
+        "label": "Capstone",
+        "title": "Capstone: the cost review, defended",
+        "subtitle": "An unseen scenario, a repository with measured results, a two-page review and a ten-minute live defence",
+        "shape": "",
+        "deck": "../slides/capstone.html",
+        "md": "../slides/capstone.md",
+        "url": "https://sdaiaacademy.github.io/ae-312/slides/capstone.html",
+        "sessions": []
+      }
+    ],
+    "capstone": {
+      "summary": "A cost review of an unseen scenario: a public repository with the notebook, measured routing and caching results and a two-page memo with three savings options, defended in ten minutes",
+      "submission": "A public GitHub repository link: the notebook with its execution log, the gateway log of the replayed spike, the router file, the cache measurements and the isolation test, and the two-page review (three savings options, each with its measured saving, its effect on quality in Arabic and English, its risk, and energy per thousand requests beside cost). Then a ten-minute live defence: the participant recomputes one savings figure the assessor picks and explains one routing decision.",
+      "talk_minutes": 10,
+      "qa_minutes": null,
+      "rubric": [
+        {
+          "criterion": "Cost model accuracy",
+          "weight": 20
+        },
+        {
+          "criterion": "Routing evaluation",
+          "weight": 25
+        },
+        {
+          "criterion": "Caching evidence",
+          "weight": 20
+        },
+        {
+          "criterion": "Hosting analysis",
+          "weight": 20
+        },
+        {
+          "criterion": "Review quality",
+          "weight": 15
+        }
+      ]
+    },
+    "labs": {
+      "kind": "notebooks",
+      "base": "labs/"
+    },
+    "tools": [
+      {
+        "slot": "Model gateway with budgets and routing",
+        "examples": [
+          "LiteLLM",
+          "Agent Router"
+        ]
+      },
+      {
+        "slot": "Language model access",
+        "examples": [
+          "a locally served open-weight model",
+          "a free hosted open-weight model",
+          "any commercial API"
+        ]
+      },
+      {
+        "slot": "Evaluation harness",
+        "examples": [
+          "promptfoo",
+          "Inspect"
+        ]
+      },
+      {
+        "slot": "Usage analysis",
+        "examples": [
+          "DuckDB",
+          "pandas"
+        ]
+      },
+      {
+        "slot": "Cache stores",
+        "examples": [
+          "Valkey",
+          "PostgreSQL with pgvector"
+        ]
+      },
+      {
+        "slot": "Local inference server",
+        "examples": [
+          "vLLM",
+          "llama.cpp"
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "group": "Cost models, allocation and unit economics",
+        "items": [
+          {
+            "title": "FinOps Foundation: FinOps for AI overview",
+            "url": "https://www.finops.org/wg/finops-for-ai-overview/"
+          },
+          {
+            "title": "FinOps Foundation: GenAI FinOps, how token pricing really works",
+            "url": "https://www.finops.org/wg/genai-finops-how-token-pricing-really-works/"
+          },
+          {
+            "title": "FOCUS, the FinOps Open Cost and Usage Specification",
+            "url": "https://focus.finops.org/"
+          }
+        ]
+      },
+      {
+        "group": "Gateways, budgets and routing",
+        "items": [
+          {
+            "title": "LiteLLM documentation: budgets and rate limits",
+            "url": "https://docs.litellm.ai/docs/proxy/users"
+          },
+          {
+            "title": "LiteLLM documentation: fallbacks",
+            "url": "https://docs.litellm.ai/docs/proxy/reliability"
+          },
+          {
+            "title": "LiteLLM documentation: spend tracking",
+            "url": "https://docs.litellm.ai/docs/proxy/cost_tracking"
+          },
+          {
+            "title": "Chen, Zaharia, Zou (2023): FrugalGPT",
+            "url": "https://arxiv.org/abs/2305.05176"
+          },
+          {
+            "title": "Ong and others (2024): RouteLLM, learning to route LLMs with preference data",
+            "url": "https://arxiv.org/abs/2406.18665"
+          },
+          {
+            "title": "OpenRouter: models, with the free hosted ones",
+            "url": "https://openrouter.ai/models"
+          }
+        ]
+      },
+      {
+        "group": "Caching and batch tiers",
+        "items": [
+          {
+            "title": "Claude Platform documentation: prompt caching",
+            "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+          },
+          {
+            "title": "OpenAI documentation: prompt caching",
+            "url": "https://platform.openai.com/docs/guides/prompt-caching"
+          },
+          {
+            "title": "Claude Platform documentation: batch processing",
+            "url": "https://platform.claude.com/docs/en/build-with-claude/batch-processing"
+          },
+          {
+            "title": "GPTCache, an open-source semantic cache",
+            "url": "https://github.com/zilliztech/GPTCache"
+          },
+          {
+            "title": "Valkey",
+            "url": "https://valkey.io/"
+          },
+          {
+            "title": "pgvector",
+            "url": "https://github.com/pgvector/pgvector"
+          }
+        ]
+      },
+      {
+        "group": "Serving, evaluation, analysis and energy",
+        "items": [
+          {
+            "title": "vLLM documentation",
+            "url": "https://docs.vllm.ai/en/latest/"
+          },
+          {
+            "title": "llama.cpp",
+            "url": "https://github.com/ggml-org/llama.cpp"
+          },
+          {
+            "title": "promptfoo documentation",
+            "url": "https://www.promptfoo.dev/docs/intro/"
+          },
+          {
+            "title": "Inspect, an evaluation framework",
+            "url": "https://inspect.aisi.org.uk/"
+          },
+          {
+            "title": "DuckDB documentation",
+            "url": "https://duckdb.org/docs/stable/"
+          },
+          {
+            "title": "Elsworth and others (2025): Measuring the environmental impact of delivering AI at Google scale",
+            "url": "https://arxiv.org/abs/2508.15734"
+          }
+        ]
+      },
+      {
+        "group": "National references",
+        "items": [
+          {
+            "title": "Data Classification Policy (National Data Management Office)",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf"
+          },
+          {
+            "title": "Personal Data Protection Law",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/PersonalDataProtectionLaw.pdf"
+          },
+          {
+            "title": "Implementing Regulation of the Personal Data Protection Law",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/ImplementingRegulationPersonalDataProtectionLaw.pdf"
+          },
+          {
+            "title": "Regulation on Personal Data Transfer Outside the Kingdom",
+            "url": "https://sdaia.gov.sa/Documents/RegulationonPersonalDataEN.pdf"
+          },
+          {
+            "title": "AI Adoption Framework",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Files/AIAdoptionFramework.pdf"
+          },
+          {
+            "title": "Principles of AI Ethics",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/ai-principles.pdf"
+          }
+        ]
+      }
+    ]
+  }
+}

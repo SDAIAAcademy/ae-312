@@ -1,0 +1,1804 @@
+{
+ "__frame__": [
+  {
+   "session_id": "f000813",
+   "app": "fasil",
+   "cost_sar": 11.071452,
+   "rows": 95,
+   "steps": 70,
+   "first_ts": "2026-10-17T12:31:56.000",
+   "max_input": 34823
+  },
+  {
+   "session_id": "f001635",
+   "app": "fasil",
+   "cost_sar": 9.9717192,
+   "rows": 95,
+   "steps": 63,
+   "first_ts": "2026-10-17T14:47:02.000",
+   "max_input": 32214
+  },
+  {
+   "session_id": "f002082",
+   "app": "fasil",
+   "cost_sar": 9.5658216,
+   "rows": 97,
+   "steps": 53,
+   "first_ts": "2026-10-17T13:55:35.000",
+   "max_input": 28193
+  },
+  {
+   "session_id": "f002193",
+   "app": "fasil",
+   "cost_sar": 8.2342032,
+   "rows": 74,
+   "steps": 53,
+   "first_ts": "2026-10-17T13:40:02.000",
+   "max_input": 29771
+  },
+  {
+   "session_id": "f000170",
+   "app": "fasil",
+   "cost_sar": 7.970304,
+   "rows": 85,
+   "steps": 53,
+   "first_ts": "2026-10-17T14:15:27.000",
+   "max_input": 27127
+  },
+  {
+   "session_id": "f000231",
+   "app": "fasil",
+   "cost_sar": 7.7384448,
+   "rows": 60,
+   "steps": 60,
+   "first_ts": "2026-10-17T12:08:46.000",
+   "max_input": 30625
+  },
+  {
+   "session_id": "f001741",
+   "app": "fasil",
+   "cost_sar": 7.43886,
+   "rows": 79,
+   "steps": 46,
+   "first_ts": "2026-10-17T13:04:19.000",
+   "max_input": 25747
+  },
+  {
+   "session_id": "f000565",
+   "app": "fasil",
+   "cost_sar": 7.4211888,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-08T15:20:55.000",
+   "max_input": 436891
+  },
+  {
+   "session_id": "f000207",
+   "app": "fasil",
+   "cost_sar": 7.412088,
+   "rows": 79,
+   "steps": 48,
+   "first_ts": "2026-10-17T13:50:56.000",
+   "max_input": 25962
+  },
+  {
+   "session_id": "f000918",
+   "app": "fasil",
+   "cost_sar": 7.0293408,
+   "rows": 76,
+   "steps": 46,
+   "first_ts": "2026-10-17T14:32:26.000",
+   "max_input": 25302
+  },
+  {
+   "session_id": "f001751",
+   "app": "fasil",
+   "cost_sar": 6.718992,
+   "rows": 54,
+   "steps": 53,
+   "first_ts": "2026-10-17T16:08:32.000",
+   "max_input": 28093
+  },
+  {
+   "session_id": "f000356",
+   "app": "fasil",
+   "cost_sar": 6.6528288,
+   "rows": 56,
+   "steps": 54,
+   "first_ts": "2026-10-17T16:21:28.000",
+   "max_input": 29763
+  },
+  {
+   "session_id": "f001773",
+   "app": "fasil",
+   "cost_sar": 6.1530672,
+   "rows": 55,
+   "steps": 46,
+   "first_ts": "2026-10-17T15:40:57.000",
+   "max_input": 27119
+  },
+  {
+   "session_id": "f000987",
+   "app": "fasil",
+   "cost_sar": 5.9282376,
+   "rows": 48,
+   "steps": 48,
+   "first_ts": "2026-10-17T12:17:59.000",
+   "max_input": 28124
+  },
+  {
+   "session_id": "f001638",
+   "app": "fasil",
+   "cost_sar": 5.904852,
+   "rows": 58,
+   "steps": 43,
+   "first_ts": "2026-10-17T13:11:21.000",
+   "max_input": 23819
+  },
+  {
+   "session_id": "f002681",
+   "app": "fasil",
+   "cost_sar": 5.8919952,
+   "rows": 50,
+   "steps": 46,
+   "first_ts": "2026-10-17T15:57:52.000",
+   "max_input": 24758
+  },
+  {
+   "session_id": "f000210",
+   "app": "fasil",
+   "cost_sar": 5.848968,
+   "rows": 51,
+   "steps": 44,
+   "first_ts": "2026-10-17T15:42:48.000",
+   "max_input": 24025
+  },
+  {
+   "session_id": "f002395",
+   "app": "fasil",
+   "cost_sar": 5.8157592,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-04T09:23:05.000",
+   "max_input": 356471
+  },
+  {
+   "session_id": "f000346",
+   "app": "fasil",
+   "cost_sar": 5.4949032,
+   "rows": 59,
+   "steps": 37,
+   "first_ts": "2026-10-17T13:00:57.000",
+   "max_input": 22028
+  },
+  {
+   "session_id": "f000312",
+   "app": "fasil",
+   "cost_sar": 5.4402552,
+   "rows": 61,
+   "steps": 37,
+   "first_ts": "2026-10-17T15:12:07.000",
+   "max_input": 20217
+  },
+  {
+   "session_id": "f000223",
+   "app": "fasil",
+   "cost_sar": 4.9530888,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-02T09:14:34.000",
+   "max_input": 315827
+  },
+  {
+   "session_id": "f002756",
+   "app": "fasil",
+   "cost_sar": 4.9129224,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-08T10:00:30.000",
+   "max_input": 311340
+  },
+  {
+   "session_id": "f001275",
+   "app": "fasil",
+   "cost_sar": 4.8963072,
+   "rows": 52,
+   "steps": 35,
+   "first_ts": "2026-10-17T15:29:27.000",
+   "max_input": 20710
+  },
+  {
+   "session_id": "f001784",
+   "app": "fasil",
+   "cost_sar": 4.863,
+   "rows": 47,
+   "steps": 35,
+   "first_ts": "2026-10-17T15:26:14.000",
+   "max_input": 21825
+  },
+  {
+   "session_id": "f002181",
+   "app": "fasil",
+   "cost_sar": 4.6570464,
+   "rows": 47,
+   "steps": 31,
+   "first_ts": "2026-10-17T15:24:38.000",
+   "max_input": 19585
+  },
+  {
+   "session_id": "f001744",
+   "app": "fasil",
+   "cost_sar": 4.4868912,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-29T12:55:20.000",
+   "max_input": 282403
+  },
+  {
+   "session_id": "f002117",
+   "app": "fasil",
+   "cost_sar": 4.416912,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-10T11:33:02.000",
+   "max_input": 196169
+  },
+  {
+   "session_id": "f001592",
+   "app": "fasil",
+   "cost_sar": 4.2708888,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-31T13:19:43.000",
+   "max_input": 265746
+  },
+  {
+   "session_id": "f001926",
+   "app": "fasil",
+   "cost_sar": 4.2370008,
+   "rows": 39,
+   "steps": 30,
+   "first_ts": "2026-10-17T15:42:00.000",
+   "max_input": 19730
+  },
+  {
+   "session_id": "f001019",
+   "app": "fasil",
+   "cost_sar": 4.20792,
+   "rows": 38,
+   "steps": 31,
+   "first_ts": "2026-10-17T12:43:04.000",
+   "max_input": 18255
+  },
+  {
+   "session_id": "f003140",
+   "app": "fasil",
+   "cost_sar": 4.1893464,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-13T14:14:04.000",
+   "max_input": 214116
+  },
+  {
+   "session_id": "f002526",
+   "app": "fasil",
+   "cost_sar": 4.1680176,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-11T16:34:31.000",
+   "max_input": 216039
+  },
+  {
+   "session_id": "f002556",
+   "app": "fasil",
+   "cost_sar": 4.1274456,
+   "rows": 33,
+   "steps": 32,
+   "first_ts": "2026-10-17T15:51:43.000",
+   "max_input": 20721
+  },
+  {
+   "session_id": "f000480",
+   "app": "fasil",
+   "cost_sar": 4.0439544,
+   "rows": 36,
+   "steps": 35,
+   "first_ts": "2026-10-17T16:22:41.000",
+   "max_input": 19304
+  },
+  {
+   "session_id": "f002514",
+   "app": "fasil",
+   "cost_sar": 3.996516,
+   "rows": 9,
+   "steps": 8,
+   "first_ts": "2026-10-12T10:43:30.000",
+   "max_input": 176062
+  },
+  {
+   "session_id": "f000702",
+   "app": "fasil",
+   "cost_sar": 3.9865152,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-05T13:01:28.000",
+   "max_input": 194841
+  },
+  {
+   "session_id": "f002292",
+   "app": "fasil",
+   "cost_sar": 3.7503672,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-01T14:25:48.000",
+   "max_input": 186682
+  },
+  {
+   "session_id": "f002449",
+   "app": "fasil",
+   "cost_sar": 3.7221528,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-31T11:37:40.000",
+   "max_input": 242310
+  },
+  {
+   "session_id": "f002383",
+   "app": "fasil",
+   "cost_sar": 3.6351672,
+   "rows": 31,
+   "steps": 30,
+   "first_ts": "2026-10-17T16:14:48.000",
+   "max_input": 18496
+  },
+  {
+   "session_id": "f002742",
+   "app": "fasil",
+   "cost_sar": 3.6117768,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-22T17:36:40.000",
+   "max_input": 228692
+  },
+  {
+   "session_id": "f001689",
+   "app": "fasil",
+   "cost_sar": 3.5871168,
+   "rows": 31,
+   "steps": 31,
+   "first_ts": "2026-10-17T16:02:15.000",
+   "max_input": 18746
+  },
+  {
+   "session_id": "f001809",
+   "app": "fasil",
+   "cost_sar": 3.4942128,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-03T15:09:19.000",
+   "max_input": 177713
+  },
+  {
+   "session_id": "f001906",
+   "app": "fasil",
+   "cost_sar": 3.4463688,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-06T18:16:27.000",
+   "max_input": 174018
+  },
+  {
+   "session_id": "f002918",
+   "app": "fasil",
+   "cost_sar": 3.4012248,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-25T10:09:03.000",
+   "max_input": 173757
+  },
+  {
+   "session_id": "f001107",
+   "app": "fasil",
+   "cost_sar": 3.3987192,
+   "rows": 30,
+   "steps": 30,
+   "first_ts": "2026-10-17T12:45:23.000",
+   "max_input": 19571
+  },
+  {
+   "session_id": "f000040",
+   "app": "fasil",
+   "cost_sar": 3.388716,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-09T12:08:55.000",
+   "max_input": 174908
+  },
+  {
+   "session_id": "f002744",
+   "app": "fasil",
+   "cost_sar": 3.3813792,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-28T11:22:13.000",
+   "max_input": 171882
+  },
+  {
+   "session_id": "f001465",
+   "app": "fasil",
+   "cost_sar": 3.3689616,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-16T15:33:23.000",
+   "max_input": 170616
+  },
+  {
+   "session_id": "f001898",
+   "app": "fasil",
+   "cost_sar": 3.3251184,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-18T11:13:58.000",
+   "max_input": 168264
+  },
+  {
+   "session_id": "f001987",
+   "app": "fasil",
+   "cost_sar": 3.287508,
+   "rows": 9,
+   "steps": 8,
+   "first_ts": "2026-10-21T11:15:11.000",
+   "max_input": 165121
+  },
+  {
+   "session_id": "f003085",
+   "app": "fasil",
+   "cost_sar": 3.0306864,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-11T08:51:52.000",
+   "max_input": 153657
+  },
+  {
+   "session_id": "f000372",
+   "app": "fasil",
+   "cost_sar": 3.0059784,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-12T13:42:15.000",
+   "max_input": 159505
+  },
+  {
+   "session_id": "f003183",
+   "app": "fasil",
+   "cost_sar": 2.9793,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-09T13:07:58.000",
+   "max_input": 152201
+  },
+  {
+   "session_id": "f000214",
+   "app": "fasil",
+   "cost_sar": 2.9642256,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-18T19:42:42.000",
+   "max_input": 163532
+  },
+  {
+   "session_id": "f002835",
+   "app": "fasil",
+   "cost_sar": 2.9479896,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-01T08:32:29.000",
+   "max_input": 147801
+  },
+  {
+   "session_id": "f002027",
+   "app": "fasil",
+   "cost_sar": 2.9403432,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-09T08:18:01.000",
+   "max_input": 152895
+  },
+  {
+   "session_id": "f001640",
+   "app": "fasil",
+   "cost_sar": 2.9394936,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-19T13:17:42.000",
+   "max_input": 148785
+  },
+  {
+   "session_id": "f001891",
+   "app": "fasil",
+   "cost_sar": 2.9116344,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-02T09:37:58.000",
+   "max_input": 147699
+  },
+  {
+   "session_id": "f000099",
+   "app": "fasil",
+   "cost_sar": 2.8355472,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-21T11:23:46.000",
+   "max_input": 148552
+  },
+  {
+   "session_id": "f003169",
+   "app": "fasil",
+   "cost_sar": 2.8221198,
+   "rows": 126,
+   "steps": 74,
+   "first_ts": "2026-10-17T14:30:35.000",
+   "max_input": 37369
+  },
+  {
+   "session_id": "f001218",
+   "app": "fasil",
+   "cost_sar": 2.8065576,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-28T11:59:04.000",
+   "max_input": 138713
+  },
+  {
+   "session_id": "f001578",
+   "app": "fasil",
+   "cost_sar": 2.7924096,
+   "rows": 8,
+   "steps": 7,
+   "first_ts": "2026-10-17T11:18:29.000",
+   "max_input": 149667
+  },
+  {
+   "session_id": "f002781",
+   "app": "fasil",
+   "cost_sar": 2.7778152,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-12T10:32:08.000",
+   "max_input": 143118
+  },
+  {
+   "session_id": "f003012",
+   "app": "fasil",
+   "cost_sar": 2.7583728,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-13T12:42:07.000",
+   "max_input": 142944
+  },
+  {
+   "session_id": "f002734",
+   "app": "fasil",
+   "cost_sar": 2.7357096,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-07T09:08:30.000",
+   "max_input": 141357
+  },
+  {
+   "session_id": "f001704",
+   "app": "fasil",
+   "cost_sar": 2.726232,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-13T09:24:02.000",
+   "max_input": 140079
+  },
+  {
+   "session_id": "f001475",
+   "app": "fasil",
+   "cost_sar": 2.7153504,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-03T15:26:54.000",
+   "max_input": 137909
+  },
+  {
+   "session_id": "f002191",
+   "app": "fasil",
+   "cost_sar": 2.7022656,
+   "rows": 7,
+   "steps": 7,
+   "first_ts": "2026-10-01T13:10:53.000",
+   "max_input": 136952
+  },
+  {
+   "session_id": "f002060",
+   "app": "fasil",
+   "cost_sar": 2.4829314,
+   "rows": 113,
+   "steps": 64,
+   "first_ts": "2026-10-17T14:30:51.000",
+   "max_input": 34300
+  },
+  {
+   "session_id": "f001804",
+   "app": "fasil",
+   "cost_sar": 2.4748872,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-08T11:22:37.000",
+   "max_input": 130788
+  },
+  {
+   "session_id": "f000991",
+   "app": "fasil",
+   "cost_sar": 2.4501336,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-27T10:09:43.000",
+   "max_input": 127345
+  },
+  {
+   "session_id": "f002939",
+   "app": "fasil",
+   "cost_sar": 2.4434448,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-10T14:12:40.000",
+   "max_input": 119901
+  },
+  {
+   "session_id": "f002063",
+   "app": "fasil",
+   "cost_sar": 2.4072384,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-18T09:33:06.000",
+   "max_input": 127588
+  },
+  {
+   "session_id": "f001216",
+   "app": "fasil",
+   "cost_sar": 2.3889384,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-05T10:22:06.000",
+   "max_input": 117728
+  },
+  {
+   "session_id": "f002313",
+   "app": "fasil",
+   "cost_sar": 2.3857968,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-11T12:05:34.000",
+   "max_input": 130523
+  },
+  {
+   "session_id": "f000857",
+   "app": "fasil",
+   "cost_sar": 2.3701464,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-14T15:55:28.000",
+   "max_input": 119211
+  },
+  {
+   "session_id": "f001420",
+   "app": "fasil",
+   "cost_sar": 2.3407032,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-29T09:54:00.000",
+   "max_input": 127872
+  },
+  {
+   "session_id": "f001338",
+   "app": "fasil",
+   "cost_sar": 2.3392392,
+   "rows": 4,
+   "steps": 4,
+   "first_ts": "2026-10-02T15:16:29.000",
+   "max_input": 147252
+  },
+  {
+   "session_id": "f003043",
+   "app": "fasil",
+   "cost_sar": 2.2909632,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-06T10:24:23.000",
+   "max_input": 114911
+  },
+  {
+   "session_id": "f002320",
+   "app": "fasil",
+   "cost_sar": 2.2885872,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-05T08:29:29.000",
+   "max_input": 113832
+  },
+  {
+   "session_id": "f003151",
+   "app": "fasil",
+   "cost_sar": 2.2838976,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-13T12:56:43.000",
+   "max_input": 118200
+  },
+  {
+   "session_id": "f000591",
+   "app": "fasil",
+   "cost_sar": 2.2829256,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-31T16:35:38.000",
+   "max_input": 116364
+  },
+  {
+   "session_id": "f002173",
+   "app": "fasil",
+   "cost_sar": 2.2771776,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-22T10:28:23.000",
+   "max_input": 116741
+  },
+  {
+   "session_id": "f002550",
+   "app": "fasil",
+   "cost_sar": 2.275944,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-13T09:44:15.000",
+   "max_input": 124214
+  },
+  {
+   "session_id": "f002286",
+   "app": "fasil",
+   "cost_sar": 2.245296,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-13T13:42:48.000",
+   "max_input": 120485
+  },
+  {
+   "session_id": "f000682",
+   "app": "fasil",
+   "cost_sar": 2.235276,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-08T09:13:33.000",
+   "max_input": 118748
+  },
+  {
+   "session_id": "f002862",
+   "app": "fasil",
+   "cost_sar": 2.2191384,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-31T14:01:42.000",
+   "max_input": 115298
+  },
+  {
+   "session_id": "f001958",
+   "app": "fasil",
+   "cost_sar": 2.2155648,
+   "rows": 7,
+   "steps": 6,
+   "first_ts": "2026-10-30T16:45:43.000",
+   "max_input": 118331
+  },
+  {
+   "session_id": "f002304",
+   "app": "fasil",
+   "cost_sar": 2.210163,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-31T14:32:41.000",
+   "max_input": 523648
+  },
+  {
+   "session_id": "f002138",
+   "app": "fasil",
+   "cost_sar": 2.1840672,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-10T13:23:26.000",
+   "max_input": 115819
+  },
+  {
+   "session_id": "f001009",
+   "app": "fasil",
+   "cost_sar": 2.1836232,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-21T10:28:18.000",
+   "max_input": 118455
+  },
+  {
+   "session_id": "f001095",
+   "app": "fasil",
+   "cost_sar": 2.1467112,
+   "rows": 7,
+   "steps": 6,
+   "first_ts": "2026-10-01T09:09:51.000",
+   "max_input": 111294
+  },
+  {
+   "session_id": "f001013",
+   "app": "fasil",
+   "cost_sar": 2.0291928,
+   "rows": 6,
+   "steps": 6,
+   "first_ts": "2026-10-31T14:03:07.000",
+   "max_input": 103500
+  },
+  {
+   "session_id": "f000471",
+   "app": "fasil",
+   "cost_sar": 1.8931842,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-26T14:48:38.000",
+   "max_input": 454021
+  },
+  {
+   "session_id": "f001976",
+   "app": "fasil",
+   "cost_sar": 1.8911538,
+   "rows": 91,
+   "steps": 51,
+   "first_ts": "2026-10-17T13:31:54.000",
+   "max_input": 27494
+  },
+  {
+   "session_id": "f001457",
+   "app": "fasil",
+   "cost_sar": 1.8796116,
+   "rows": 92,
+   "steps": 52,
+   "first_ts": "2026-10-17T14:05:36.000",
+   "max_input": 28237
+  },
+  {
+   "session_id": "f002229",
+   "app": "fasil",
+   "cost_sar": 1.8754212,
+   "rows": 68,
+   "steps": 67,
+   "first_ts": "2026-10-17T16:00:25.000",
+   "max_input": 34426
+  },
+  {
+   "session_id": "f002671",
+   "app": "fasil",
+   "cost_sar": 1.869936,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-14T11:25:46.000",
+   "max_input": 98651
+  },
+  {
+   "session_id": "f000401",
+   "app": "fasil",
+   "cost_sar": 1.869216,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-29T09:01:14.000",
+   "max_input": 95524
+  },
+  {
+   "session_id": "f001723",
+   "app": "fasil",
+   "cost_sar": 1.8663192,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-05T11:34:35.000",
+   "max_input": 98209
+  },
+  {
+   "session_id": "f001432",
+   "app": "fasil",
+   "cost_sar": 1.8462816,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-27T17:39:14.000",
+   "max_input": 95731
+  },
+  {
+   "session_id": "f002952",
+   "app": "fasil",
+   "cost_sar": 1.83696,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-28T14:54:09.000",
+   "max_input": 97522
+  },
+  {
+   "session_id": "f000562",
+   "app": "fasil",
+   "cost_sar": 1.8191814,
+   "rows": 73,
+   "steps": 62,
+   "first_ts": "2026-10-17T15:49:19.000",
+   "max_input": 32886
+  },
+  {
+   "session_id": "f001877",
+   "app": "fasil",
+   "cost_sar": 1.8126396,
+   "rows": 92,
+   "steps": 51,
+   "first_ts": "2026-10-17T14:34:39.000",
+   "max_input": 27960
+  },
+  {
+   "session_id": "f000235",
+   "app": "fasil",
+   "cost_sar": 1.7987376,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-04T10:25:29.000",
+   "max_input": 95882
+  },
+  {
+   "session_id": "f002837",
+   "app": "fasil",
+   "cost_sar": 1.7949048,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-12T15:16:00.000",
+   "max_input": 91203
+  },
+  {
+   "session_id": "f000872",
+   "app": "fasil",
+   "cost_sar": 1.787028,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-08T13:11:16.000",
+   "max_input": 92953
+  },
+  {
+   "session_id": "f000628",
+   "app": "fasil",
+   "cost_sar": 1.7577336,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-12T14:23:35.000",
+   "max_input": 90871
+  },
+  {
+   "session_id": "f000188",
+   "app": "fasil",
+   "cost_sar": 1.752612,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-15T12:36:34.000",
+   "max_input": 91574
+  },
+  {
+   "session_id": "f000787",
+   "app": "fasil",
+   "cost_sar": 1.7496624,
+   "rows": 85,
+   "steps": 45,
+   "first_ts": "2026-10-17T14:25:26.000",
+   "max_input": 26801
+  },
+  {
+   "session_id": "f002035",
+   "app": "fasil",
+   "cost_sar": 1.7444664,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-22T13:19:28.000",
+   "max_input": 89651
+  },
+  {
+   "session_id": "f000267",
+   "app": "fasil",
+   "cost_sar": 1.738104,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-01T17:45:29.000",
+   "max_input": 87876
+  },
+  {
+   "session_id": "f001180",
+   "app": "fasil",
+   "cost_sar": 1.7346912,
+   "rows": 90,
+   "steps": 51,
+   "first_ts": "2026-10-17T15:06:58.000",
+   "max_input": 28304
+  },
+  {
+   "session_id": "f001145",
+   "app": "fasil",
+   "cost_sar": 1.70886,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-02T16:11:50.000",
+   "max_input": 84958
+  },
+  {
+   "session_id": "f002483",
+   "app": "fasil",
+   "cost_sar": 1.6978488,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-14T09:18:05.000",
+   "max_input": 88651
+  },
+  {
+   "session_id": "f001032",
+   "app": "fasil",
+   "cost_sar": 1.6949304,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-02T14:13:58.000",
+   "max_input": 93979
+  },
+  {
+   "session_id": "f002615",
+   "app": "fasil",
+   "cost_sar": 1.6794336,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-05T17:29:19.000",
+   "max_input": 91313
+  },
+  {
+   "session_id": "f001298",
+   "app": "fasil",
+   "cost_sar": 1.6752168,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-10T10:08:07.000",
+   "max_input": 85116
+  },
+  {
+   "session_id": "f002232",
+   "app": "fasil",
+   "cost_sar": 1.666236,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-22T15:50:18.000",
+   "max_input": 92069
+  },
+  {
+   "session_id": "f002914",
+   "app": "fasil",
+   "cost_sar": 1.6497792,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-16T14:56:46.000",
+   "max_input": 83072
+  },
+  {
+   "session_id": "f002708",
+   "app": "fasil",
+   "cost_sar": 1.6343868,
+   "rows": 87,
+   "steps": 50,
+   "first_ts": "2026-10-17T15:10:04.000",
+   "max_input": 25696
+  },
+  {
+   "session_id": "f001474",
+   "app": "fasil",
+   "cost_sar": 1.5409056,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-09T09:16:03.000",
+   "max_input": 80947
+  },
+  {
+   "session_id": "f002165",
+   "app": "fasil",
+   "cost_sar": 1.5345792,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-19T16:45:10.000",
+   "max_input": 86999
+  },
+  {
+   "session_id": "f001122",
+   "app": "fasil",
+   "cost_sar": 1.5318744,
+   "rows": 5,
+   "steps": 5,
+   "first_ts": "2026-10-17T08:51:55.000",
+   "max_input": 79418
+  },
+  {
+   "session_id": "f001282",
+   "app": "fasil",
+   "cost_sar": 1.4718096,
+   "rows": 10,
+   "steps": 10,
+   "first_ts": "2026-10-09T15:06:35.000",
+   "max_input": 23703
+  },
+  {
+   "session_id": "f001494",
+   "app": "fasil",
+   "cost_sar": 1.4707632,
+   "rows": 10,
+   "steps": 10,
+   "first_ts": "2026-10-25T09:58:31.000",
+   "max_input": 20940
+  },
+  {
+   "session_id": "f001134",
+   "app": "fasil",
+   "cost_sar": 1.455105,
+   "rows": 69,
+   "steps": 42,
+   "first_ts": "2026-10-17T14:34:08.000",
+   "max_input": 24623
+  },
+  {
+   "session_id": "f000755",
+   "app": "fasil",
+   "cost_sar": 1.448088,
+   "rows": 81,
+   "steps": 43,
+   "first_ts": "2026-10-17T14:38:34.000",
+   "max_input": 23763
+  },
+  {
+   "session_id": "f002562",
+   "app": "fasil",
+   "cost_sar": 1.4303208,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-29T09:35:28.000",
+   "max_input": 18338
+  },
+  {
+   "session_id": "f001099",
+   "app": "fasil",
+   "cost_sar": 1.4163336,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-15T16:25:36.000",
+   "max_input": 20391
+  },
+  {
+   "session_id": "f003199",
+   "app": "fasil",
+   "cost_sar": 1.3954656,
+   "rows": 12,
+   "steps": 11,
+   "first_ts": "2026-10-24T10:51:01.000",
+   "max_input": 274208
+  },
+  {
+   "session_id": "f000166",
+   "app": "fasil",
+   "cost_sar": 1.392348,
+   "rows": 10,
+   "steps": 10,
+   "first_ts": "2026-10-07T17:01:21.000",
+   "max_input": 21524
+  },
+  {
+   "session_id": "f001156",
+   "app": "fasil",
+   "cost_sar": 1.385928,
+   "rows": 10,
+   "steps": 10,
+   "first_ts": "2026-10-07T12:42:05.000",
+   "max_input": 24216
+  },
+  {
+   "session_id": "f001832",
+   "app": "fasil",
+   "cost_sar": 1.384773,
+   "rows": 69,
+   "steps": 41,
+   "first_ts": "2026-10-17T15:02:25.000",
+   "max_input": 23071
+  },
+  {
+   "session_id": "f001359",
+   "app": "fasil",
+   "cost_sar": 1.3845432,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-22T09:54:47.000",
+   "max_input": 20173
+  },
+  {
+   "session_id": "f001214",
+   "app": "fasil",
+   "cost_sar": 1.3735128,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-01T08:22:46.000",
+   "max_input": 21061
+  },
+  {
+   "session_id": "f000540",
+   "app": "fasil",
+   "cost_sar": 1.3604328,
+   "rows": 11,
+   "steps": 10,
+   "first_ts": "2026-10-24T08:47:33.000",
+   "max_input": 22707
+  },
+  {
+   "session_id": "f001756",
+   "app": "fasil",
+   "cost_sar": 1.35018,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-15T17:26:03.000",
+   "max_input": 19301
+  },
+  {
+   "session_id": "f000595",
+   "app": "fasil",
+   "cost_sar": 1.3492896,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-13T13:20:59.000",
+   "max_input": 20606
+  },
+  {
+   "session_id": "f001401",
+   "app": "fasil",
+   "cost_sar": 1.3453176,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-10T08:57:50.000",
+   "max_input": 20606
+  },
+  {
+   "session_id": "f002564",
+   "app": "fasil",
+   "cost_sar": 1.334064,
+   "rows": 9,
+   "steps": 8,
+   "first_ts": "2026-10-03T10:46:18.000",
+   "max_input": 16700
+  },
+  {
+   "session_id": "f003145",
+   "app": "fasil",
+   "cost_sar": 1.33098,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-23T16:38:18.000",
+   "max_input": 18880
+  },
+  {
+   "session_id": "f002200",
+   "app": "fasil",
+   "cost_sar": 1.3299336,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-11T13:31:27.000",
+   "max_input": 20009
+  },
+  {
+   "session_id": "f001345",
+   "app": "fasil",
+   "cost_sar": 1.32654,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-07T14:07:08.000",
+   "max_input": 20421
+  },
+  {
+   "session_id": "f003004",
+   "app": "fasil",
+   "cost_sar": 1.325472,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-26T08:53:03.000",
+   "max_input": 19128
+  },
+  {
+   "session_id": "f003152",
+   "app": "fasil",
+   "cost_sar": 1.319088,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-06T13:07:36.000",
+   "max_input": 19705
+  },
+  {
+   "session_id": "f002050",
+   "app": "fasil",
+   "cost_sar": 1.3177944,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-29T08:50:47.000",
+   "max_input": 20882
+  },
+  {
+   "session_id": "f000408",
+   "app": "fasil",
+   "cost_sar": 1.2992982,
+   "rows": 51,
+   "steps": 48,
+   "first_ts": "2026-10-17T12:44:21.000",
+   "max_input": 25941
+  },
+  {
+   "session_id": "f002935",
+   "app": "fasil",
+   "cost_sar": 1.2953664,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-06T13:13:04.000",
+   "max_input": 18850
+  },
+  {
+   "session_id": "f001797",
+   "app": "fasil",
+   "cost_sar": 1.2952176,
+   "rows": 11,
+   "steps": 10,
+   "first_ts": "2026-10-25T13:10:09.000",
+   "max_input": 19297
+  },
+  {
+   "session_id": "f002056",
+   "app": "fasil",
+   "cost_sar": 1.2904698,
+   "rows": 63,
+   "steps": 40,
+   "first_ts": "2026-10-17T13:50:04.000",
+   "max_input": 22171
+  },
+  {
+   "session_id": "f002989",
+   "app": "fasil",
+   "cost_sar": 1.2886272,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-06T11:03:28.000",
+   "max_input": 18110
+  },
+  {
+   "session_id": "f002424",
+   "app": "fasil",
+   "cost_sar": 1.28766,
+   "rows": 4,
+   "steps": 4,
+   "first_ts": "2026-10-12T10:15:31.000",
+   "max_input": 72757
+  },
+  {
+   "session_id": "f000990",
+   "app": "fasil",
+   "cost_sar": 1.286328,
+   "rows": 9,
+   "steps": 8,
+   "first_ts": "2026-10-13T09:38:25.000",
+   "max_input": 17135
+  },
+  {
+   "session_id": "f002568",
+   "app": "fasil",
+   "cost_sar": 1.2846144,
+   "rows": 4,
+   "steps": 4,
+   "first_ts": "2026-10-31T14:35:38.000",
+   "max_input": 64106
+  },
+  {
+   "session_id": "f001393",
+   "app": "fasil",
+   "cost_sar": 1.283352,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-13T16:05:59.000",
+   "max_input": 19378
+  },
+  {
+   "session_id": "f002557",
+   "app": "fasil",
+   "cost_sar": 1.2819576,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-16T09:04:12.000",
+   "max_input": 20905
+  },
+  {
+   "session_id": "f002741",
+   "app": "fasil",
+   "cost_sar": 1.2808464,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-01T10:36:52.000",
+   "max_input": 20835
+  },
+  {
+   "session_id": "f002416",
+   "app": "fasil",
+   "cost_sar": 1.279356,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-05T09:03:53.000",
+   "max_input": 20721
+  },
+  {
+   "session_id": "f002466",
+   "app": "fasil",
+   "cost_sar": 1.2788088,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-07T14:20:49.000",
+   "max_input": 21245
+  },
+  {
+   "session_id": "f003094",
+   "app": "fasil",
+   "cost_sar": 1.2784584,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-01T13:18:46.000",
+   "max_input": 22403
+  },
+  {
+   "session_id": "f002268",
+   "app": "fasil",
+   "cost_sar": 1.2783072,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-10T11:44:55.000",
+   "max_input": 22348
+  },
+  {
+   "session_id": "f001591",
+   "app": "fasil",
+   "cost_sar": 1.2771,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-22T15:54:10.000",
+   "max_input": 18284
+  },
+  {
+   "session_id": "f001903",
+   "app": "fasil",
+   "cost_sar": 1.2761292,
+   "rows": 63,
+   "steps": 36,
+   "first_ts": "2026-10-17T14:55:20.000",
+   "max_input": 20317
+  },
+  {
+   "session_id": "f001978",
+   "app": "fasil",
+   "cost_sar": 1.2751464,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-18T13:28:28.000",
+   "max_input": 22866
+  },
+  {
+   "session_id": "f001585",
+   "app": "fasil",
+   "cost_sar": 1.274556,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-04T09:07:45.000",
+   "max_input": 20231
+  },
+  {
+   "session_id": "f003170",
+   "app": "fasil",
+   "cost_sar": 1.2737088,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-11T10:08:13.000",
+   "max_input": 20541
+  },
+  {
+   "session_id": "f003018",
+   "app": "fasil",
+   "cost_sar": 1.2708984,
+   "rows": 9,
+   "steps": 8,
+   "first_ts": "2026-10-14T17:47:55.000",
+   "max_input": 21108
+  },
+  {
+   "session_id": "f000536",
+   "app": "fasil",
+   "cost_sar": 1.2708936,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-06T10:28:11.000",
+   "max_input": 19845
+  },
+  {
+   "session_id": "f002111",
+   "app": "fasil",
+   "cost_sar": 1.2706176,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-25T14:00:28.000",
+   "max_input": 20416
+  },
+  {
+   "session_id": "f002959",
+   "app": "fasil",
+   "cost_sar": 1.2693096,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-10T17:11:12.000",
+   "max_input": 20926
+  },
+  {
+   "session_id": "f002074",
+   "app": "fasil",
+   "cost_sar": 1.2664224,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-01T09:49:48.000",
+   "max_input": 19704
+  },
+  {
+   "session_id": "f003083",
+   "app": "fasil",
+   "cost_sar": 1.2664152,
+   "rows": 69,
+   "steps": 40,
+   "first_ts": "2026-10-17T14:01:07.000",
+   "max_input": 22055
+  },
+  {
+   "session_id": "f000903",
+   "app": "fasil",
+   "cost_sar": 1.2648528,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-06T10:48:28.000",
+   "max_input": 18349
+  },
+  {
+   "session_id": "f002373",
+   "app": "fasil",
+   "cost_sar": 1.263852,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-16T10:42:14.000",
+   "max_input": 20350
+  },
+  {
+   "session_id": "f000091",
+   "app": "fasil",
+   "cost_sar": 1.2633744,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-26T09:43:22.000",
+   "max_input": 17829
+  },
+  {
+   "session_id": "f001695",
+   "app": "fasil",
+   "cost_sar": 1.2603,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-06T09:21:19.000",
+   "max_input": 21202
+  },
+  {
+   "session_id": "f000625",
+   "app": "fasil",
+   "cost_sar": 1.260276,
+   "rows": 9,
+   "steps": 8,
+   "first_ts": "2026-10-07T15:23:21.000",
+   "max_input": 17766
+  },
+  {
+   "session_id": "f002004",
+   "app": "fasil",
+   "cost_sar": 1.2595848,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-20T11:19:43.000",
+   "max_input": 20224
+  },
+  {
+   "session_id": "f002852",
+   "app": "fasil",
+   "cost_sar": 1.258752,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-20T11:05:15.000",
+   "max_input": 17725
+  },
+  {
+   "session_id": "f002132",
+   "app": "fasil",
+   "cost_sar": 1.2542304,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-03T15:51:30.000",
+   "max_input": 20570
+  },
+  {
+   "session_id": "f000719",
+   "app": "fasil",
+   "cost_sar": 1.2533232,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-07T13:48:26.000",
+   "max_input": 21674
+  },
+  {
+   "session_id": "f000450",
+   "app": "fasil",
+   "cost_sar": 1.2518778,
+   "rows": 53,
+   "steps": 37,
+   "first_ts": "2026-10-17T14:11:58.000",
+   "max_input": 22593
+  },
+  {
+   "session_id": "f000242",
+   "app": "fasil",
+   "cost_sar": 1.2517848,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-12T15:31:41.000",
+   "max_input": 19892
+  },
+  {
+   "session_id": "f002327",
+   "app": "fasil",
+   "cost_sar": 1.2489312,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-04T14:08:41.000",
+   "max_input": 18659
+  },
+  {
+   "session_id": "f001478",
+   "app": "fasil",
+   "cost_sar": 1.2469128,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-07T13:20:36.000",
+   "max_input": 20775
+  },
+  {
+   "session_id": "f003112",
+   "app": "fasil",
+   "cost_sar": 1.2456,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-22T11:52:23.000",
+   "max_input": 18308
+  },
+  {
+   "session_id": "f000720",
+   "app": "fasil",
+   "cost_sar": 1.2453576,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-03T15:20:40.000",
+   "max_input": 19292
+  },
+  {
+   "session_id": "f003180",
+   "app": "fasil",
+   "cost_sar": 1.2452592,
+   "rows": 8,
+   "steps": 8,
+   "first_ts": "2026-10-11T19:11:58.000",
+   "max_input": 21265
+  },
+  {
+   "session_id": "f002405",
+   "app": "fasil",
+   "cost_sar": 1.2435528,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-07T12:06:35.000",
+   "max_input": 19848
+  },
+  {
+   "session_id": "f000077",
+   "app": "fasil",
+   "cost_sar": 1.2414432,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-11T10:20:57.000",
+   "max_input": 16695
+  },
+  {
+   "session_id": "f001265",
+   "app": "fasil",
+   "cost_sar": 1.2409584,
+   "rows": 9,
+   "steps": 8,
+   "first_ts": "2026-10-03T10:00:01.000",
+   "max_input": 20797
+  },
+  {
+   "session_id": "f001558",
+   "app": "fasil",
+   "cost_sar": 1.2357816,
+   "rows": 9,
+   "steps": 8,
+   "first_ts": "2026-10-15T10:24:23.000",
+   "max_input": 17915
+  },
+  {
+   "session_id": "f000979",
+   "app": "fasil",
+   "cost_sar": 1.2353808,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-10T12:34:32.000",
+   "max_input": 17541
+  },
+  {
+   "session_id": "f000421",
+   "app": "fasil",
+   "cost_sar": 1.2336456,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-09T14:15:19.000",
+   "max_input": 18398
+  },
+  {
+   "session_id": "f000675",
+   "app": "fasil",
+   "cost_sar": 1.2335208,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-23T09:30:36.000",
+   "max_input": 17255
+  },
+  {
+   "session_id": "f003091",
+   "app": "fasil",
+   "cost_sar": 1.2311184,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-15T08:49:21.000",
+   "max_input": 21098
+  },
+  {
+   "session_id": "f000683",
+   "app": "fasil",
+   "cost_sar": 1.2310176,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-12T09:14:17.000",
+   "max_input": 20982
+  },
+  {
+   "session_id": "f000432",
+   "app": "fasil",
+   "cost_sar": 1.2306624,
+   "rows": 10,
+   "steps": 9,
+   "first_ts": "2026-10-03T10:41:56.000",
+   "max_input": 20370
+  },
+  {
+   "session_id": "f002919",
+   "app": "fasil",
+   "cost_sar": 1.2304872,
+   "rows": 9,
+   "steps": 9,
+   "first_ts": "2026-10-16T14:07:52.000",
+   "max_input": 17699
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+{
+ "requests_per_minute": 12,
+ "refused": {
+  "rate_limited": 857,
+  "budget_exceeded": 349
+ },
+ "first_rate_limited": "2026-10-17 12:49:11"
+}

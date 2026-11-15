@@ -1,0 +1,19 @@
+{
+ "__frame__": [
+  {
+   "option": "Return the leased node",
+   "kwh_before": 451.36,
+   "kwh_after": 0.0
+  },
+  {
+   "option": "Anis: stable prompt layout",
+   "kwh_before": 12.17476743,
+   "kwh_after": 3.5279116845
+  },
+  {
+   "option": "Khulasa: small tier, in-Kingdom region",
+   "kwh_before": 11.715823469,
+   "kwh_after": 3.347378134
+  }
+ ]
+}

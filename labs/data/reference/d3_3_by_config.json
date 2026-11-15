@@ -1,0 +1,26 @@
+{
+ "__frame__": [
+  {
+   "config": "A",
+   "sessions": 733,
+   "resolved_correct": 0.8144611187,
+   "escalated": 0.1132332879,
+   "resolved_wrong": 0.0436562074,
+   "wrong_share_of_resolved": 0.0508744038,
+   "per_session": 0.9165395034,
+   "per_resolved": 1.1253324221,
+   "meets_floor": true
+  },
+  {
+   "config": "B",
+   "sessions": 748,
+   "resolved_correct": 0.6497326203,
+   "escalated": 0.2486631016,
+   "resolved_wrong": 0.0762032086,
+   "wrong_share_of_resolved": 0.1049723757,
+   "per_session": 0.2408747094,
+   "per_resolved": 0.3707289765,
+   "meets_floor": false
+  }
+ ]
+}

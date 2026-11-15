@@ -1,0 +1,25 @@
+{
+ "__frame__": [
+  {
+   "schedule": "every hour",
+   "sar_month": 604.56906042,
+   "on_time": 1.0,
+   "batch_share": 0.9222692308,
+   "saving_pct": 46.584522003
+  },
+  {
+   "schedule": "every 4 hours",
+   "sar_month": 604.56906042,
+   "on_time": 1.0,
+   "batch_share": 0.9222692308,
+   "saving_pct": 46.584522003
+  },
+  {
+   "schedule": "once a day",
+   "sar_month": 604.56906042,
+   "on_time": 0.6150769231,
+   "batch_share": 0.9222692308,
+   "saving_pct": 46.584522003
+  }
+ ]
+}

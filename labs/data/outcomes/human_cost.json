@@ -1,0 +1,10 @@
+{
+ "synthetic": true,
+ "currency": "SAR",
+ "escalation_to_a_human": 21.0,
+ "rework_of_a_wrong_resolution": 55.0,
+ "floor": {
+  "max_wrong_share_of_resolved": 0.06,
+  "set_by": "the head of billing operations"
+ }
+}

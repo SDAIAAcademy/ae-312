@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="page" data-track="ai-engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Cost Engineering and Model Routing · SDAIA Academy</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<meta name="description" content="Make the cost of language model applications measurable, attributable and smaller, without losing quality">
+<link rel="icon" href="_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="index.md">
+<link rel="describedby" href="llms.txt">
+<link rel="stylesheet" href="_engine/academy.css">
+</head>
+<body>
+<header>
+<div class="wrap">
+<div class="top"><div class="logo" id="logo"></div><nav><a href="slides/day1.html">Slides</a><a href="practice.html">Practice</a><a href="index.md" type="text/markdown">Markdown</a></nav></div>
+<div class="kicker">AI Engineering Track · SDAIA Academy · AE-312</div>
+<h1>AI Cost Engineering and Model Routing<span class="sub ar" lang="ar" dir="rtl">هندسة تكلفة الذكاء الاصطناعي وتوجيه النماذج</span></h1>
+<p>Make the cost of language model applications measurable, attributable and smaller, without losing quality</p>
+<div class="meta"><span class="track">AI Engineering Track</span><span>3 teaching days + capstone day</span><span>21 hours</span><span>Level 300</span><span>AI Engineering · Associate badge</span></div>
+</div>
+</header>
+<main class="wrap">
+<h2>About the course</h2>
+<p>Participants make the cost of language model applications measurable, attributable and smaller without losing quality. For a fictional telecom operator running three applications behind one gateway, a bilingual care assistant, a call-summary job and a billing-dispute agent, they work from a month of synthetic usage traces: they model cost per request and session, attribute spend to teams, set budgets, evaluate model tiers and reasoning settings on their own tasks, route with fallbacks, measure prefix and semantic caches, compare hosted and self-hosted serving and report cost per successful outcome. Cluster capacity planning is AE-307; engine-level optimisation is AE-401.</p>
+<p><b>Who it is for:</b> Practitioners. Engineers who have completed the level 200 set or can show equivalent work: a deployed model or language model application they built and can explain.</p>
+<p><b>Format:</b> Intensive: 3 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task</p>
+<h2>The case study</h2>
+<div class="note info"><b>Mawj Telecom.</b> Mawj Telecom is a fictional regional mobile and fibre operator that runs three applications behind one model gateway, Maabar: Anis, a bilingual care assistant; Khulasa, a job that summarises calls; and Fasil, an agent that handles billing disputes. Participants work as its AI cost engineer on one month of synthetic gateway logs (about 97,000 rows), a provider invoice, a key register, price sheets, 100 labelled tasks per application and a data classification register, all generated with a fixed seed and holding no real personal data.</div>
+<h2>The course</h2>
+<div class="day">
+<div class="day-head c-teal"><div><div class="t">Day 1 · 4 sessions · 4 labs</div><h3>Where the money goes</h3></div><a class="btn" href="slides/day1.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>The token cost model</b><br>What a request costs: uncached, cached, output and reasoning tokens, and what the provider bills when a call fails<ul><li>Price one request from its token counts and a price sheet</li><li>Explain why cached, reasoning and failed tokens change the bill</li><li>Reconcile a cost model with an invoice line by line</li></ul></td><td><a href="labs/D1_1_cost_model.ipynb">Lab 1.1 · A cost model that matches the invoice</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D1_1_cost_model.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Agents, retries and long contexts</b><br>Why an agent session costs far more than its number of steps suggests, and where retries and long contexts hide<ul><li>Compute cost per session from request rows</li><li>Split a session into first attempts, retries, context growth and extra steps</li><li>Size the saving of a step budget and of a trimmed tool result</li></ul></td><td><a href="labs/D1_2_expensive_sessions.ipynb">Lab 1.2 · The ten most expensive sessions</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D1_2_expensive_sessions.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Attribution and showback</b><br>From one invoice to who spent what: keys, tags, a showback table and the costs nobody owns<ul><li>Attribute spend to team, application and environment through gateway keys and tags</li><li>Produce a showback table that adds up to the invoice, with an unallocated row</li><li>Compare two ways to allocate a cost that two teams share</li></ul></td><td><a href="labs/D1_3_showback.ipynb">Lab 1.3 · A showback table from gateway keys</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D1_3_showback.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>Budgets and limits</b><br>Budgets that warn and budgets that refuse, and why their scope decides who is refused<ul><li>Write soft and hard budgets per application and environment</li><li>Replay a spike and read which requests the gateway refused</li><li>Choose between a budget and a rate limit for a given failure</li></ul></td><td><a href="labs/D1_4_budgets.ipynb">Lab 1.4 · Soft and hard budgets, and a spike</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D1_4_budgets.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-cyan"><div><div class="t">Day 2 · 4 sessions · 4 labs</div><h3>Route and cache</h3></div><a class="btn" href="slides/day2.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Own tasks, several settings</b><br>Choosing a tier and a reasoning setting on your own tasks, with a quality floor in each language<ul><li>Write a code grader for the care assistant and score six configurations</li><li>Report quality, latency and cost per task, split by language</li><li>Check supplied results against a live rerun of ten tasks</li></ul></td><td><a href="labs/D2_1_own_tasks.ipynb">Lab 2.1 · Three tiers, two reasoning settings, your own tasks</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D2_1_own_tasks.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Routing and cascades</b><br>Sending each request to the cheapest tier that can do it, and paying for the times it could not<ul><li>Build a cascade with a quality check that needs no label and a fallback on errors</li><li>Measure cost per successful outcome, failed first attempts included</li><li>Write a router configuration that keeps the floor in Arabic and English</li></ul></td><td><a href="labs/D2_2_router.ipynb">Lab 2.2 · A two-tier router with a quality check</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D2_2_router.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Prompt layout for prefix caching</b><br>A provider reuses a prompt only as far as it is identical from its first token: lay the prompt out for that<ul><li>Explain how a prefix cache matches and how long it keeps an entry</li><li>Find what breaks the shared prefix of two prompts</li><li>Measure hit rate, cost and time to first token before and after a new layout</li></ul></td><td><a href="labs/D2_3_prefix_cache.ipynb">Lab 2.3 · Prompt layout for prefix reuse</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D2_3_prefix_cache.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>Semantic caches and their risks</b><br>Answering a new question with an old answer: hit rates, wrong answers, stale answers and one customer seeing another's<ul><li>Measure hit rate and wrong-answer rate of a semantic cache at several thresholds</li><li>Scope cache entries so that no answer crosses customers</li><li>Write the isolation test that proves it</li></ul></td><td><a href="labs/D2_4_semantic_cache.ipynb">Lab 2.4 · A semantic cache and its wrong answers</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D2_4_semantic_cache.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-coral"><div><div class="t">Day 3 · 4 sessions · 4 labs</div><h3>Host or buy, and report</h3></div><a class="btn" href="slides/day3.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Self-hosting economics</b><br>A leased accelerator costs the same used or idle: self-hosting is a question of utilisation, after the data rules<ul><li>Compute cost per request of a self-hosted model as a function of utilisation</li><li>Find break-even utilisation against API prices and draw it</li><li>Apply the classification register before comparing prices</li></ul></td><td><a href="labs/D3_1_break_even.ipynb">Lab 3.1 · Break-even utilisation for self-hosting</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D3_1_break_even.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Batch versus interactive</b><br>Work that can wait costs half: what waiting means for a job, and which requests cannot wait<ul><li>Recompute the cost of a job on a batch tier</li><li>Estimate turnaround under a submission schedule from completion times</li><li>Split a workload into what can wait and what cannot</li></ul></td><td><a href="labs/D3_2_batch_tier.ipynb">Lab 3.2 · The call-summary job on a batch tier</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D3_2_batch_tier.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Cost per successful outcome</b><br>The unit that decides is the outcome the business wanted, with the failures and the people who clean up after them in the cost<ul><li>Join session cost with evaluation outcomes and report what did not join</li><li>Compute cost per request, per session and per resolved dispute</li><li>Compare two configurations at a quality floor, human escalations included</li></ul></td><td><a href="labs/D3_3_cost_per_outcome.ipynb">Lab 3.3 · Cost per resolved dispute</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D3_3_cost_per_outcome.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>The cost review</b><br>Two pages for engineering and finance: three measured options, what each does to quality, risk and energy<ul><li>Rank savings options by measured saving, quality effect and risk</li><li>Report energy per thousand requests beside cost</li><li>Draft a two-page cost review and choose the capstone scenario</li></ul></td><td><a href="labs/D3_4_cost_review.ipynb">Lab 3.4 · The two-page cost review</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ae-312/blob/main/labs/D3_4_cost_review.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-amber"><div><div class="t">Capstone</div><h3>Capstone: the cost review, defended</h3></div><a class="btn" href="slides/capstone.html">Open the slides</a></div>
+<div class="scroll"><table><tr><td>An unseen scenario, a repository with measured results, a two-page review and a ten-minute live defence</td></tr></table></div>
+</div>
+<h2>Capstone</h2>
+<div class="two">
+<div><p>A cost review of an unseen scenario: a public repository with the notebook, measured routing and caching results and a two-page memo with three savings options, defended in ten minutes</p><p><b>What you submit:</b> A public GitHub repository link: the notebook with its execution log, the gateway log of the replayed spike, the router file, the cache measurements and the isolation test, and the two-page review (three savings options, each with its measured saving, its effect on quality in Arabic and English, its risk, and energy per thousand requests beside cost). Then a ten-minute live defence: the participant recomputes one savings figure the assessor picks and explains one routing decision.</p><p><b>Format:</b> 10 min talk and demo</p></div>
+<div><h3>Rubric</h3><div class="bar c-teal"><span>Cost model accuracy<i style="--w:80%"></i></span><b>20%</b></div><div class="bar c-cyan"><span>Routing evaluation<i style="--w:100%"></i></span><b>25%</b></div><div class="bar c-coral"><span>Caching evidence<i style="--w:80%"></i></span><b>20%</b></div><div class="bar c-purple"><span>Hosting analysis<i style="--w:80%"></i></span><b>20%</b></div><div class="bar c-amber"><span>Review quality<i style="--w:60%"></i></span><b>15%</b></div></div>
+</div>
+<h2>Outcomes</h2>
+<p>By the end of the course, participants can:</p>
+<div class="day"><div class="scroll"><table>
+<tr><th></th><th>Outcomes</th><th>Level</th><th>Evidence</th></tr>
+<tr><td><b>LO1</b></td><td>Compute cost per request and per session from prompt, output and cached tokens, retries, agent steps and accelerator-hours, given a month of usage traces and a synthetic invoice</td><td>Applied</td><td>a cost model that reconciles with the invoice within 2%</td></tr>
+<tr><td><b>LO2</b></td><td>Configure attribution, budgets and limits per team, application and environment on a model gateway, given three applications sharing one gateway</td><td>Applied</td><td>a showback table and a replayed spike that trips the hard limit</td></tr>
+<tr><td><b>LO3</b></td><td>Evaluate model tiers, reasoning settings and a routing policy on the operator's own tasks, choosing by cost per successful outcome at a fixed quality floor, given 100 labelled tasks per application</td><td>Performance</td><td>a results table and a router configuration with its measured savings</td></tr>
+<tr><td><b>LO4</b></td><td>Measure how prefix and semantic caching change cost, latency and answer correctness, including isolation between customers, given replayed traffic for the care assistant</td><td>Applied</td><td>hit rates, a wrong-answer rate and a passing cross-customer isolation test</td></tr>
+<tr><td><b>LO5</b></td><td>Decide between hosted APIs and a self-hosted open-weight model with a break-even analysis that includes utilisation and data-placement rules, given price sheets, a throughput benchmark and the operator's classification register</td><td>Performance</td><td>a break-even chart and a recommendation</td></tr>
+<tr><td><b>LO6</b></td><td>Deliver a cost review with three measured savings options to engineering and finance stakeholders, given an unseen capstone scenario</td><td>Performance</td><td>a notebook and a two-page review reporting energy beside cost, defended in ten minutes</td></tr>
+</table></div></div>
+<h2>Tools</h2>
+<div class="grid">
+<div class="card c-teal"><h3>Model gateway with budgets and routing</h3><p>LiteLLM · Agent Router</p></div>
+<div class="card c-cyan"><h3>Language model access</h3><p>a locally served open-weight model · a free hosted open-weight model · any commercial API</p></div>
+<div class="card c-coral"><h3>Evaluation harness</h3><p>promptfoo · Inspect</p></div>
+<div class="card c-purple"><h3>Usage analysis</h3><p>DuckDB · pandas</p></div>
+<div class="card c-green"><h3>Cache stores</h3><p>Valkey · PostgreSQL with pgvector</p></div>
+<div class="card c-teal"><h3>Local inference server</h3><p>vLLM · llama.cpp</p></div>
+</div>
+<h2>Before you start</h2>
+<h3>Prerequisites</h3>
+<ul><li>AE-203 Building Applications on Language Models</li><li>AE-205 Deploying AI Services: Containers, Serving and Monitoring</li><li>Groups and joins usage logs with SQL or dataframes</li><li>Has run an evaluation set against a language model application</li><li>Setup: a laptop CPU with uv, or Google Colab. Eleven of the twelve labs call no model; one step of Lab 2.1 calls a free hosted model and falls back to supplied outputs without a key. Nothing downloads a model. See labs/README.md.</li></ul>
+<div class="note tip">The labs are notebooks. Open each one in Google Colab from the table above, or clone the repository and run them locally.</div>
+<h2>Sources</h2>
+<h3>Cost models, allocation and unit economics</h3>
+<ul><li><a href="https://www.finops.org/wg/finops-for-ai-overview/">FinOps Foundation: FinOps for AI overview</a></li><li><a href="https://www.finops.org/wg/genai-finops-how-token-pricing-really-works/">FinOps Foundation: GenAI FinOps, how token pricing really works</a></li><li><a href="https://focus.finops.org/">FOCUS, the FinOps Open Cost and Usage Specification</a></li></ul>
+<h3>Gateways, budgets and routing</h3>
+<ul><li><a href="https://docs.litellm.ai/docs/proxy/users">LiteLLM documentation: budgets and rate limits</a></li><li><a href="https://docs.litellm.ai/docs/proxy/reliability">LiteLLM documentation: fallbacks</a></li><li><a href="https://docs.litellm.ai/docs/proxy/cost_tracking">LiteLLM documentation: spend tracking</a></li><li><a href="https://arxiv.org/abs/2305.05176">Chen, Zaharia, Zou (2023): FrugalGPT</a></li><li><a href="https://arxiv.org/abs/2406.18665">Ong and others (2024): RouteLLM, learning to route LLMs with preference data</a></li><li><a href="https://openrouter.ai/models">OpenRouter: models, with the free hosted ones</a></li></ul>
+<h3>Caching and batch tiers</h3>
+<ul><li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Claude Platform documentation: prompt caching</a></li><li><a href="https://platform.openai.com/docs/guides/prompt-caching">OpenAI documentation: prompt caching</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/batch-processing">Claude Platform documentation: batch processing</a></li><li><a href="https://github.com/zilliztech/GPTCache">GPTCache, an open-source semantic cache</a></li><li><a href="https://valkey.io/">Valkey</a></li><li><a href="https://github.com/pgvector/pgvector">pgvector</a></li></ul>
+<h3>Serving, evaluation, analysis and energy</h3>
+<ul><li><a href="https://docs.vllm.ai/en/latest/">vLLM documentation</a></li><li><a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a></li><li><a href="https://www.promptfoo.dev/docs/intro/">promptfoo documentation</a></li><li><a href="https://inspect.aisi.org.uk/">Inspect, an evaluation framework</a></li><li><a href="https://duckdb.org/docs/stable/">DuckDB documentation</a></li><li><a href="https://arxiv.org/abs/2508.15734">Elsworth and others (2025): Measuring the environmental impact of delivering AI at Google scale</a></li></ul>
+<h3>National references</h3>
+<ul><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf">Data Classification Policy (National Data Management Office)</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/PersonalDataProtectionLaw.pdf">Personal Data Protection Law</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/ImplementingRegulationPersonalDataProtectionLaw.pdf">Implementing Regulation of the Personal Data Protection Law</a></li><li><a href="https://sdaia.gov.sa/Documents/RegulationonPersonalDataEN.pdf">Regulation on Personal Data Transfer Outside the Kingdom</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Files/AIAdoptionFramework.pdf">AI Adoption Framework</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/ai-principles.pdf">Principles of AI Ethics</a></li></ul>
+<h2>Files and links</h2>
+<div class="files">
+<a href="practice.html"><b>practice.html</b><span>Practice questions with feedback</span></a>
+<a href="index.md"><b>index.md</b><span>This page as Markdown, for an AI assistant</span></a>
+<a href="llms.txt"><b>llms.txt</b><span>The course for AI assistants (llms.txt)</span></a>
+<a href="https://github.com/SDAIAAcademy/ae-312"><b>SDAIAAcademy/ae-312</b><span>The course repository</span></a>
+</div>
+</main>
+<footer><div class="wrap">SDAIA Academy · AI Engineering Track · AI Cost Engineering and Model Routing<br><span class="muted">Course version 2027.1.0 · engine 1.0.0 · built 2026-11-15 · commit 2f622db</span></div></footer>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T15:39:40Z","version":"2027.1.0","commit":"2f622db"},"course":{"id":"ae-312","code":"AE-312","title":"AI Cost Engineering and Model Routing","track":"ai-engineering","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ae-312/","repo":"SDAIAAcademy/ae-312","home":"index.html"},"ai":{"context":{"course":"context/course.md","courseJs":"context/course.js","day":null,"llms":"llms.txt"},"tasks":[],"tools":[]},"features":{},"strings":{}}</script>
+<script src="_engine/academy.js"></script>
+</body>
+</html>

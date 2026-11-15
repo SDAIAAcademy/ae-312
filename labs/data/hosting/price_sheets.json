@@ -1,0 +1,30 @@
+{
+ "synthetic": true,
+ "currency": "SAR",
+ "node": {
+  "model": "local-os",
+  "description": "one accelerator node in an in-Kingdom cloud region, an open-weight model of about 30 billion parameters",
+  "on_demand_per_hour": 14.0,
+  "minimum_lease_hours": 1,
+  "reserved_per_month": 6200.0,
+  "hours_per_month": 744
+ },
+ "operations": {
+  "share_of_an_engineer_per_month": 2500.0,
+  "note": "patching, monitoring and on-call for a self-hosted model"
+ },
+ "api_regions": {
+  "global": {
+   "multiplier": 1.0,
+   "location": "outside the Kingdom"
+  },
+  "in-kingdom": {
+   "multiplier": 1.3,
+   "location": "inside the Kingdom"
+  }
+ },
+ "latency_objective": {
+  "interactive_p95_seconds": 20.0,
+  "batch": "none"
+ }
+}

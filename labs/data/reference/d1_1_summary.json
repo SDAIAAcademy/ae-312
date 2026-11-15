@@ -1,0 +1,13 @@
+{
+ "model_total_sar": 8180.59,
+ "invoice_total_sar": 8242.62,
+ "gap_pct": 0.75,
+ "hosted_sar": 4708.59,
+ "node_sar": 3472.0,
+ "by_app_sar": {
+  "anis": 971.22,
+  "fasil": 2580.74,
+  "khulasa": 1156.59,
+  "smoke-tests": 0.05
+ }
+}

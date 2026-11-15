@@ -1,0 +1,11 @@
+{
+ "by_team_sar": {
+  "contact-centre-analytics": 4318.21,
+  "billing-operations": 2580.74,
+  "customer-care": 971.22,
+  "network-analytics": 239.9,
+  "unallocated": 132.5,
+  "platform": 0.05
+ },
+ "unallocated_pct": 1.61
+}

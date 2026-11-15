@@ -1,0 +1,29 @@
+{
+ "__frame__": [
+  {
+   "utilisation": 0.01,
+   "node_only_on_demand": 0.3888888889,
+   "reserved_with_operations": 0.3248207885
+  },
+  {
+   "utilisation": 0.05,
+   "node_only_on_demand": 0.0777777778,
+   "reserved_with_operations": 0.0649641577
+  },
+  {
+   "utilisation": 0.18,
+   "node_only_on_demand": 0.0216049383,
+   "reserved_with_operations": 0.0180455994
+  },
+  {
+   "utilisation": 0.5,
+   "node_only_on_demand": 0.0077777778,
+   "reserved_with_operations": 0.0064964158
+  },
+  {
+   "utilisation": 0.9,
+   "node_only_on_demand": 0.0043209877,
+   "reserved_with_operations": 0.0036091199
+  }
+ ]
+}

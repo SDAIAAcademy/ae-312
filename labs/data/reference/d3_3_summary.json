@@ -1,0 +1,16 @@
+{
+ "per_resolved_model_only": {
+  "A": 1.125,
+  "B": 0.371
+ },
+ "per_resolved_with_people": {
+  "A": 6.993,
+  "B": 14.858
+ },
+ "units_all_sessions": {
+  "per_request": 0.1102,
+  "per_session": 0.7898,
+  "per_resolved": 1.0539
+ },
+ "b_meets_floor": false
+}

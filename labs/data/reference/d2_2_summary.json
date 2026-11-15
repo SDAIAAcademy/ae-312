@@ -1,0 +1,43 @@
+{
+ "table": {
+  "__frame__": [
+   {
+    "policy": "always tier-s",
+    "en": 0.92,
+    "ar": 0.74,
+    "cost_sar": 0.4989348,
+    "successes": 83.0,
+    "sar_per_success": 0.0060112627,
+    "meets_floor": false
+   },
+   {
+    "policy": "always tier-m",
+    "en": 0.96,
+    "ar": 0.94,
+    "cost_sar": 2.574099,
+    "successes": 95.0,
+    "sar_per_success": 0.0270957789,
+    "meets_floor": true
+   },
+   {
+    "policy": "cascade s then m",
+    "en": 0.96,
+    "ar": 0.84,
+    "cost_sar": 0.6728418,
+    "successes": 90.0,
+    "sar_per_success": 0.00747602,
+    "meets_floor": false
+   },
+   {
+    "policy": "cascade, Arabic direct to m",
+    "en": 0.96,
+    "ar": 0.94,
+    "cost_sar": 1.5864666,
+    "successes": 95.0,
+    "sar_per_success": 0.0166996484,
+    "meets_floor": true
+   }
+  ]
+ },
+ "saving_per_success_pct": 38.4
+}

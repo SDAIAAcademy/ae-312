@@ -1,0 +1,24 @@
+{
+ "window": "day",
+ "budgets": [
+  {
+   "scope": "app",
+   "match": "anis",
+   "soft_sar": 48.0,
+   "hard_sar": 60.0
+  },
+  {
+   "scope": "app",
+   "match": "khulasa",
+   "soft_sar": 56.0,
+   "hard_sar": 70.0
+  },
+  {
+   "scope": "app",
+   "match": "fasil",
+   "soft_sar": 132.0,
+   "hard_sar": 165.0
+  }
+ ],
+ "rate_limits": []
+}

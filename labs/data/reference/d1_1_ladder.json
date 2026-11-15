@@ -1,0 +1,24 @@
+{
+ "__frame__": [
+  {
+   "model": "naive",
+   "sar": 4870.7495298,
+   "against_invoice_pct": 2.1
+  },
+  {
+   "model": "+ cached input at the cached price",
+   "sar": 3076.2332802,
+   "against_invoice_pct": -35.52
+  },
+  {
+   "model": "+ reasoning tokens as output",
+   "sar": 4651.1689002,
+   "against_invoice_pct": -2.5
+  },
+  {
+   "model": "+ billed timeouts",
+   "sar": 4708.5931068,
+   "against_invoice_pct": -1.3
+  }
+ ]
+}
