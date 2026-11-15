@@ -3,7 +3,7 @@
 #
 # Day 3 · Session 1 (Self-hosting economics) · 25 min.
 #
-# Qutaiba's pilot served call summaries from a leased accelerator node at 19 times the API price (Lab 1.1). Was
+# Qutaiba's pilot served call summaries from a leased accelerator node at 23 times the API price (Lab 1.1). Was
 # that the node, or how it was used? You fill a cost model for serving an open-weight model: capacity at a latency
 # objective, cost per request against utilisation, break-even against API prices. Before any price, the operator's
 # classification register says where each dataset may be processed.

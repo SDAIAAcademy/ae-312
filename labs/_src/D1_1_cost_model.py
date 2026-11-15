@@ -194,7 +194,10 @@ try:
 except NotImplementedError:
     node = M.reference("d1_1_node")
 M.keep("d1_1_node", node)
-api_same_job = u[(u.app == "khulasa") & (u.env == "prod") & (u.status == "ok")].cost_sar.mean()
+# Khulasa's own summaries on the API: rows tagged app=khulasa that did not run on the node. The key register alone
+# would also count another team's experiment on the shared key (Lab 1.3).
+api_same_job = u[(M.tag(u, "app") == "khulasa") & (u.model != "local-os") & (u.env == "prod")
+                 & (u.status == "ok")].cost_sar.mean()
 print({k: round(v, 4) for k, v in node.items()})
 print(f"a summary on the node: SAR {node['sar_per_request']:.3f} | the same job on the API: SAR {api_same_job:.3f} "
       f"| ratio {node['sar_per_request'] / api_same_job:.0f}x at {100 * node['utilisation']:.0f}% utilisation")

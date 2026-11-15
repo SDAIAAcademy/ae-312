@@ -12,7 +12,7 @@ again with `MAWJ_WRITE_REF=1` and update this file.
 | Reasoning tokens are billed as output and sit in their own column | `usage.csv.gz` | Lab 1.1, step 2 |
 | 1,751 timed-out attempts were billed | `usage.csv.gz`, status `timeout` | Lab 1.1, step 2 |
 | A provider key that bypasses the gateway: SAR 62.02 on the invoice, no rows in the log | `invoice.csv`, key `up-direct-7q2f` | Lab 1.1, step 4 |
-| A leased node busy 18% of its hours: SAR 0.772 per summary against 0.041 on the API | `gpu_hours.csv` | Lab 1.1, step 3 |
+| A leased node busy 18% of its hours: SAR 0.772 per summary against 0.033 on the API | `gpu_hours.csv` | Lab 1.1, step 3 |
 | Agent loops on the incident day (17 October): sessions of 60 to 80 steps | `usage.csv.gz`, application `fasil` | Lab 1.2 |
 | A tool that returns a year of bills: 124 long-context sessions | `usage.csv.gz`, application `fasil` | Lab 1.2, step 4 |
 | A shared key with partly missing tags: SAR 70.48 cannot be attributed | `gateway/keys.csv`, `usage.csv.gz` | Lab 1.3 |
@@ -93,7 +93,7 @@ With people (escalation 21, rework 55): A 6.99, B 14.86. Stretch: B minus A is 7
 749.11; Khulasa on the small tier in-Kingdom 620.28; Anis's router 349.95; Anis's semantic cache 233.15; Khulasa's
 batch plan 101.56. The three recommended: node, layout, Khulasa's tier: SAR 4,841.39 together. Per thousand requests:
 Anis SAR 24.48 and 327 Wh, Khulasa 33.72 and 467 Wh, Fasil 109.90 and 2,257 Wh. The node: about 451 kWh in the month,
-99 Wh per pilot summary. Stretch: Khulasa recomputed with billed timeouts is 846.21 today and 220.01 on the small
+100 Wh per pilot summary served (4,500). Stretch: Khulasa recomputed with billed timeouts is 846.21 today and 220.01 on the small
 tier in-Kingdom.
 
 ## What ran against a model

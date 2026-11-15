@@ -85,6 +85,12 @@ AI assistance is off for the supervised check and for the first cost model (Lab 
 
 The practice questions in [`assessments/bank.json`](assessments/bank.json) are public and are for self-study. The supervised check is not in this repository.
 
+## Before and after the course
+
+**Guided pre-work.** Before Day 1: run [`labs/00_setup_check.ipynb`](labs/00_setup_check.ipynb) on a laptop or in Colab; read the case study section of [`labs/README.md`](labs/README.md) and open the invoice and the key register of Mawj Telecom; and price one request of your own application by hand from its provider's price page, with input, cached and output tokens kept apart.
+
+**Tracked follow-up task.** Within a month of the capstone, each participant brings one saving from their own organisation's usage that reached an invoice, with its quality figure beside it, and the trainer records it.
+
 ## Prerequisites
 
 - AE-203 Building Applications on Language Models

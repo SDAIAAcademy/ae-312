@@ -95,10 +95,10 @@ cost = ( uncached          * price["input"]
     </ul>
     <div class="cols cols-2 gap-s">
       <div class="stat center"><div class="big">0.772</div><div class="lbl">SAR per summary on the node</div></div>
-      <div class="stat center"><div class="big">0.041</div><div class="lbl">SAR for the same job on the API</div></div>
+      <div class="stat center"><div class="big">0.033</div><div class="lbl">SAR for the same job on the API</div></div>
     </div>
   </div>
-  <aside class="notes"><p>The pilot is the largest single line of the invoice and nobody had divided it by its requests. Nineteen times the API price at 18% utilisation. Do not conclude that self-hosting is expensive: conclude that utilisation decides, which is Lab 3.1. AE-205 sized a service by workers and replicas; here the same idea meets a price per hour.</p></aside>
+  <aside class="notes"><p>The pilot is the largest single line of the invoice and nobody had divided it by its requests. Twenty-three times the API price at 18% utilisation. The API figure is Khulasa's own tagged summaries: the key register alone would also count another team's experiment on the shared key, which Lab 1.3 uncovers. Do not conclude that self-hosting is expensive: conclude that utilisation decides, which is Lab 3.1. AE-205 sized a service by workers and replicas; here the same idea meets a price per hour.</p></aside>
 </section>
 
 <section class="slide" id="reconcile-by-line" data-label="Reconcile" data-lo="LO1">
@@ -174,7 +174,7 @@ cost = ( uncached          * price["input"]
     <li>Each step's prompt starts with the previous step's prompt, so most of it is billed at the cached price.</li>
     <li>Anything that breaks that prefix, such as a new model or an edited history, is paid at the full input price.</li>
   </ul>
-  <aside class="notes"><p>From the stretch of Lab 1.2: the cache is worth 42% of the agent's bill. Two consequences to plant now. First, switching model tier in the middle of a session throws the cache away (Lab 2.2's stretch prices that). Second, a harness that rewrites or summarises history at every step can cost more than it saves. AE-302 treats compaction as a design choice; here it is a line of the bill.</p></aside>
+  <aside class="notes"><p>From the stretch of Lab 1.2: without its cache the agent's month would cost SAR 4,339; the cache removes 42% of that. Two consequences to plant now. First, switching model tier in the middle of a session throws the cache away (Lab 2.2's stretch prices that). Second, a harness that rewrites or summarises history at every step can cost more than it saves. AE-302 treats compaction as a design choice; here it is a line of the bill.</p></aside>
 </section>
 
 <section class="slide" id="retries-multiply" data-label="Retries" data-lo="LO1">

@@ -202,7 +202,7 @@ print(e.round(2).to_string(index=False))
 # the three options, in energy: before and after, kWh a month
 gpu = M.gpu_hours()
 node_kwh = float(gpu.leased.sum() * ENERGY["local"]["node_kw"] * ENERGY["local"]["overhead_factor"])
-pilot_requests = int((u.model == "local-os").sum())
+pilot_requests = int(((u.model == "local-os") & (u.status == "ok")).sum())   # summaries served, as in gpu_hours.csv
 kh = prod[prod.app == "khulasa"]
 kh_small = M.add_energy(kh.assign(model="tier-s")).energy_wh.sum() / 1000
 an = prod[prod.app == "anis"]

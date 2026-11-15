@@ -35,7 +35,7 @@
     <tr><td>Dispute decisions and refunds</td><td>Fasil</td><td>Restricted</td><td>in-Kingdom only</td><td>not applicable</td></tr>
   </table>
   <p class="small mt">Mawj's classification register, kept by Yaqoub Al-Nughaimshi, the data protection officer. Synthetic, like every file of the case.</p>
-  <aside class="notes"><p>The register is data/hosting/classification_register.csv, six rows; the sixth is the gateway log itself. The four levels (Top Secret, Secret, Restricted, Public) are those of the national data classification policy; the rule that personal data leaves the Kingdom only under conditions comes from the Personal Data Protection Law and its transfer regulation. The course names the instruments and shows where the register decides; it does not teach the law. Governance in depth is the GV track. Sources: National Data Governance Policies (NDMO); Personal Data Protection Law, sdaia.gov.sa.</p></aside>
+  <aside class="notes"><p>The register is data/hosting/classification_register.csv, six rows; the sixth is the gateway log itself. The four levels (Top Secret, Secret, Restricted, Public) are those of the national data classification policy; the rule that personal data leaves the Kingdom only under conditions comes from the Personal Data Protection Law and its transfer regulation. The course names the instruments and shows where the register decides; it does not teach the law. Privacy and data rules in depth belong to the Academy's governance courses (LDS-AIG-306, for example). Sources: National Data Governance Policies (NDMO); Personal Data Protection Law, sdaia.gov.sa.</p></aside>
 </section>
 
 <section class="slide" id="what-the-register-rules-out" data-label="Ruled out" data-lo="LO5">
@@ -94,7 +94,7 @@ cost_per_request = hourly_cost / served
     </table>
   </div>
   <p class="small mt">Reserved node with operations, SAR 11.69 an hour. The API price of the same summary: SAR 0.0434 on the medium tier and 0.0087 on the small tier, both in-Kingdom.</p>
-  <aside class="notes"><p>From the Lab 3.1 solution run. The curve is a hyperbola: every doubling of utilisation halves the cost. Ask where the medium tier's price crosses the table (between 5% and 18%) and where the small tier's does (near 50%). That crossing is the next slide.</p></aside>
+  <aside class="notes"><p>From the Lab 3.1 solution run. The curve is a hyperbola: every doubling of utilisation halves the cost. Ask where the medium tier's price crosses the table (between 5% and 18%) and where the small tier's does (between 18% and 50%, at about 37%). That crossing is the next slide.</p></aside>
 </section>
 
 <section class="slide" id="break-even" data-label="Break-even" data-lo="LO5">
@@ -390,7 +390,7 @@ cost_per_request = hourly_cost / served
     <div class="card c-cyan"><h4>Murtada Al-Awami, platform</h4><p class="small mb0">Reads how each figure was measured. Asks: on which traffic, at which floor, and what was not measured?</p></div>
   </div>
   <div class="callout tip small mt"><b>The review asks for a decision.</b> It names the actions, an owner for each, and what will be checked a month later.</div>
-  <aside class="notes"><p>Eleven notebooks are evidence; two pages are what gets read. This is the document the catalog asks participants to deliver and defend. Its structure follows what the FinOps practice calls inform, optimise, operate: what the month cost and who spent it, what can be saved, and who acts. The template is labs/review/review_template.md.</p></aside>
+  <aside class="notes"><p>Eleven notebooks are evidence; two pages are what gets read. This is the document the course outcome asks participants to deliver and defend. Its structure follows what the FinOps practice calls inform, optimise, operate: what the month cost and who spent it, what can be saved, and who acts. The template is labs/review/review_template.md.</p></aside>
 </section>
 
 <section class="slide" id="seven-candidates" data-label="Candidates" data-lo="LO6">
@@ -431,12 +431,12 @@ cost_per_request = hourly_cost / served
       <tr><td>Fasil</td><td class="num">109.90</td><td class="num">2,257</td></tr>
     </table>
     <ul class="bullets small">
-      <li>The leased node drew about <b>451 kWh</b> in October for 4,580 summaries: 99 Wh each, against under half a watt-hour on the hosted tier.</li>
+      <li>The leased node drew about <b>451 kWh</b> in October for 4,500 summaries served: 100 Wh each, against under half a watt-hour on the hosted tier.</li>
       <li>The option that saves the most money saves the most energy, for the same reason: idle capacity.</li>
     </ul>
   </div>
   <div class="callout note small mt"><b>Assumed, and labelled so.</b> The watt-hours per thousand tokens are assumptions in <code>data/hosting/energy.json</code>. They rank the options; they are not a measurement.</div>
-  <aside class="notes"><p>Few providers publish energy per request. One published measurement puts a median text prompt of a large production model at 0.24 Wh, with the method described; use a figure like that to check that an assumption is in the right range, and replace assumptions with the provider's numbers or a meter on your own node when you have them. The catalog asks for energy beside cost in the review: a column, with its source, is enough. Source: Elsworth et al., Measuring the environmental impact of delivering AI at Google scale, arXiv 2508.15734.</p></aside>
+  <aside class="notes"><p>Few providers publish energy per request. One published measurement puts a median text prompt of a large production model at 0.24 Wh, with the method described; use a figure like that to check that an assumption is in the right range, and replace assumptions with the provider's numbers or a meter on your own node when you have them. The course outcome asks for energy beside cost in the review: a column, with its source, is enough. Source: Elsworth et al., Measuring the environmental impact of delivering AI at Google scale, arXiv 2508.15734.</p></aside>
 </section>
 
 <section class="slide" id="anatomy-of-the-review" data-label="The two pages" data-lo="LO6">
