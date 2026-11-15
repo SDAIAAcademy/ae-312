@@ -1,0 +1,24 @@
+{
+ "not_spent_sar": 79.88,
+ "fasil_spent_sar": 165.13,
+ "refused_requests": 961,
+ "refused_sessions": 28,
+ "events": [
+  {
+   "ts": "2026-10-17 14:56:52",
+   "event": "soft_alert",
+   "scope": "app",
+   "match": "fasil",
+   "spend_sar": 132.01,
+   "limit_sar": 132.0
+  },
+  {
+   "ts": "2026-10-17 15:35:46",
+   "event": "hard_limit_reached",
+   "scope": "app",
+   "match": "fasil",
+   "spend_sar": 165.13,
+   "limit_sar": 165.0
+  }
+ ]
+}

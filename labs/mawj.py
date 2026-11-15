@@ -152,6 +152,17 @@ def with_register(df):
     return df.merge(keys()[["key_id", "team", "app", "env"]], on="key_id", how="left")
 
 
+def attribute(df):
+    """team, app and env of every row (the reference of Lab 1.3): a tag wins over the key register,
+    and a row on the shared key without an app tag is unallocated."""
+    out = with_register(df)
+    tag_app, tag_team = tag(out, "app"), tag(out, "team")
+    out["app"] = tag_app.where(tag_app != "", out["app"])
+    out["team"] = tag_team.where(tag_team != "", out["team"])
+    out.loc[(out.key_id == "key-shared-legacy") & (tag_app == ""), ["team", "app"]] = "unallocated"
+    return out
+
+
 def tag(df, name):
     """The value of one tag ("app=khulasa;caller=fasil" -> tag(df, "caller") is "fasil"), "" when absent."""
     return df["tags"].str.extract(rf"(?:^|;){name}=([^;]*)", expand=False).fillna("")

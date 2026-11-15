@@ -101,7 +101,7 @@
           "lab": {
             "id": "1.1",
             "title": "A cost model that matches the invoice",
-            "summary": "Compute cost per request for the three applications and reconcile it with the synthetic invoice: from a naive model that misses by a wide margin to one within 2%.",
+            "summary": "Compute cost per request for the three applications and reconcile it with the synthetic invoice: from a naive model that is close for the wrong reasons to one that matches line by line, within 2% in total.",
             "minutes": 25,
             "href": "D1_1_cost_model.ipynb",
             "steps": [
@@ -164,7 +164,7 @@
                 "minutes": 6
               }
             ],
-            "stretch": "What a step budget of 12 would have saved in the month"
+            "stretch": "What the agent would cost without its prefix cache"
           },
           "summary": "Why an agent session costs far more than its number of steps suggests, and where retries and long contexts hide"
         },
@@ -240,7 +240,7 @@
                 "minutes": 4
               },
               {
-                "text": "A tokens-per-minute limit for the agent",
+                "text": "A requests-per-minute limit for the agent",
                 "minutes": 3
               }
             ],

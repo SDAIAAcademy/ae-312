@@ -1,0 +1,60 @@
+{
+ "__frame__": [
+  {
+   "team": "billing-operations",
+   "app": "fasil",
+   "env": "prod",
+   "requests": 24255,
+   "cost_sar": 2515.093905
+  },
+  {
+   "team": "contact-centre-analytics",
+   "app": "khulasa",
+   "env": "prod",
+   "requests": 28909,
+   "cost_sar": 1156.5863598
+  },
+  {
+   "team": "customer-care",
+   "app": "anis",
+   "env": "prod",
+   "requests": 37974,
+   "cost_sar": 911.323596
+  },
+  {
+   "team": "billing-operations",
+   "app": "fasil",
+   "env": "staging",
+   "requests": 324,
+   "cost_sar": 65.645616
+  },
+  {
+   "team": "customer-care",
+   "app": "anis",
+   "env": "dev",
+   "requests": 361,
+   "cost_sar": 47.667924
+  },
+  {
+   "team": "customer-care",
+   "app": "anis",
+   "env": "staging",
+   "requests": 509,
+   "cost_sar": 12.225885
+  },
+  {
+   "team": "platform",
+   "app": "smoke-tests",
+   "env": "dev",
+   "requests": 406,
+   "cost_sar": 0.049821
+  },
+  {
+   "team": "contact-centre-analytics",
+   "app": "khulasa",
+   "env": "staging",
+   "requests": 4580,
+   "cost_sar": 0.0
+  }
+ ]
+}

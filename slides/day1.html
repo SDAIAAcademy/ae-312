@@ -1,158 +1,489 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Welcome. Ask the room one question to set the pace: who has seen the invoice of a language model application they built, and who could say what one request of it costs? Most have built applications (AE-203) and deployed services (AE-205); few have reconciled a bill. Rhythm of each session: about 25 minutes of concepts, then a 25-minute lab on one fictional operator, Mawj Telecom. Every number on today's slides comes from the labs' data, which is synthetic.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
 
-<!-- Session 1 -->
-
+<!-- ======================= SESSION 1 ======================= -->
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea" data-lo="LO1">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="mawj-three-applications" data-label="The case" data-lo="LO1">
+  <div class="kicker">The case study</div>
+  <h2>Mawj Telecom runs three applications behind one gateway</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Anis</h4><p class="small mb0">A bilingual care assistant. 37,974 requests in October, SAR 911.</p></div>
+    <div class="card c-cyan"><h4>Khulasa</h4><p class="small mb0">A job that summarises calls. 25,633 tagged requests, SAR 846, and a pilot on a leased node.</p></div>
+    <div class="card c-coral"><h4>Fasil</h4><p class="small mb0">An agent that handles billing disputes. 3,200 sessions, SAR 2,515.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <p class="small mt">All three call the provider through <b>Maabar</b>, the gateway, which logs one row per attempt: 97,318 rows for the month. The invoice says SAR 8,242.62. You are the cost engineer who has to explain it.</p>
+  <aside class="notes"><p>Mawj Telecom is fictional: a regional mobile and fibre operator. Everything is synthetic and generated with a fixed seed, so every participant gets the same numbers as these slides. Introduce the people once: Shurooq (finance, owns the invoice), Murtada (platform, owns the gateway), Taghreed (care, owns Anis), Qutaiba (analytics, owns Khulasa), Humoud (billing operations, owns Fasil), Yaqoub (data protection). The participant plays Elaf, the AI cost engineer. The bill is small on purpose: the plan is to open the assistant to every channel next year, and the unit costs you find today scale with it.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps" data-lo="LO1">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="price-sheet" data-label="Price sheet" data-lo="LO1">
+  <div class="kicker">Recap from AE-203</div>
+  <h2>A request costs its tokens times the price of each kind</h2>
+  <table class="t small">
+    <tr><th>Tier</th><th class="num">Input</th><th class="num">Cached input</th><th class="num">Output</th></tr>
+    <tr><td><code>tier-s</code></td><td class="num">0.60</td><td class="num">0.06</td><td class="num">2.40</td></tr>
+    <tr><td><code>tier-m</code></td><td class="num">3.00</td><td class="num">0.30</td><td class="num">12.00</td></tr>
+    <tr><td><code>tier-l</code></td><td class="num">12.00</td><td class="num">1.20</td><td class="num">48.00</td></tr>
+  </table>
+  <div class="caption">SAR per million tokens. A synthetic price sheet for the labs, not a provider's.</div>
+  <div class="callout note small mt"><b>The shape is what lasts.</b> Output costs several times input, cached input a fraction of input, and each tier several times the one below. The figures change every few months.</div>
+  <aside class="notes"><p>One slide of recap: AE-203 priced 10,000 messages with input and output tokens. Today adds what that model leaves out. Say clearly that these prices are invented for the course: do not quote them as anyone's. The ratios are typical: a FinOps Foundation paper gives output at often three to five times input. Sources: FinOps Foundation, GenAI FinOps: how token pricing really works.</p></aside>
+</section>
+
+<section class="slide" id="prefill-and-decode" data-label="Prefill, decode" data-lo="LO1">
+  <div class="kicker">Why the prices differ</div>
+  <h2>Reading a prompt and writing an answer are different work</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Prefill</h4><p class="small mb0">The model reads the whole prompt in one pass. Cheap per token, and paid again on every call.</p></div>
+    <div class="card c-coral"><h4>Decode</h4><p class="small mb0">The model writes one token at a time, each needing a pass. Expensive per token, and it sets the latency.</p></div>
+    <div class="card c-purple"><h4>Cached prefix</h4><p class="small mb0">A prompt start the provider has already read is not read again. Billed at a fraction of the input price.</p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">One answer of Anis: 6,831 tokens in, 199 out, SAR 0.0229. The input side is <b>90%</b> of it, because every turn resends the instructions and the policy text.</p>
+  <aside class="notes"><p>Keep this at the level of the bill. How an inference engine implements prefill, decode and its key-value cache is the subject of AE-401; here the three words explain three prices. Ask: for a chat assistant with a long system prompt, which side dominates? The room usually says output. Show the Anis request from Lab 1.1: input is 90% of the cost. That observation comes back in Lab 2.3.</p></aside>
+</section>
+
+<section class="slide" id="four-kinds-of-token" data-label="Four kinds" data-lo="LO1">
+  <div class="kicker">The cost model</div>
+  <h2>A log row holds four kinds of token, and they overlap</h2>
+  <pre class="code s" data-file="the cost of one row, in SAR"><code class="language-python">uncached = input_tokens - cached_tokens        # input INCLUDES cached
+cost = ( uncached          * price["input"]
+       + cached_tokens     * price["cached_input"]
+       + (output_tokens + reasoning_tokens) * price["output"]   # output EXCLUDES reasoning
+       ) / 1e6</code></pre>
+  <div class="callout warn small mt"><b>What goes wrong.</b> Each provider and each gateway defines these fields its own way. Read the definition before you sum a column: whether input includes cached tokens, and whether output includes reasoning tokens.</div>
+  <aside class="notes"><p>The two comments are the whole slide. In this course's log, input includes cached and output excludes reasoning; the rules are written in data/prices.json. Reasoning tokens are tokens the model writes before the answer and that the application never shows: they are billed as output. For the dispute agent they are several times the visible answer.</p></aside>
+</section>
+
+<section class="slide" id="what-a-failure-costs" data-label="Billed failures" data-lo="LO1">
+  <div class="kicker">Retries</div>
+  <h2>A failed call can still be a billed call</h2>
+  <table class="t small">
+    <tr><th>Status in the log</th><th>What happened</th><th>Billed?</th></tr>
+    <tr><td><code>ok</code></td><td>The answer arrived</td><td>Yes</td></tr>
+    <tr><td><code>timeout</code></td><td>The client gave up; the provider had started to answer</td><td>Yes: the prompt and what was written so far</td></tr>
+    <tr><td><code>error</code></td><td>The provider refused the request</td><td>No</td></tr>
+  </table>
+  <p class="small mt">October has 1,751 timeouts in the log. They cost SAR 57 and nobody received their answers.</p>
+  <aside class="notes"><p>This is the rule of the course's synthetic provider, written in the price sheet. Real providers differ: check the billing rule for a cancelled or timed-out request with yours. The durable point: the bill follows what the provider did, not what your application received. A cost model that sums successful rows is wrong by exactly the amount that grows during an incident.</p></aside>
+</section>
+
+<section class="slide" id="close-for-the-wrong-reasons" data-label="The ladder" data-lo="LO1">
+  <div class="kicker">Lab 1.1 · the result</div>
+  <h2>The naive model is 2% off, for two large reasons that cancel</h2>
+  <table class="t small">
+    <tr><th>Cost model</th><th class="num">SAR</th><th class="num">Against the invoice</th></tr>
+    <tr><td>Naive: successful rows, input and output</td><td class="num">4,870.75</td><td class="num">+2.1%</td></tr>
+    <tr><td>+ cached input at the cached price</td><td class="num">3,076.23</td><td class="num">-35.5%</td></tr>
+    <tr><td>+ reasoning tokens as output</td><td class="num">4,651.17</td><td class="num">-2.5%</td></tr>
+    <tr class="hl"><td>+ billed timeouts</td><td class="num">4,708.59</td><td class="num">-1.3%</td></tr>
+  </table>
+  <div class="callout tip small mt"><b>Close is not correct.</b> A model that lands near the invoice because two errors cancel breaks in the month the traffic mix changes.</div>
+  <aside class="notes"><p>Numbers from the Lab 1.1 solution run, against the token lines of the invoice (SAR 4,770.62). Read it top to bottom: the cached discount moves the total down by more than a third, reasoning tokens bring most of it back. Ask what would happen to the naive model if the agent's share of traffic doubled. The last 1.3% is not an error of the model: the next slides name it.</p></aside>
+</section>
+
+<section class="slide" id="accelerator-hours" data-label="Accelerator-hours" data-lo="LO1">
+  <div class="kicker">The other unit of cost</div>
+  <h2>A leased accelerator is paid by the hour, used or idle</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>Khulasa's pilot leased one node for 8 hours a night: <b>248 hours at SAR 14</b>, SAR 3,472 on the invoice.</li>
+      <li>It served 4,500 summaries and was busy <b>18%</b> of its leased time.</li>
+      <li>Cost per request is the lease over the requests served. Tokens on the node have no price.</li>
+    </ul>
+    <div class="cols cols-2 gap-s">
+      <div class="stat center"><div class="big">0.772</div><div class="lbl">SAR per summary on the node</div></div>
+      <div class="stat center"><div class="big">0.041</div><div class="lbl">SAR for the same job on the API</div></div>
+    </div>
+  </div>
+  <aside class="notes"><p>The pilot is the largest single line of the invoice and nobody had divided it by its requests. Nineteen times the API price at 18% utilisation. Do not conclude that self-hosting is expensive: conclude that utilisation decides, which is Lab 3.1. AE-205 sized a service by workers and replicas; here the same idea meets a price per hour.</p></aside>
+</section>
+
+<section class="slide" id="reconcile-by-line" data-label="Reconcile" data-lo="LO1">
+  <div class="kicker">The evidence for this outcome</div>
+  <h2>Reconcile by invoice line, and give the gap a name</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Quantities</b>tokens by model and kind, from the log</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Lines</b>beside each invoice line</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>3 · Gap</b>what has no row of yours</div>
+  </div>
+  <p class="small mt">Every line billed to the gateway's key matches the log token for token. The cost model gives SAR 8,180.59 against SAR 8,242.62: a gap of <b>0.75%</b>, all of it on a provider key the gateway never issued.</p>
+  <aside class="notes"><p>The outcome asks for a model within 2% of the invoice. The tolerance is for what you cannot see, not for arithmetic you did not finish: inside the gateway the match is exact. The remaining SAR 62 is spend that bypasses the gateway: no tag, no budget, no log. It returns in Lab 1.3 as an unallocated row. This lab is done without AI assistance, as the course's policy states: the supervised check asks for this arithmetic on paper.</p></aside>
+</section>
+
+<section class="slide" id="check-cost-model" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>A model that is 1% under</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">A colleague's cost model sums the successful rows of the log and lands 1% under the invoice in a calm month. The next month has a two-hour provider incident. What happens to the gap?</p>
+    <div class="opts">
+      <div class="opt" data-why="Assumes failed calls are free: the provider bills a request it started to answer">It stays near 1%, because failed calls are not billed</div>
+      <div class="opt" data-why="Reverses the direction: the invoice grows with billed timeouts while the model ignores them">It shrinks, because fewer requests succeed</div>
+      <div class="opt" data-ok>It widens, because timeouts are billed and the model leaves them out</div>
+      <div class="opt" data-why="Treats the gap as noise: it has a cause that can be computed from the log">It moves at random from month to month</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The model was close because the calm month had few timeouts. Billed failures come in bursts, so the error is largest in the month someone asks about the bill.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. If the room splits between A and C, return to the status table: timeout is billed, error is not. Follow-up: which column of the log would you check first when a month does not reconcile?</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-1" data-auto="lab" data-lab="1.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>This lab is AI-off: the first cost model is the participant's own. No model is called and no key is needed. Typical problems: subtracting cached tokens twice; adding reasoning tokens to input; filtering on status ok in step 3. The check cells print the reference totals, so a wrong formula shows at once. For those who finish early: the stretch finds the provider key that bypasses the gateway.</p></aside>
 </section>
 
-<!-- Session 2 -->
-
+<!-- ======================= SESSION 2 ======================= -->
 <section class="slide section" id="s2" data-auto="section" data-session="2"></section>
 
-<section class="slide" id="s2-idea" data-lo="LO1">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="session-is-the-unit" data-label="Sessions" data-lo="LO1">
+  <div class="kicker">The unit of work</div>
+  <h2>An agent's bill is counted in sessions, not in requests</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="stat center"><div class="big">0.72</div><div class="lbl">SAR, the median session of the dispute agent</div></div>
+    <div class="stat center"><div class="big">11.07</div><div class="lbl">SAR, its most expensive session</div></div>
+    <div class="stat center"><div class="big">15x</div><div class="lbl">the median, in one session of 70 steps</div></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <p class="small mt">The ten most expensive sessions of October all belong to the dispute agent. An average cost per request hides every one of them.</p>
+  <aside class="notes"><p>Numbers from the Lab 1.2 solution run. Fasil is a tool loop: read the dispute, fetch bills, compare, decide. A session normally takes 3 to 11 steps. Ask the room to guess what the most expensive session looks like before showing the next slides: many steps, or very long prompts? Both kinds are in the top ten.</p></aside>
 </section>
 
-<section class="slide" id="s2-steps" data-lo="LO1">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="every-step-resends" data-label="Context growth" data-lo="LO1">
+  <div class="kicker">Context growth</div>
+  <h2>Every step resends everything before it</h2>
+  <div class="trace s">
+    <div class="ev call"><b>step 1</b>3,980 tokens in, none cached</div>
+    <div class="ev call"><b>step 2</b>6,377 tokens in, 3,968 of them cached</div>
+    <div class="ev call"><b>step 8</b>9,441 tokens in, 9,088 cached</div>
+    <div class="ev error"><b>step 70</b>34,823 tokens in, 34,304 cached, after one billed timeout</div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <div class="callout warn small mt"><b>Cost grows faster than steps.</b> Twice the steps is more than twice the cost, since each step's prompt holds all the earlier ones. In this session half of the cost came after step 44.</div>
+  <aside class="notes"><p>The worst session of the month, from Lab 1.2: on 17 October the billing system answered "pending" and the agent asked again for over an hour. The prompt grows by a few hundred tokens per step. Without caching, input grows with the square of the steps. This is what the FinOps Foundation calls context window creep. Sources: FinOps Foundation, GenAI FinOps: how token pricing really works.</p></aside>
+</section>
+
+<section class="slide" id="cache-carries-the-agent" data-label="Agent and cache" data-lo="LO1">
+  <div class="kicker">Cached tokens, again</div>
+  <h2>An agent loop is affordable because its prefix is cached</h2>
+  <div class="bars">
+    <div class="row"><span>The agent's month, as billed</span><div class="bar c-teal" style="--w:58%"></div><span class="val">SAR 2,515</span></div>
+    <div class="row"><span>The same month with no cached token</span><div class="bar c-coral" style="--w:100%"></div><span class="val">SAR 4,339</span></div>
+  </div>
+  <ul class="bullets small mt">
+    <li>Each step's prompt starts with the previous step's prompt, so most of it is billed at the cached price.</li>
+    <li>Anything that breaks that prefix, such as a new model or an edited history, is paid at the full input price.</li>
+  </ul>
+  <aside class="notes"><p>From the stretch of Lab 1.2: the cache is worth 42% of the agent's bill. Two consequences to plant now. First, switching model tier in the middle of a session throws the cache away (Lab 2.2's stretch prices that). Second, a harness that rewrites or summarises history at every step can cost more than it saves. AE-302 treats compaction as a design choice; here it is a line of the bill.</p></aside>
+</section>
+
+<section class="slide" id="retries-multiply" data-label="Retries" data-lo="LO1">
+  <div class="kicker">Retries</div>
+  <h2>A retry resends the whole prompt, and an incident multiplies retries</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>The worst session made <b>95 attempts for 70 steps</b>; 24 of them were billed timeouts.</li>
+      <li>A client that retries at once, up to four times, turns one provider incident into several times the load.</li>
+      <li>Retries are small in SAR here, 1.5% of the agent's month, and large in waiting: each timeout is a customer who waited a minute.</li>
+    </ul>
+    <div class="card c-coral flat"><h4>What to configure</h4><p class="small mb0">Fewer attempts, a growing pause between them, and a circuit breaker that stops calling a provider that keeps failing.</p></div>
+  </div>
+  <aside class="notes"><p>AE-203 taught timeouts, retries and a fallback model as reliability. Today the same settings are a cost setting. Be honest about the size: on this month retries are the smallest of the four parts. The reason to fix them is mostly the customer, and the capacity an incident eats, not the SAR.</p></aside>
+</section>
+
+<section class="slide" id="four-parts-of-a-session" data-label="Four parts" data-lo="LO1">
+  <div class="kicker">Lab 1.2 · the split</div>
+  <h2>Split a session's bill into four parts</h2>
+  <table class="t small">
+    <tr><th>Part</th><th>What it is</th><th class="num">October, SAR</th><th class="num">Share</th></tr>
+    <tr><td>Base</td><td>the steps within a budget of 12, at the first step's prompt size</td><td class="num">1,889.66</td><td class="num">75.1%</td></tr>
+    <tr><td>Context growth</td><td>input beyond the first step's prompt</td><td class="num">455.25</td><td class="num">18.1%</td></tr>
+    <tr><td>Extra steps</td><td>steps beyond the budget</td><td class="num">131.78</td><td class="num">5.2%</td></tr>
+    <tr><td>Retries</td><td>billed attempts that did not succeed</td><td class="num">38.40</td><td class="num">1.5%</td></tr>
+  </table>
+  <aside class="notes"><p>The split is a convention, stated before it is computed: another step budget gives other numbers. What matters is that the four parts add up to the bill, so nothing is counted twice. A quarter of the agent's bill is not the work itself. In the top ten the picture reverses: extra steps are most of every looping session.</p></aside>
+</section>
+
+<section class="slide" id="tool-that-returns-a-year" data-label="Long contexts" data-lo="LO1">
+  <div class="kicker">Long contexts</div>
+  <h2>One tool without paging fills the context for the rest of the session</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>In 124 of 3,200 sessions a tool returned a year of itemised bills, and returned it again on later calls.</li>
+      <li>Those 4% of sessions hold SAR 188 of the SAR 455 of context growth.</li>
+      <li>One of them reached a prompt of 436,891 tokens in 8 steps and cost SAR 7.42.</li>
+    </ul>
+    <div class="card c-teal"><h4>The fix is in the tool</h4><p class="small mb0">Return the three bills the dispute names, with a way to ask for more. A result the model does not need is paid for at every later step.</p></div>
+  </div>
+  <aside class="notes"><p>From Lab 1.2, step 4. The session with 436,891 tokens is the eighth most expensive of the month and it never looped: eight ordinary steps. Ask who owns the fix: not the gateway and not the prompt, but the team that wrote the tool. AE-302 teaches offloading tool results; here you have its price.</p></aside>
+</section>
+
+<section class="slide" id="three-fixes-sized" data-label="Three fixes" data-lo="LO1">
+  <div class="kicker">Measure before optimising</div>
+  <h2>Three causes, three fixes, each with its size</h2>
+  <table class="t small">
+    <tr><th>Cause</th><th>Fix</th><th class="num">At stake in October</th></tr>
+    <tr><td>The agent loops</td><td>a step budget and a stop rule for "pending"</td><td class="num">SAR 131.78</td></tr>
+    <tr><td>A tool returns too much</td><td>page and trim tool results</td><td class="num">up to SAR 188.47</td></tr>
+    <tr><td>Timeouts retried at once</td><td>fewer attempts, a pause, a circuit breaker</td><td class="num">SAR 38.40</td></tr>
+  </table>
+  <div class="callout tip small mt"><b>Size first.</b> The fix that sounds most urgent after an incident is not always the largest. A table like this is what a cost review is made of.</div>
+  <aside class="notes"><p>These are upper bounds, measured on one month: a step budget also ends sessions that would have succeeded at step 13, and trimming a tool result can lower quality. Each fix therefore needs the evaluation of Day 2 before it ships. Keep this slide in mind for Lab 3.4: the review asks for three measured options.</p></aside>
+</section>
+
+<section class="slide" id="check-agent-cost" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Twice the steps</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">After a change to a tool, the dispute agent takes 12 steps per session where it took 6. Nothing else changed and the prefix cache still works. What happens to the cost of a session?</p>
+    <div class="opts">
+      <div class="opt" data-ok>It more than doubles, because each added step also resends a longer history</div>
+      <div class="opt" data-why="Counts steps as equal: later steps carry longer prompts than earlier ones">It doubles, because cost is proportional to steps</div>
+      <div class="opt" data-why="Treats cached input as free: it is billed at a lower price, and output and reasoning are not cached at all">It barely moves, because the history is cached</div>
+      <div class="opt" data-why="Confuses steps with retries: these steps succeeded and each one is billed in full">It stays the same, because only failed steps add cost</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Steps 7 to 12 each read a longer prompt than steps 1 to 6 did, and each writes new output and reasoning tokens at the full output price. Caching lowers the slope; it does not flatten it.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. The tempting wrong answer is "barely moves": remind the room that reasoning and output tokens are most of an agent step's cost at these prices and are never cached.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-2" data-auto="lab" data-lab="1.2">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>AI policy from here on: an assistant may explain a query or an error, and does not produce the analysis. Typical problems: forgetting that a timeout row is billed when splitting; dividing by zero input on error rows; reading the top ten before looking at the dates. Ask each table to name the two kinds of session in the top ten before step 2. No lab of today depends on this one.</p></aside>
 </section>
 
-<!-- Session 3 -->
-
+<!-- ======================= SESSION 3 ======================= -->
 <section class="slide section" id="s3" data-auto="section" data-session="3"></section>
 
-<section class="slide" id="s3-idea" data-lo="LO2">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" id="allocate-first" data-label="Allocate first" data-lo="LO2">
+  <div class="kicker">Attribution</div>
+  <h2>Allocate first, then optimise</h2>
   <div class="cols cols-2">
     <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
+      <li>One invoice, five teams: until spend has an owner, nobody has a reason to lower it.</li>
+      <li>An owner is a <b>team</b>, an <b>application</b> and an <b>environment</b>.</li>
+      <li>The gateway is where that is recorded, because every request passes through it.</li>
     </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+    <div class="card c-teal"><h4>At Mawj</h4><p class="small mb0">Shurooq in finance receives one PDF a month. The question she is asked is always "whose is it?", and the invoice has no column for that.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>The order comes from FinOps practice: the FinOps Foundation's paper on AI says allocate first, then optimise. Optimising before allocating means the cost engineer optimises alone. Ask the room how their organisation answers "whose is it?" today: usually by guessing from the largest team. Sources: FinOps Foundation, FinOps for AI overview.</p></aside>
 </section>
 
-<section class="slide" id="s3-steps" data-lo="LO2">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="keys-and-tags" data-label="Keys and tags" data-lo="LO2">
+  <div class="kicker">Two mechanisms</div>
+  <h2>A key says who is calling; a tag says what for</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>A gateway key</h4><p class="small mb0">Issued to one team, for one application, in one environment. Attribution costs nothing: it is the join of the log with the key register.</p></div>
+    <div class="card c-cyan"><h4>A tag on the request</h4><p class="small mb0">Sent by the application: <code>app=khulasa;caller=fasil</code>. Finer than a key, and only as reliable as the code that sets it.</p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <div class="callout tip small mt"><b>Prefer keys.</b> A key cannot be forgotten: a request without one is refused. A tag can be left out, and in October it was on 8% of the shared key's requests.</div>
+  <aside class="notes"><p>Maabar's register has eight keys; show data/gateway/keys.csv. Real gateways record spend by key, by user and by team, and accept tags in the request's metadata; LiteLLM's documentation lists spend by tag as an enterprise feature, so check what your gateway gives before designing on tags. Sources: LiteLLM documentation, spend tracking.</p></aside>
+</section>
+
+<section class="slide" id="shared-key" data-label="The shared key" data-lo="LO2">
+  <div class="kicker">Lab 1.3 · what the register hides</div>
+  <h2>The register says one team spent SAR 1,157. Three things are inside</h2>
+  <table class="t small">
+    <tr><th>On <code>key-shared-legacy</code></th><th class="num">Requests</th><th class="num">SAR</th></tr>
+    <tr><td>Khulasa, tagged</td><td class="num">25,633</td><td class="num">846.21</td></tr>
+    <tr><td>Another team's experiment on the large tier</td><td class="num">1,115</td><td class="num">239.90</td></tr>
+    <tr><td>No tag at all</td><td class="num">2,161</td><td class="num">70.48</td></tr>
+  </table>
+  <div class="callout warn small mt"><b>What goes wrong.</b> A key issued "for now" before keys per application existed. A team without a key borrowed it for a week, at SAR 0.215 a request against Khulasa's SAR 0.033.</div>
+  <aside class="notes"><p>Numbers from the Lab 1.3 solution run. The experiment is not misconduct: network analytics had no key and a deadline. The finding for Murtada is a missing process (a key in a day, for anyone), and for Qutaiba a budget he did not know he was sharing. The durable fix is one key per application and environment, and retiring the shared one.</p></aside>
+</section>
+
+<section class="slide" id="unallocated-is-a-row" data-label="Unallocated" data-lo="LO2">
+  <div class="kicker">Honest tables</div>
+  <h2>What nobody owns gets its own row</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li><b>Untagged requests</b> on the shared key: SAR 70.48.</li>
+      <li><b>A provider key outside the gateway</b>: SAR 62.02, on the invoice and in no log.</li>
+      <li>Together <b>1.6%</b> of the invoice: small, visible, and somebody's job to shrink.</li>
+    </ul>
+    <div class="card c-coral flat"><h4>Do not spread it</h4><p class="small mb0">Giving unallocated spend to the largest team, or to everyone by share, makes the table add up and removes the reason to fix the tags.</p></div>
+  </div>
+  <aside class="notes"><p>The 2% tolerance of Lab 1.1 and this row are the same money seen twice: once as a gap, once as an owner that is missing. A good target is a trend: unallocated below 1% within two months. If it grows, a new application went live without a key.</p></aside>
+</section>
+
+<section class="slide" id="showback-table" data-label="Showback" data-lo="LO2">
+  <div class="kicker">Lab 1.3 · the result</div>
+  <h2>The showback table adds up to the invoice</h2>
+  <div class="bars">
+    <div class="row"><span>Contact-centre analytics</span><div class="bar c-cyan" style="--w:100%"></div><span class="val">SAR 4,318 · 52.4%</span></div>
+    <div class="row"><span>Billing operations</span><div class="bar c-coral" style="--w:60%"></div><span class="val">SAR 2,581 · 31.3%</span></div>
+    <div class="row"><span>Customer care</span><div class="bar c-teal" style="--w:22%"></div><span class="val">SAR 971 · 11.8%</span></div>
+    <div class="row"><span>Network analytics</span><div class="bar c-purple" style="--w:6%"></div><span class="val">SAR 240 · 2.9%</span></div>
+    <div class="row"><span>Unallocated</span><div class="bar c-amber" style="--w:3%"></div><span class="val">SAR 133 · 1.6%</span></div>
+  </div>
+  <p class="small mt">Contact-centre analytics leads because of the node lease, SAR 3,472, not because of Khulasa's tokens.</p>
+  <aside class="notes"><p>The table in the lab has three keys: team, application, environment, plus the item (tokens, node lease, key outside the gateway). It sums to SAR 8,242.62. Ask what Qutaiba will say when he sees 52%: "the pilot was the platform team's idea". That conversation is the purpose of showback.</p></aside>
+</section>
+
+<section class="slide" id="showback-before-chargeback" data-label="Showback first" data-lo="LO2">
+  <div class="kicker">A durable rule</div>
+  <h2>Showback before chargeback</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Showback</b>each team sees its spend; no money moves</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Corrections</b>"that is not ours": tags and keys get fixed</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>3 · Chargeback</b>budgets are charged, from a table people trust</div>
+  </div>
+  <div class="callout note small mt"><b>Why the order.</b> The first tables are wrong in ways only the teams can see. A team charged from a table it never saw disputes the table, not its spend.</div>
+  <aside class="notes"><p>Showback means reporting each team its spend; chargeback means moving the cost into its budget. Plan one or two months of showback. Many organisations never go to chargeback for shared platforms and that can be the right choice: the aim is that teams act on their numbers.</p></aside>
+</section>
+
+<section class="slide" id="caller-or-owner" data-label="Agents calling agents" data-lo="LO2">
+  <div class="kicker">An open question</div>
+  <h2>When one application calls another, there is no settled way to split the cost</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Owner pays</h4><p class="small mb0">Khulasa's team pays for every summary, whoever asked. Simple; the owner carries other teams' demand.</p></div>
+    <div class="card c-coral"><h4>Caller pays</h4><p class="small mb0">The dispute agent's team pays for the summaries it requests. Fairer on demand; the owner loses a reason to make the service cheaper.</p></div>
+  </div>
+  <p class="small mt">At Mawj the rule moves <b>SAR 46.05</b> between two teams and changes nothing in the total. State the rule on the table; show what the other one would give.</p>
+  <aside class="notes"><p>The entry of this course lists this as unsettled, and it is: FinOps guidance on allocating the cost of agents that call agents is still being written, and it is one of the things to refresh before each cohort. The engineering requirement is the same under either rule: the request must carry who called (here the tag caller=fasil), or no rule can be applied.</p></aside>
+</section>
+
+<section class="slide" id="check-untagged" data-lo="LO2">
+  <div class="kicker">Checkpoint</div>
+  <h2>The untagged 8%</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">8% of the requests on a shared key carry no tag. Finance wants the showback table finished today. What do you do with their cost?</p>
+    <div class="opts">
+      <div class="opt" data-why="Guesses an owner: the key's owner may be paying for another team's requests, as the experiment showed">Give it to the team that owns the key</div>
+      <div class="opt" data-why="Spreads the unknown: the table adds up and nobody has a reason to fix the tags">Spread it over all teams by their share of spend</div>
+      <div class="opt" data-why="Hides spend that is on the invoice: the table no longer adds up to what was paid">Leave it out, since it cannot be attributed</div>
+      <div class="opt" data-ok>Report it in an "unallocated" row and open the fix: a key per application</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The table must add up to the invoice and must not claim knowledge it lacks. A visible unallocated row is what gets tags and keys fixed.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. Option A is what most organisations do. Point back to the shared key: its owner would have paid for the experiment too.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-3" data-auto="lab" data-lab="1.3">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Typical problems: an inner join that silently drops rows (check that the row count is unchanged); reading a tag with a pattern that also matches inside another tag; forgetting the two invoice items that are not in the log. The check compares the table's total with the invoice. The lab starts from the supplied files and needs nothing from Labs 1.1 and 1.2.</p></aside>
 </section>
 
-<!-- Session 4 -->
-
+<!-- ======================= SESSION 4 ======================= -->
 <section class="slide section" id="s4" data-auto="section" data-session="4"></section>
 
-<section class="slide" id="s4-idea" data-lo="LO2">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="soft-and-hard" data-label="Soft and hard" data-lo="LO2">
+  <div class="kicker">Budgets</div>
+  <h2>A soft budget tells someone; a hard budget refuses requests</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-amber"><h4>Soft level</h4><p class="small mb0">An alert when spend in the window crosses it. Nothing is refused.</p></div>
+    <div class="card c-coral"><h4>Hard level</h4><p class="small mb0">Every later request in the scope is refused until the window ends.</p></div>
+    <div class="card c-navy"><h4>Window and scope</h4><p class="small mb0">A day or a month; a key, an application, an environment, a team.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout tip small mt"><b>Use both.</b> Soft without hard is a message nobody must act on. Hard without soft is an outage with no warning.</div>
+  <aside class="notes"><p>Real gateways have these as settings on keys, teams and users. LiteLLM's names are max_budget, soft_budget and budget_duration, with rpm_limit and tpm_limit for rates, and its documentation states that budgets are enforced against spend read from a database: without one they cap nothing. That is why the lab uses a small in-memory model of a gateway, maabar.py: the concepts are the same and no server is needed. Sources: LiteLLM documentation, budgets and rate limits.</p></aside>
 </section>
 
-<section class="slide" id="s4-steps" data-lo="LO2">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="scope-decides" data-label="Scope" data-lo="LO2">
+  <div class="kicker">17 October, replayed</div>
+  <h2>One budget for the whole gateway refused the wrong application</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>A tool outage made the dispute agent loop all afternoon.</li>
+      <li>The gateway's single daily budget, SAR 260, was spent before the evening.</li>
+      <li>Refused for the rest of the day: <b>474 requests of the care assistant</b>, 261 of the agent, 216 of Khulasa.</li>
+      <li>229 customers of Anis got no answer in its busiest hours.</li>
+    </ul>
+    <div class="card c-coral flat"><h4>The budget worked</h4><p class="small mb0">It stopped the spend. Its scope was the problem: the first application to overspend used up everyone's allowance.</p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>Numbers from the Lab 1.4 solution run under data/gateway/policy_start.json. The soft alert came 40 minutes before the hard limit. Ask: what would have been the cheapest change that week? Not a higher budget: a budget per application.</p></aside>
+</section>
+
+<section class="slide" id="levels-from-data" data-label="Levels" data-lo="LO2">
+  <div class="kicker">Choosing the levels</div>
+  <h2>Levels come from the month's data, not from a round number</h2>
+  <table class="t small">
+    <tr><th>Application</th><th class="num">Median day</th><th class="num">Highest normal day</th><th class="num">Hard</th><th class="num">Soft</th></tr>
+    <tr><td>Anis</td><td class="num">32.9</td><td class="num">36.0</td><td class="num">60</td><td class="num">48</td></tr>
+    <tr><td>Khulasa</td><td class="num">28.3</td><td class="num">32.1</td><td class="num">70</td><td class="num">56</td></tr>
+    <tr><td>Fasil</td><td class="num">79.9</td><td class="num">106.6</td><td class="num">165</td><td class="num">132</td></tr>
+  </table>
+  <div class="caption">SAR per day, October without the incident day. Hard at about one and a half times the highest normal day; soft at 80% of hard.</div>
+  <aside class="notes"><p>The rule of thumb is a starting point; the test is the two replays: silent on a calm day, tripping on the incident day. A customer-facing assistant gets more headroom than an internal job, because refusing it has a visible cost. Revisit levels when traffic grows: a budget nobody updates becomes an outage.</p></aside>
+</section>
+
+<section class="slide" id="policy-as-data" data-label="The policy" data-lo="LO2">
+  <div class="kicker">Lab 1.4 · the policy</div>
+  <h2>The policy is a file you can review, replay and version</h2>
+  <pre class="code s" data-file="policy for Maabar (the lab's gateway model)"><code class="language-json">{"window": "day",
+ "budgets": [
+   {"scope": "app", "match": "anis",    "soft_sar": 48,  "hard_sar": 60},
+   {"scope": "app", "match": "khulasa", "soft_sar": 56,  "hard_sar": 70},
+   {"scope": "app", "match": "fasil",   "soft_sar": 132, "hard_sar": 165}],
+ "rate_limits": [
+   {"scope": "app", "match": "fasil", "requests_per_minute": 12}]}</code></pre>
+  <aside class="notes"><p>The format is the lab model's, kept small. On a real gateway the same policy is a set of keys or teams with a budget, a duration and limits. What carries over is the habit: a policy in a file, replayed against a calm day and an incident day before it goes live, like a test.</p></aside>
+</section>
+
+<section class="slide" id="hard-limit-trips" data-label="The replay" data-lo="LO2">
+  <div class="kicker">Lab 1.4 · the result</div>
+  <h2>With budgets per application the hard limit trips on the agent only</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="stat center"><div class="big">39 min</div><div class="lbl">from soft alert to hard limit</div></div>
+    <div class="stat center"><div class="big">961</div><div class="lbl">agent requests refused, in 28 sessions</div></div>
+    <div class="stat center"><div class="big">0</div><div class="lbl">requests of Anis refused</div></div>
+    <div class="stat center"><div class="big">SAR 80</div><div class="lbl">not spent that day</div></div>
+  </div>
+  <div class="callout warn small mt"><b>A refusal is not free.</b> Those 28 sessions were customers with a billing dispute. A hard limit needs a plan for them: hand the case to a person and say so.</div>
+  <aside class="notes"><p>This is the evidence the outcome asks for: a replayed spike that trips the hard limit, with the gateway log in artifacts/D1_4. The replay refuses rows one by one; in production a refused step ends the session, so the real saving is larger. The 39 minutes between the two events are the time a person had to look: say who receives the soft alert and what it tells them to do.</p></aside>
+</section>
+
+<section class="slide" id="rate-limit-or-budget" data-label="Rate limits" data-lo="LO2">
+  <div class="kicker">Limits</div>
+  <h2>A rate limit acts in a minute; a budget acts in a day</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Rate limit</h4><p class="small mb0">Requests or tokens per minute. For bursts and loops. At 12 requests a minute, twice the agent's busiest calm minute, the loop was slowed <b>2 hours 46 minutes</b> before the budget ran out.</p></div>
+    <div class="card c-cyan"><h4>Budget</h4><p class="small mb0">SAR per day or month. For the total. It does not notice a burst until the money is gone.</p></div>
+  </div>
+  <p class="small mt">The cheapest control of all was not at the gateway: a step budget in the agent (Lab 1.2) ends a loop at step 12.</p>
+  <aside class="notes"><p>From Lab 1.4 step 5: 857 requests were refused by the rate limit and 349 by the budget. A limit in tokens per minute was tried on this data and refused long-context sessions on a normal morning. Requests per minute fits a loop; tokens per minute fits a batch job. Layer the controls: the agent's own stop rule, then the rate limit, then the budget, then a kill switch a person can use.</p></aside>
+</section>
+
+<section class="slide" id="check-budget-scope" data-lo="LO2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Three applications, one budget</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">A gateway has one hard daily budget for all applications. An internal batch job doubles its volume. At the end of the afternoon the budget is reached. Who is refused in the evening?</p>
+    <div class="opts">
+      <div class="opt" data-why="Assumes a budget knows who caused the overspend: it only counts what is inside its scope">Only the batch job, since it caused the overspend</div>
+      <div class="opt" data-ok>Every application in the scope, the customer-facing one included</div>
+      <div class="opt" data-why="Confuses a hard budget with a soft one: a hard level refuses, a soft level alerts">Nobody: the gateway sends an alert and keeps serving</div>
+      <div class="opt" data-why="Invents a priority rule the policy does not have: a budget has a scope, not a ranking">The applications with the lowest priority first</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A hard budget refuses every request in its scope once the scope's spend reaches the level. To protect one application from another, give each its own budget.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. This is 17 October at Mawj. If someone chooses D, ask where that priority would be written: it is a design they would have to build.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-4" data-auto="lab" data-lab="1.4">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>The gateway model is labs/maabar.py: forty lines worth opening on the projector before the lab. Typical problems: a soft level above the hard one (the model refuses the policy); levels so low that the calm day trips; forgetting that the experiment and untagged requests have their own application names. Delete labs/artifacts afterwards if you run the course checks on this folder. The lab starts from two supplied replay files and needs no earlier lab.</p></aside>
 </section>
 
-<section class="slide" id="wrap-up">
-  <div class="kicker">Day 1 · wrap-up</div>
-  <h2>Three things to keep</h2>
-  <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+<!-- ======================= CLOSE ======================= -->
+<section class="slide" id="wrap-up" data-label="Wrap-up" data-lo="LO1 LO2">
+  <div class="kicker">Day 1 · three things to keep</div>
+  <h2>Where the money goes</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Cost follows tokens, steps and utilisation</h4><p class="small mb0">Four kinds of token, billed failures, sessions that grow, and hours that are paid idle.</p></div>
+    <div class="card c-cyan"><h4>Measure before optimising</h4><p class="small mb0">Reconcile with the invoice, split the bill into parts, size each fix.</p></div>
+    <div class="card c-coral"><h4>Allocate, then limit</h4><p class="small mb0">Keys per application, an unallocated row, showback first, budgets whose scope matches what they protect.</p></div>
   </div>
+  <aside class="notes"><p>Ask each table for the one number of the day they would take to their own finance partner. Collect three on the board. Tomorrow nothing is cut blindly: the quality floor comes first, then the cheaper route.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
-  <div class="kicker">Next</div>
-  <h2>Day 2: Route and cache</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <div class="kicker">Tomorrow</div>
+  <h1>Route and cache</h1>
+  <p class="lead">Set the quality floor first, in Arabic and in English. Then find the cheapest configuration that keeps it, a router with a fallback, and two caches that are measured before they are trusted.</p>
+  <ul class="bullets small">
+    <li>Optional: a free key for a hosted model, for one step of Lab 2.1. Without it the step uses supplied outputs.</li>
+    <li>Read the 100 tasks of one application in <code>labs/data/eval/</code>.</li>
+  </ul>
+  <aside class="notes"><p>The key is optional: see labs/README.md. Only one step of one lab calls a model in this course.</p></aside>
 </section>

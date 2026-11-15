@@ -1,0 +1,88 @@
+{
+ "__frame__": [
+  {
+   "team": "contact-centre-analytics",
+   "app": "khulasa",
+   "env": "staging",
+   "item": "node lease",
+   "cost_sar": 3472.0
+  },
+  {
+   "team": "billing-operations",
+   "app": "fasil",
+   "env": "prod",
+   "item": "tokens through the gateway",
+   "cost_sar": 2515.093905
+  },
+  {
+   "team": "customer-care",
+   "app": "anis",
+   "env": "prod",
+   "item": "tokens through the gateway",
+   "cost_sar": 911.323596
+  },
+  {
+   "team": "contact-centre-analytics",
+   "app": "khulasa",
+   "env": "prod",
+   "item": "tokens through the gateway",
+   "cost_sar": 846.2076672
+  },
+  {
+   "team": "network-analytics",
+   "app": "netlab-exp",
+   "env": "prod",
+   "item": "tokens through the gateway",
+   "cost_sar": 239.8983
+  },
+  {
+   "team": "unallocated",
+   "app": "unallocated",
+   "env": "prod",
+   "item": "tokens through the gateway",
+   "cost_sar": 70.4803926
+  },
+  {
+   "team": "billing-operations",
+   "app": "fasil",
+   "env": "staging",
+   "item": "tokens through the gateway",
+   "cost_sar": 65.645616
+  },
+  {
+   "team": "unallocated",
+   "app": "unallocated",
+   "env": "unknown",
+   "item": "provider key outside the gateway",
+   "cost_sar": 62.02
+  },
+  {
+   "team": "customer-care",
+   "app": "anis",
+   "env": "dev",
+   "item": "tokens through the gateway",
+   "cost_sar": 47.667924
+  },
+  {
+   "team": "customer-care",
+   "app": "anis",
+   "env": "staging",
+   "item": "tokens through the gateway",
+   "cost_sar": 12.225885
+  },
+  {
+   "team": "platform",
+   "app": "smoke-tests",
+   "env": "dev",
+   "item": "tokens through the gateway",
+   "cost_sar": 0.049821
+  },
+  {
+   "team": "contact-centre-analytics",
+   "app": "khulasa",
+   "env": "staging",
+   "item": "tokens through the gateway",
+   "cost_sar": 0.0
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "__frame__": [
+  {
+   "team": "contact-centre-analytics",
+   "app": "khulasa",
+   "requests": 25633,
+   "cost_sar": 846.2076672
+  },
+  {
+   "team": "network-analytics",
+   "app": "netlab-exp",
+   "requests": 1115,
+   "cost_sar": 239.8983
+  },
+  {
+   "team": "unallocated",
+   "app": "unallocated",
+   "requests": 2161,
+   "cost_sar": 70.4803926
+  }
+ ]
+}

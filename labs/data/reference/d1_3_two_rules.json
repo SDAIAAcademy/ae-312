@@ -1,0 +1,40 @@
+{
+ "__frame__": [
+  {
+   "team": "billing-operations",
+   "owner_pays": 2580.739521,
+   "caller_pays": 2626.7939352,
+   "difference": 46.0544142
+  },
+  {
+   "team": "contact-centre-analytics",
+   "owner_pays": 846.2076672,
+   "caller_pays": 800.153253,
+   "difference": -46.0544142
+  },
+  {
+   "team": "customer-care",
+   "owner_pays": 971.217405,
+   "caller_pays": 971.217405,
+   "difference": 0.0
+  },
+  {
+   "team": "network-analytics",
+   "owner_pays": 239.8983,
+   "caller_pays": 239.8983,
+   "difference": 0.0
+  },
+  {
+   "team": "platform",
+   "owner_pays": 0.049821,
+   "caller_pays": 0.049821,
+   "difference": 0.0
+  },
+  {
+   "team": "unallocated",
+   "owner_pays": 70.4803926,
+   "caller_pays": 70.4803926,
+   "difference": 0.0
+  }
+ ]
+}

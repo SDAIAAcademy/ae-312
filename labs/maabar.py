@@ -3,14 +3,14 @@
 It does what the budget and limit features of a real gateway do, on replayed log rows instead
 of live traffic: it attributes each request to a key, an application, an environment and a team,
 adds up spend per budget and per window, raises a soft alert, refuses requests once a hard
-budget is spent, and enforces a tokens-per-minute limit. Real gateways (LiteLLM is one example)
+budget is spent, and enforces limits per minute (requests_per_minute, tokens_per_minute). Real gateways (LiteLLM is one example)
 keep the same state in a database; this one keeps it in memory so a lab needs no server.
 
 A policy is a dictionary:
 
     {"window": "day",
      "budgets": [{"scope": "app", "match": "fasil", "soft_sar": 120, "hard_sar": 150}],
-     "rate_limits": [{"scope": "app", "match": "fasil", "tokens_per_minute": 400000}]}
+     "rate_limits": [{"scope": "app", "match": "fasil", "requests_per_minute": 20}]}
 
 scope is one of gateway, app, env, team, key; match is the value, or "*" for every value.
 """
@@ -38,11 +38,8 @@ class Gateway:
 
     @staticmethod
     def attribute(df):
-        """team, app and env of every row: the key register, with an app tag taking precedence."""
-        out = M.with_register(df)
-        tagged = M.tag(out, "app")
-        out["app"] = tagged.where(tagged != "", out["app"])
-        return out
+        """team, app and env of every row: the key register, with tags taking precedence (Lab 1.3)."""
+        return M.attribute(df)
 
     def _subjects(self, row, rule):
         value = {"gateway": "*", "app": row.app, "env": row.env, "team": row.team, "key": row.key_id}[rule["scope"]]
@@ -71,7 +68,8 @@ class Gateway:
                         q = recent.setdefault(subject, deque())
                         while q and (row.ts - q[0][0]).total_seconds() >= 60:
                             q.popleft()
-                        if sum(n for _, n in q) + row.input_tokens > rule["tokens_per_minute"]:
+                        if (sum(n for _, n in q) + row.input_tokens > rule.get("tokens_per_minute", float("inf"))
+                                or len(q) + 1 > rule.get("requests_per_minute", float("inf"))):
                             refused = f"rate_limited:{subject[0]}={subject[1]}"
                             break
             if refused:

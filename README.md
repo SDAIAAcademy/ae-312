@@ -5,7 +5,7 @@
 
 AI Engineering Track · SDAIA Academy · AE-312 · Level 300
 
-REPLACE: one line under the title: what participants can do after the course
+Make the cost of language model applications measurable, attributable and smaller, without losing quality
 
 Participants make the cost of language model applications measurable, attributable and smaller without losing quality. For a fictional telecom operator running three applications behind one gateway, a bilingual care assistant, a call-summary job and a billing-dispute agent, they work from a month of synthetic usage traces: they model cost per request and session, attribute spend to teams, set budgets, evaluate model tiers and reasoning settings on their own tasks, route with fallbacks, measure prefix and semantic caches, compare hosted and self-hosted serving and report cost per successful outcome. Cluster capacity planning is AE-307; engine-level optimisation is AE-401.
 
@@ -33,7 +33,7 @@ Participants make the cost of language model applications measurable, attributab
 | Day 1 | Where the money goes | The token cost model; Agents, retries and long contexts; Attribution and showback; Budgets and limits | [`slides/day1.html`](slides/day1.html) |
 | Day 2 | Route and cache | Own tasks, several settings; Routing and cascades; Prompt layout for prefix caching; Semantic caches and their risks | [`slides/day2.html`](slides/day2.html) |
 | Day 3 | Host or buy, and report | Self-hosting economics; Batch versus interactive; Cost per successful outcome; The cost review | [`slides/day3.html`](slides/day3.html) |
-| Capstone | Capstone project presentations |  | [`slides/capstone.html`](slides/capstone.html) |
+| Capstone | Capstone: the cost review, defended |  | [`slides/capstone.html`](slides/capstone.html) |
 <!-- /academy:units -->
 
 ## Case study
@@ -47,18 +47,18 @@ Every lab is a notebook in `labs/`. Open it in Google Colab from the course page
 
 | | Session | Lab | File |
 |---|---|---|---|
-| 1.1 | Day 1 · Session 1 | Compute cost per request for the three applications and reconcile it with the synthetic invoice | [`D1_1_compute_cost_per.ipynb`](labs/D1_1_compute_cost_per.ipynb) |
-| 1.2 | Day 1 · Session 2 | Find the ten most expensive sessions and attribute their cost to steps, retries and context growth | [`D1_2_find_ten_most.ipynb`](labs/D1_2_find_ten_most.ipynb) |
-| 1.3 | Day 1 · Session 3 | Tag spend by team, application and environment through gateway keys and produce a showback table | [`D1_3_tag_spend_team.ipynb`](labs/D1_3_tag_spend_team.ipynb) |
-| 1.4 | Day 1 · Session 4 | Set soft and hard budgets per application and trip the hard limit with a replayed spike | [`D1_4_set_soft_hard.ipynb`](labs/D1_4_set_soft_hard.ipynb) |
-| 2.1 | Day 2 · Session 1 | Score supplied outputs of three model tiers at two reasoning settings on 100 tasks for quality, latency and cost, and rerun ten tasks live to check them | [`D2_1_score_supplied_outputs.ipynb`](labs/D2_1_score_supplied_outputs.ipynb) |
-| 2.2 | Day 2 · Session 2 | Build a two-tier router with a quality check and fallback and measure cost per successful outcome | [`D2_2_build_two_tier.ipynb`](labs/D2_2_build_two_tier.ipynb) |
-| 2.3 | Day 2 · Session 3 | Move stable content to the front of a prompt and measure the cache hit rate and cost | [`D2_3_move_stable_content.ipynb`](labs/D2_3_move_stable_content.ipynb) |
-| 2.4 | Day 2 · Session 4 | Add a semantic cache, measure hit and wrong-answer rates and test that no answer crosses customers | [`D2_4_add_semantic_cache.ipynb`](labs/D2_4_add_semantic_cache.ipynb) |
-| 3.1 | Day 3 · Session 1 | Fill a cost model for serving an open-weight model and find break-even utilisation against API prices | [`D3_1_fill_cost_model.ipynb`](labs/D3_1_fill_cost_model.ipynb) |
-| 3.2 | Day 3 · Session 2 | Move the call-summary job to a batch tier and recompute cost and turnaround | [`D3_2_move_call_summary.ipynb`](labs/D3_2_move_call_summary.ipynb) |
-| 3.3 | Day 3 · Session 3 | Join cost with evaluation outcomes and report cost per resolved dispute | [`D3_3_join_cost_evaluation.ipynb`](labs/D3_3_join_cost_evaluation.ipynb) |
-| 3.4 | Day 3 · Session 4 | Draft a two-page review with three measured savings options, then choose the capstone scenario | [`D3_4_draft_two_page.ipynb`](labs/D3_4_draft_two_page.ipynb) |
+| 1.1 | Day 1 · Session 1 | A cost model that matches the invoice | [`D1_1_cost_model.ipynb`](labs/D1_1_cost_model.ipynb) |
+| 1.2 | Day 1 · Session 2 | The ten most expensive sessions | [`D1_2_expensive_sessions.ipynb`](labs/D1_2_expensive_sessions.ipynb) |
+| 1.3 | Day 1 · Session 3 | A showback table from gateway keys | [`D1_3_showback.ipynb`](labs/D1_3_showback.ipynb) |
+| 1.4 | Day 1 · Session 4 | Soft and hard budgets, and a spike | [`D1_4_budgets.ipynb`](labs/D1_4_budgets.ipynb) |
+| 2.1 | Day 2 · Session 1 | Three tiers, two reasoning settings, your own tasks | [`D2_1_own_tasks.ipynb`](labs/D2_1_own_tasks.ipynb) |
+| 2.2 | Day 2 · Session 2 | A two-tier router with a quality check | [`D2_2_router.ipynb`](labs/D2_2_router.ipynb) |
+| 2.3 | Day 2 · Session 3 | Prompt layout for prefix reuse | [`D2_3_prefix_cache.ipynb`](labs/D2_3_prefix_cache.ipynb) |
+| 2.4 | Day 2 · Session 4 | A semantic cache and its wrong answers | [`D2_4_semantic_cache.ipynb`](labs/D2_4_semantic_cache.ipynb) |
+| 3.1 | Day 3 · Session 1 | Break-even utilisation for self-hosting | [`D3_1_break_even.ipynb`](labs/D3_1_break_even.ipynb) |
+| 3.2 | Day 3 · Session 2 | The call-summary job on a batch tier | [`D3_2_batch_tier.ipynb`](labs/D3_2_batch_tier.ipynb) |
+| 3.3 | Day 3 · Session 3 | Cost per resolved dispute | [`D3_3_cost_per_outcome.ipynb`](labs/D3_3_cost_per_outcome.ipynb) |
+| 3.4 | Day 3 · Session 4 | The two-page cost review | [`D3_4_cost_review.ipynb`](labs/D3_4_cost_review.ipynb) |
 <!-- /academy:labs -->
 
 ## Capstone
@@ -90,7 +90,47 @@ Each line is a capability; the examples are interchangeable.
 <!-- academy:sources -->
 ## Sources
 
-- REPLACE: every source the course cites, with its address, in course.json under "sources"; this list is written from there
+### Cost models, allocation and unit economics
+
+- [FinOps Foundation: FinOps for AI overview](https://www.finops.org/wg/finops-for-ai-overview/)
+- [FinOps Foundation: GenAI FinOps, how token pricing really works](https://www.finops.org/wg/genai-finops-how-token-pricing-really-works/)
+- [FOCUS, the FinOps Open Cost and Usage Specification](https://focus.finops.org/)
+
+### Gateways, budgets and routing
+
+- [LiteLLM documentation: budgets and rate limits](https://docs.litellm.ai/docs/proxy/users)
+- [LiteLLM documentation: fallbacks](https://docs.litellm.ai/docs/proxy/reliability)
+- [LiteLLM documentation: spend tracking](https://docs.litellm.ai/docs/proxy/cost_tracking)
+- [Chen, Zaharia, Zou (2023): FrugalGPT](https://arxiv.org/abs/2305.05176)
+- [Ong and others (2024): RouteLLM, learning to route LLMs with preference data](https://arxiv.org/abs/2406.18665)
+- [OpenRouter: models, with the free hosted ones](https://openrouter.ai/models)
+
+### Caching and batch tiers
+
+- [Claude Platform documentation: prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
+- [OpenAI documentation: prompt caching](https://platform.openai.com/docs/guides/prompt-caching)
+- [Claude Platform documentation: batch processing](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+- [GPTCache, an open-source semantic cache](https://github.com/zilliztech/GPTCache)
+- [Valkey](https://valkey.io/)
+- [pgvector](https://github.com/pgvector/pgvector)
+
+### Serving, evaluation, analysis and energy
+
+- [vLLM documentation](https://docs.vllm.ai/en/latest/)
+- [llama.cpp](https://github.com/ggml-org/llama.cpp)
+- [promptfoo documentation](https://www.promptfoo.dev/docs/intro/)
+- [Inspect, an evaluation framework](https://inspect.aisi.org.uk/)
+- [DuckDB documentation](https://duckdb.org/docs/stable/)
+- [Elsworth and others (2025): Measuring the environmental impact of delivering AI at Google scale](https://arxiv.org/abs/2508.15734)
+
+### National references
+
+- [Data Classification Policy (National Data Management Office)](https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf)
+- [Personal Data Protection Law](https://sdaia.gov.sa/en/SDAIA/about/Documents/PersonalDataProtectionLaw.pdf)
+- [Implementing Regulation of the Personal Data Protection Law](https://sdaia.gov.sa/en/SDAIA/about/Documents/ImplementingRegulationPersonalDataProtectionLaw.pdf)
+- [Regulation on Personal Data Transfer Outside the Kingdom](https://sdaia.gov.sa/Documents/RegulationonPersonalDataEN.pdf)
+- [AI Adoption Framework](https://sdaia.gov.sa/en/SDAIA/about/Files/AIAdoptionFramework.pdf)
+- [Principles of AI Ethics](https://sdaia.gov.sa/en/SDAIA/about/Documents/ai-principles.pdf)
 <!-- /academy:sources -->
 
 ### National references
