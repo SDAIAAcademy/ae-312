@@ -3,166 +3,1079 @@
   "version": 1,
   "questions": [
     {
-      "id": "q-example-1",
+      "id": "q-cost-01",
+      "type": "numeric",
+      "prompt": "A request sends 12,000 input tokens, 9,000 of them read from the cache, and receives 500 output tokens with no reasoning. Prices per million tokens: input SAR 4, cached input SAR 0.40, output SAR 16. Input tokens include the cached ones. What do 1,000 such requests cost, in SAR?",
+      "answer": 23.6,
+      "tolerance": 0.1,
+      "unit": "SAR",
+      "explanation": "Per request: 3,000 uncached × 4 + 9,000 cached × 0.40 + 500 output × 16 = 23,600, over a million = SAR 0.0236. For 1,000 requests: SAR 23.60.",
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 1,
+      "slide": "four-kinds-of-token",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 90
+    },
+    {
+      "id": "q-cost-02",
       "type": "single",
-      "prompt": "REPLACE: a practice question on LO1, as a short scenario",
+      "prompt": "A team's cost model is 12% below the invoice. The model multiplies the column output_tokens by the output price. The application runs with high reasoning, and the log holds no failed request. What explains the gap?",
       "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
+        "Cached tokens are priced at the full input price in the model",
+        "Reasoning tokens are billed as output and are not summed",
+        "The provider rounds every request up to 1,000 tokens",
+        "Input tokens are counted twice, once more as cached"
       ],
       "correct": [
         1
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Reasoning tokens are written by the model and billed at the output price. In this log they sit in their own column, so a sum of output_tokens leaves them out and the model comes out low.",
       "misconceptions": [
-        "REPLACE: the misconception behind this option",
+        "Would make the model higher than the invoice, not lower",
         "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
+        "Invents a billing rule that the price sheet does not have",
+        "Would make the model higher than the invoice, not lower"
       ],
       "lo": [
         "LO1"
       ],
       "day": "day1",
       "session": 1,
-      "level": "apply",
+      "slide": "close-for-the-wrong-reasons",
+      "level": "analyze",
       "pool": "practice",
-      "weight": 1
+      "weight": 1,
+      "timer": 60
     },
     {
-      "id": "q-example-2",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO2 that is true",
+      "id": "q-cost-03",
+      "type": "numeric",
+      "prompt": "A node is leased 10 hours a night for 30 nights at SAR 12 an hour. In that month it served 9,000 requests. What did one request cost on the node, in SAR?",
+      "answer": 0.4,
+      "tolerance": 0.005,
+      "unit": "SAR",
+      "explanation": "The lease is 10 × 30 × 12 = SAR 3,600, used or idle. Over 9,000 requests that is SAR 0.40 each. Tokens on the node have no price.",
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 1,
+      "slide": "accelerator-hours",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 90
+    },
+    {
+      "id": "q-agent-01",
+      "type": "single",
+      "prompt": "An agent resends its whole history at every step, and the history grows by 1,500 tokens per step. Nothing is cached. A session of 20 steps becomes a session of 40 steps. How do the input tokens of the session change?",
       "options": [
-        "True",
-        "False"
+        "They double, like the number of steps",
+        "They grow by 30,000 tokens in total",
+        "They grow to about four times",
+        "They stay the same after step 20"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Each step resends everything before it, so the total grows with the square of the number of steps: twice the steps, about four times the input tokens.",
+      "misconceptions": [
+        "Counts each step as if it sent the same amount",
+        "Counts only the new tokens and forgets that all earlier ones are sent again",
+        "",
+        "Assumes the history stops growing"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 2,
+      "slide": "every-step-resends",
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-agent-02",
+      "type": "single",
+      "prompt": "A client sends a request and, after a timeout, retries up to 3 more times. The provider bills a request it started to answer, also when the client gave up. During an incident every attempt times out. A step normally costs SAR 0.05. What does one step cost during the incident?",
+      "options": [
+        "SAR 0.00",
+        "SAR 0.05",
+        "SAR 0.15",
+        "SAR 0.20"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "One first attempt and three retries are four billed attempts: 4 × 0.05 = SAR 0.20, with no answer to show for it.",
+      "misconceptions": [
+        "Assumes a failed attempt is free",
+        "Counts the step once, whatever the number of attempts",
+        "Counts the retries and forgets the first attempt",
+        ""
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 2,
+      "slide": "retries-multiply",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-agent-03",
+      "type": "single",
+      "prompt": "Of the ten most expensive sessions of an agent, eight have more than 60 steps and repeat the same tool call. Two have 6 steps, with one tool result of 80,000 tokens. Which pair of fixes addresses both kinds?",
+      "options": [
+        "A step limit per session, and a size limit on tool results",
+        "A cheaper model tier for the agent, and a longer timeout",
+        "A daily budget for the team, and more retries per step",
+        "A semantic cache for the agent, and a higher rate limit"
       ],
       "correct": [
         0
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Loops are stopped by a limit on steps; a long context is stopped where it enters, at the tool result. The other pairs lower a price or move a limit and leave both causes in place.",
       "misconceptions": [
         "",
-        "REPLACE: the misconception behind this option"
+        "Lowers the price of each step and keeps the loop and the long context",
+        "A budget stops the day's spend late, and more retries add attempts",
+        "Neither acts on the number of steps or on the size of a tool result"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 2,
+      "slide": "three-fixes-sized",
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-showback-01",
+      "type": "single",
+      "prompt": "A gateway spent SAR 10,000 in a month. Keys that belong to one team account for SAR 9,200. A shared key spent SAR 800, and tags identify the application for SAR 650 of it. Where do the remaining SAR 150 go in the showback table?",
+      "options": [
+        "Spread over the teams in proportion to their spend",
+        "On the row of the platform team that runs the gateway",
+        "Nowhere: the amount is under 2% of the total",
+        "On a row named unallocated, with an owner to chase it"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "A showback table sums to the invoice, and what cannot be attributed is shown as its own row so that someone works on it.",
+      "misconceptions": [
+        "Hides the gap inside rows that did not cause it",
+        "Charges the team that operates the gateway for others' spend",
+        "The table then no longer sums to the invoice",
+        ""
       ],
       "lo": [
         "LO2"
       ],
       "day": "day1",
-      "session": 1,
-      "level": "understand",
+      "session": 3,
+      "slide": "unallocated-is-a-row",
+      "level": "apply",
       "pool": "practice",
-      "weight": 1
+      "weight": 1,
+      "timer": 60
     },
     {
-      "id": "q-example-3",
+      "id": "q-showback-02",
       "type": "single",
-      "prompt": "REPLACE: a practice question on LO3, as a short scenario",
+      "prompt": "It is the first month of cost attribution on a gateway, and 6% of the spend is unallocated. Finance wants to charge each team's budget from next month. What do you advise?",
       "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
+        "Charge from next month, with the unallocated share on the largest team",
+        "Publish the table for some months and fix attribution, then charge",
+        "Charge from next month, with the unallocated share split equally",
+        "Publish nothing until every request carries a tag"
       ],
       "correct": [
         1
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Showback comes before chargeback: teams see and correct the table first. Charging on a table they do not trust starts disputes about the table, not about the spend.",
       "misconceptions": [
-        "REPLACE: the misconception behind this option",
+        "Charges a team for spend that nobody has attributed",
         "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
+        "Charges every team for spend that nobody has attributed",
+        "Waits for perfect data, so nobody sees their spend at all"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day1",
+      "session": 3,
+      "slide": "showback-before-chargeback",
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-showback-03",
+      "type": "single",
+      "prompt": "Team A's key spent SAR 2,000 in a month. SAR 300 of it are requests that team B's application sent through team A's service, and the tags say so. Under a caller-pays rule, what does team A's row show?",
+      "options": [
+        "SAR 1,700",
+        "SAR 2,000",
+        "SAR 2,300"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Caller pays moves the SAR 300 to the team whose application caused them: 2,000 − 300 = 1,700 for team A, and 300 more on team B's row.",
+      "misconceptions": [
+        "",
+        "Applies the owner-pays rule: the key decides",
+        "Adds the amount in place of moving it"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day1",
+      "session": 3,
+      "slide": "caller-or-owner",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 45
+    },
+    {
+      "id": "q-budget-01",
+      "type": "single",
+      "prompt": "A gateway has one daily budget for all applications. An agent loops and uses the whole budget by midday. What happens to the customer assistant that shares the gateway?",
+      "options": [
+        "It continues: a budget applies per application",
+        "Its requests wait in a queue until the evening",
+        "Its requests are refused until the window resets",
+        "It moves to a cheaper tier until the window resets"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "A budget acts on its scope. With one budget for the whole gateway, the application that did nothing wrong is refused together with the one that looped.",
+      "misconceptions": [
+        "Assumes a scope that this policy does not have",
+        "A hard limit refuses requests; it does not queue them",
+        "",
+        "A budget refuses; it does not reroute"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day1",
+      "session": 4,
+      "slide": "scope-decides",
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-budget-02",
+      "type": "single",
+      "prompt": "An application's daily spend over a calm month has a median of SAR 40, and its highest day was SAR 52. Which soft and hard daily limits fit it?",
+      "options": [
+        "Soft SAR 30, hard SAR 40",
+        "Soft SAR 40, hard SAR 52",
+        "Soft SAR 62, hard SAR 78",
+        "Soft SAR 400, hard SAR 520"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Limits sit above the highest normal day, with a margin: the soft one warns on an unusual day and the hard one stops a runaway before it costs many days of spend.",
+      "misconceptions": [
+        "Refuses normal traffic on half of the days",
+        "A normal busy day reaches the hard limit",
+        "",
+        "Ten days of spend can burn before anything trips"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day1",
+      "session": 4,
+      "slide": "levels-from-data",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-budget-03",
+      "type": "single",
+      "prompt": "A loop sends 30 cheap requests a minute. A long-context session sends 2 requests a minute, each with 80,000 tokens. The gateway has a limit of 12 requests a minute and a daily budget. Which control stops which?",
+      "options": [
+        "The rate limit stops the loop; the budget stops the long session",
+        "The budget stops the loop; the rate limit stops the long session",
+        "The rate limit stops both, the loop first",
+        "The budget stops both at the same moment"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "A limit on requests per minute acts on speed, a budget on money. The loop is fast and cheap; the long session is slow and expensive.",
+      "misconceptions": [
+        "",
+        "Reverses the two controls",
+        "Two requests a minute never reach a limit of twelve",
+        "The two spend at very different rates"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day1",
+      "session": 4,
+      "slide": "rate-limit-or-budget",
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-eval-01",
+      "type": "single",
+      "prompt": "Three configurations ran on 50 English and 50 Arabic tasks. X: 47 and 44 correct, SAR 0.004 a task. Y: 48 and 47, SAR 0.020. Z: 49 and 48, SAR 0.080. The floor is 92% in each language. Which one do you choose?",
+      "options": [
+        "X, the cheapest: its 91% overall is close enough to the floor",
+        "Y, the cheapest that holds the floor in both languages",
+        "Z, the one with the highest pass rate",
+        "X, after the floor for Arabic is set to 88%"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "92% of 50 is 46 tasks. X has 44 in Arabic and fails. Y and Z pass, and Y costs a quarter of Z.",
+      "misconceptions": [
+        "Averages the languages and rounds towards the floor",
+        "",
+        "Ignores cost once the floor is held",
+        "Moves the floor to fit the candidate"
       ],
       "lo": [
         "LO3"
       ],
-      "day": "day1",
+      "day": "day2",
       "session": 1,
-      "level": "apply",
+      "slide": "floor-per-language",
+      "level": "evaluate",
       "pool": "practice",
-      "weight": 1
+      "weight": 1,
+      "timer": 60
     },
     {
-      "id": "q-example-4",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO4 that is true",
+      "id": "q-eval-02",
+      "type": "single",
+      "prompt": "Two configurations score 46 and 47 of 50 on the Arabic tasks. A colleague wants to rank the second above the first. What do you answer?",
       "options": [
-        "True",
-        "False"
+        "The second is better, so choose it whatever it costs",
+        "Average each with its English score, then rank them",
+        "Run both once more and keep the higher run of each",
+        "One task separates them: this sample cannot rank them"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "With 50 tasks one task is two points. A difference of one task is inside the noise of the sample; more tasks or a paired comparison would be needed.",
+      "misconceptions": [
+        "Reads a one-task difference as a ranking",
+        "Averaging does not make the sample larger",
+        "Keeps the lucky run of each: selection, not measurement",
+        ""
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 1,
+      "slide": "one-task-is-two-points",
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-eval-03",
+      "type": "single",
+      "prompt": "High reasoning lifts a lookup assistant from 95% to 96% and triples its latency. It lifts a multi-step agent from 76% to 91%, where the floor is 90%. Where do you switch it on?",
+      "options": [
+        "For the agent only",
+        "For the assistant only",
+        "For both applications",
+        "For neither application"
       ],
       "correct": [
         0
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "For the agent it is the difference between failing and holding the floor. For the assistant it buys one task and costs seconds and output tokens.",
       "misconceptions": [
         "",
-        "REPLACE: the misconception behind this option"
+        "Buys one task at three times the latency, and leaves the agent below its floor",
+        "Pays for reasoning where it changes nothing",
+        "Leaves the agent below its floor"
       ],
       "lo": [
-        "LO4"
+        "LO3"
       ],
-      "day": "day1",
+      "day": "day2",
       "session": 1,
-      "level": "understand",
+      "slide": "what-reasoning-buys",
+      "level": "apply",
       "pool": "practice",
-      "weight": 1
+      "weight": 1,
+      "timer": 45
     },
     {
-      "id": "q-example-5",
+      "id": "q-route-01",
+      "type": "numeric",
+      "prompt": "A cascade tries every request on a small tier at SAR 0.004 and sends those that fail its check to a medium tier at SAR 0.020. Of 100 requests, 30 are sent on. What do the 100 requests cost, in SAR?",
+      "answer": 1.0,
+      "tolerance": 0.01,
+      "unit": "SAR",
+      "explanation": "Every request pays the small tier: 100 × 0.004 = 0.40. Thirty also pay the medium tier: 30 × 0.020 = 0.60. Together SAR 1.00, against 2.00 for the medium tier alone.",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 2,
+      "slide": "cost-per-successful-outcome",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 90
+    },
+    {
+      "id": "q-route-02",
       "type": "single",
-      "prompt": "REPLACE: a practice question on LO5, as a short scenario",
+      "prompt": "On 100 requests, policy P costs SAR 1.20 and gives 80 right answers. Policy Q costs SAR 1.80 and gives 96. The floor is 90%. Which policy do you choose, and what does it cost per successful outcome?",
       "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
+        "P, at SAR 0.012",
+        "P, at SAR 0.015",
+        "Q, at SAR 0.018",
+        "Q, at SAR 0.019"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "P is below the floor. Q costs 1.80 over 96 successes: SAR 0.019 per successful outcome.",
+      "misconceptions": [
+        "Chooses below the floor, and divides by requests",
+        "Chooses below the floor",
+        "Divides by all requests, not by the successes",
+        ""
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 2,
+      "slide": "router-results",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-route-03",
+      "type": "single",
+      "prompt": "The check of a cascade catches 5 of the small tier's 13 wrong answers in Arabic and 2 of its 4 in English. After routing, the pass rate in Arabic is below the floor. What do you change?",
+      "options": [
+        "Lower the floor for Arabic to what the cascade reaches",
+        "Send Arabic requests directly to the medium tier",
+        "Send English requests directly to the medium tier",
+        "Remove the check and keep every answer of the small tier"
       ],
       "correct": [
         1
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "The check misses most wrong answers in Arabic, so the small tier's errors pass through. Routing Arabic to the tier that holds the floor fixes that and keeps the saving on English.",
       "misconceptions": [
-        "REPLACE: the misconception behind this option",
+        "Moves the floor to fit the router",
         "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
+        "Acts on the language that already passes",
+        "Removes the only thing that catches errors"
       ],
       "lo": [
-        "LO5"
+        "LO3"
       ],
-      "day": "day1",
-      "session": 1,
-      "level": "apply",
+      "day": "day2",
+      "session": 2,
+      "slide": "what-the-check-misses",
+      "level": "analyze",
       "pool": "practice",
-      "weight": 1
+      "weight": 1,
+      "timer": 60
     },
     {
-      "id": "q-example-6",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO6 that is true",
+      "id": "q-prefix-01",
+      "type": "single",
+      "prompt": "A prompt is built in this order: the customer's name, 6,000 tokens of instructions, the question. Across customers the provider reports no cached tokens. Why?",
       "options": [
-        "True",
-        "False"
+        "The instructions are too long for the cache",
+        "The question changes on every request",
+        "The name comes first, so no prefix is shared",
+        "The entries expire before the next request"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "A prefix cache reuses a prompt only as far as it is identical from the first token. A name in the first line makes the prompts of two customers differ at once.",
+      "misconceptions": [
+        "Length helps a prefix cache: there is a minimum, not a maximum",
+        "The question is last: what comes before it could still be shared",
+        "",
+        "Expiry lowers a hit rate; it does not make it zero in busy hours"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day2",
+      "session": 3,
+      "slide": "three-breakers",
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-prefix-02",
+      "type": "numeric",
+      "prompt": "A prompt has 10,000 input tokens. After a change of layout 9,000 of them are read from the cache. Prices per million tokens: input SAR 3, cached input SAR 0.30. What does the input of 1,000 requests cost after the change, in SAR?",
+      "answer": 5.7,
+      "tolerance": 0.05,
+      "unit": "SAR",
+      "explanation": "Per request: 1,000 uncached × 3 + 9,000 cached × 0.30 = 5,700, over a million = SAR 0.0057. For 1,000 requests: SAR 5.70, against 30.00 before.",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day2",
+      "session": 3,
+      "slide": "before-and-after",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 90
+    },
+    {
+      "id": "q-prefix-03",
+      "type": "single",
+      "prompt": "At night an assistant receives one request every 8 minutes. A cache entry lives 5 minutes, and writing one costs 1.25 times the input price. What does caching do to the cost of the night?",
+      "options": [
+        "It raises it: every request writes an entry nobody reads",
+        "It lowers it as in the day: the prompt is the same",
+        "It leaves it unchanged: an expired entry costs nothing",
+        "It lowers it to the cached price for every request"
       ],
       "correct": [
         0
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Each entry expires before the next request arrives, so every request pays the write premium and none gets the cached price.",
       "misconceptions": [
         "",
-        "REPLACE: the misconception behind this option"
+        "The prompt is the same; the traffic is not",
+        "The write was paid when the entry was made",
+        "No request arrives while an entry is alive"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day2",
+      "session": 3,
+      "slide": "when-caching-loses",
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-semantic-01",
+      "type": "single",
+      "prompt": "A semantic cache at threshold 0.90 answers \"How much is plan 85 a month?\" with the stored answer to \"How much is plan 55 a month?\". Both are public prices. What explains it?",
+      "options": [
+        "The entries were not partitioned by customer, so they crossed",
+        "The entries were kept for too many days",
+        "The embedding has too few dimensions",
+        "The two questions are close as text and differ in one number"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Similar wording is not the same question. Two sentences that differ in one number sit very close together, and a threshold cannot tell that the number is the point.",
+      "misconceptions": [
+        "Isolation is about whose data an answer holds; these answers are public",
+        "Staleness is about answers that were once right",
+        "Any embedding places these two sentences close together",
+        ""
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day2",
+      "session": 4,
+      "slide": "close-is-not-same",
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-semantic-02",
+      "type": "single",
+      "prompt": "An assistant answers four kinds of question. Which answer may a semantic cache share between customers?",
+      "options": [
+        "A customer's remaining data balance",
+        "The monthly price of a public plan",
+        "The status of a customer's dispute",
+        "The total of a customer's last invoice"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Only an answer built from public data is the same for everyone. The other three were built from one customer's account and stay in that customer's partition.",
+      "misconceptions": [
+        "Built from one customer's account",
+        "",
+        "Built from one customer's account",
+        "Built from one customer's account"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day2",
+      "session": 4,
+      "slide": "scope-the-entries",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 45
+    },
+    {
+      "id": "q-semantic-03",
+      "type": "numeric",
+      "prompt": "An assistant receives 10,000 questions in a month. A semantic cache answers 30% of them, and 2% of the answers it serves are wrong. How many wrong answers does the cache serve in the month?",
+      "answer": 60,
+      "tolerance": 0,
+      "unit": "answers",
+      "explanation": "10,000 × 0.30 = 3,000 answers come from the cache, and 2% of them are wrong: 60 customers told something wrong in a month.",
+      "lo": [
+        "LO4"
+      ],
+      "day": "day2",
+      "session": 4,
+      "slide": "hits-and-wrong-answers",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-semantic-04",
+      "type": "multi",
+      "prompt": "A team reports that its semantic cache answers 35% of questions. Which two measurements have to stand beside that figure before the cache ships?",
+      "options": [
+        "The rate of wrong answers served from the cache",
+        "The number of dimensions of the embedding",
+        "A test that no answer crosses from one customer to another",
+        "The memory the cache uses, in megabytes"
+      ],
+      "correct": [
+        0,
+        2
+      ],
+      "explanation": "A hit rate says how much is saved. The wrong-answer rate and the isolation test say what the saving costs in correctness and in privacy.",
+      "misconceptions": [
+        "",
+        "A property of the tool, not of its answers",
+        "",
+        "An operating figure that says nothing about correctness"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day2",
+      "session": 4,
+      "slide": "choose-the-threshold",
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-host-01",
+      "type": "numeric",
+      "prompt": "A node costs SAR 10 an hour with operations. At the latency objective it serves 2,000 requests an hour. The API price of the same request is SAR 0.02. At what utilisation does the node break even, in percent?",
+      "answer": 25,
+      "tolerance": 0.5,
+      "unit": "%",
+      "explanation": "The node's cost per request is 10 / (2,000 × utilisation). Setting it equal to 0.02 gives a utilisation of 0.25: 500 requests an hour, every leased hour.",
+      "lo": [
+        "LO5"
+      ],
+      "day": "day3",
+      "session": 1,
+      "slide": "break-even",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 90
+    },
+    {
+      "id": "q-host-02",
+      "type": "single",
+      "prompt": "Call transcripts are classified Restricted and may be processed in the Kingdom only: no transfer assessment is approved. A global API is the cheapest option, an in-Kingdom API costs 30% more, and a leased node in the Kingdom costs eight times more. All three hold the quality floor. Which do you recommend?",
+      "options": [
+        "The global API, as the cheapest that holds the floor",
+        "The global API, while the transfer assessment is requested",
+        "The in-Kingdom API, as the cheapest allowed placement",
+        "The leased node, as the only way to keep data in the Kingdom"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Placement comes before price: the register removes the global option. Among the allowed ones, the in-Kingdom API is the cheapest that holds the floor.",
+      "misconceptions": [
+        "Compares prices before reading the register",
+        "Acts on an approval that does not exist yet",
+        "",
+        "An in-Kingdom region of a provider also keeps the data in the Kingdom"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day3",
+      "session": 1,
+      "slide": "khulasa-four-options",
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-host-03",
+      "type": "single",
+      "prompt": "A benchmark of a node: at 8 concurrent requests, 40 requests a minute with a 95th percentile latency of 9 s; at 16, 70 a minute and 14 s; at 32, 90 a minute and 28 s. The objective is 95% of requests within 15 s. What capacity per hour goes into the cost model?",
+      "options": [
+        "2,400 requests",
+        "4,200 requests",
+        "5,400 requests"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Capacity is the highest throughput that still meets the objective: 70 a minute at 14 s, so 4,200 an hour. At 90 a minute the latency is 28 s.",
+      "misconceptions": [
+        "Takes the lowest load as the safe one and wastes capacity",
+        "",
+        "Reads the highest throughput and ignores the objective"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day3",
+      "session": 1,
+      "slide": "capacity-at-the-objective",
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-batch-01",
+      "type": "numeric",
+      "prompt": "A job costs SAR 2,000 a month on the interactive tier. One request in ten is urgent and stays interactive. The rest moves to a batch tier at half the price. What does the month cost now, in SAR?",
+      "answer": 1100,
+      "tolerance": 1,
+      "unit": "SAR",
+      "explanation": "The urgent tenth still costs SAR 200. The other SAR 1,800 are halved to 900. Together SAR 1,100: a saving of 45%, not 50%.",
+      "lo": [
+        "LO5"
+      ],
+      "day": "day3",
+      "session": 2,
+      "slide": "what-cannot-wait",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 90
+    },
+    {
+      "id": "q-batch-02",
+      "type": "single",
+      "prompt": "Batches are submitted every 6 hours, and 95% of them complete within 3 hours. The owner needs nearly every result within 8 hours of the request. Does the schedule meet the need?",
+      "options": [
+        "Yes: a batch completes within 3 hours",
+        "No: a request can wait 6 hours, then 3",
+        "Yes: the average wait is 3 hours, plus 3",
+        "No: the provider promises only 24 hours"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Turnaround is the wait for the next submission plus the completion time. A request that just missed a submission waits 6 hours and then up to 3: 9 hours.",
+      "misconceptions": [
+        "Forgets the wait before submission",
+        "",
+        "Uses the average where the need is about nearly every request",
+        "Uses the ceiling of the terms, not the recorded completion times"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day3",
+      "session": 2,
+      "slide": "turnaround",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-batch-03",
+      "type": "single",
+      "prompt": "A job already runs on a batch tier at half the price. Its prompt is 10% fixed instructions and 90% a transcript that never repeats. Why does adding a prefix cache change the bill only a little?",
+      "options": [
+        "The cache discounts only the fixed 10% of the input",
+        "Two discounts are never combined on one batch tier request",
+        "The batch tier already caches the whole prompt",
+        "Cached tokens cost more on a batch tier"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "A prefix cache acts on the part of the prompt that repeats. Here that is a tenth of the input, so nine tenths of the tokens are not touched by it.",
+      "misconceptions": [
+        "",
+        "Whether they combine is the provider's rule, and some combine them",
+        "A batch tier discounts price; it does not reuse prompts",
+        "Invents a rule that no price sheet in the course has"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day3",
+      "session": 2,
+      "slide": "stacking-discounts",
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-outcome-01",
+      "type": "numeric",
+      "prompt": "An agent handles 1,000 disputes at SAR 0.50 of model cost each. It resolves 700 correctly, escalates 200 to a person at SAR 20 each and resolves 100 wrongly, each reworked at SAR 50. What does a correctly resolved dispute cost, people included, in SAR?",
+      "answer": 13.57,
+      "tolerance": 0.05,
+      "unit": "SAR",
+      "explanation": "Model 500 + escalations 4,000 + rework 5,000 = SAR 9,500, over 700 correctly resolved disputes: SAR 13.57. The model is 5% of it.",
+      "lo": [
+        "LO3"
+      ],
+      "day": "day3",
+      "session": 3,
+      "slide": "the-people-in-the-cost",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 90
+    },
+    {
+      "id": "q-outcome-02",
+      "type": "single",
+      "prompt": "Configuration A costs SAR 7.00 per correctly resolved dispute, people included, and 5% of its resolutions are wrong. B costs SAR 6.20, and 9% are wrong. The owner's floor is at most 6% wrong. Which runs in production?",
+      "options": [
+        "B, because it costs less per resolved dispute",
+        "B, after the floor is moved to 9% wrong",
+        "B for half of the disputes, to average 7% wrong",
+        "A, because B is cheaper and fails the floor"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "The floor is applied first, then the price. B is cheaper per outcome and resolves too many disputes wrongly; only A is a candidate.",
+      "misconceptions": [
+        "Compares prices before the floor",
+        "Moves the floor to fit the candidate",
+        "An average of 7% is still above the floor",
+        ""
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": "day3",
+      "session": 3,
+      "slide": "the-floor-in-production",
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-outcome-03",
+      "type": "single",
+      "prompt": "5,000 agent sessions cost SAR 4,000. Outcomes exist for 4,600 of them, and 3,800 of those were resolved. The 400 sessions without an outcome cost SAR 500. An analyst reports 4,000 / 3,800 as the cost per resolved session. What is wrong with it?",
+      "options": [
+        "The cost holds unreviewed sessions; the outcomes do not",
+        "The unreviewed sessions should all be counted as resolved",
+        "The unreviewed sessions should be counted as failed",
+        "No unit cost exists until every session is reviewed"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Numerator and denominator must cover the same sessions: 3,500 / 3,800 for the reviewed ones, with the SAR 500 of unreviewed spend reported beside it.",
+      "misconceptions": [
+        "",
+        "Invents outcomes that nobody recorded",
+        "Invents outcomes that nobody recorded",
+        "A unit cost on the reviewed sessions is valid when the rest is reported"
       ],
       "lo": [
         "LO6"
       ],
-      "day": "day1",
-      "session": 1,
-      "level": "understand",
+      "day": "day3",
+      "session": 3,
+      "slide": "what-did-not-join",
+      "level": "analyze",
       "pool": "practice",
-      "weight": 1
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-review-01",
+      "type": "single",
+      "prompt": "Five candidates, in SAR a month: A saves 3,000 and holds its quality floor; B saves 2,500 and fails its floor; C saves 900, D saves 600 and E saves 200, and all three hold theirs. Which three does the review recommend?",
+      "options": [
+        "A, B and C",
+        "A, C and D",
+        "C, D and E"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The floor is applied first, then the ranking by measured saving. B is named in the review as the option that is refused, with the reason.",
+      "misconceptions": [
+        "Ranks by saving alone and ships a loss of quality",
+        "",
+        "Prefers small changes to the measured ranking"
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": "day3",
+      "session": 4,
+      "slide": "seven-candidates",
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 45
+    },
+    {
+      "id": "q-review-02",
+      "type": "single",
+      "prompt": "A provider publishes no energy figures. The team has assumed watt-hours per thousand tokens for each tier. How does energy appear in the cost review?",
+      "options": [
+        "It is left out until measured figures exist",
+        "As a measured figure, since the tokens are measured",
+        "Per thousand requests beside cost, labelled as assumed",
+        "As the cost divided by the price of electricity"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The figure ranks the options and shows idle capacity. Labelled as assumed, with its source, it informs without being quoted as a measurement.",
+      "misconceptions": [
+        "Loses a ranking the readers can use",
+        "Measured tokens times an assumed factor is an assumed figure",
+        "",
+        "An API price holds far more than electricity"
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": "day3",
+      "session": 4,
+      "slide": "energy-beside-cost",
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-review-03",
+      "type": "single",
+      "prompt": "A review has three options, in SAR a month: 1,000 on the lease of a node, 600 on the tier of a batch job, and 400 on the prompts of the same batch job, measured before the tier change. Which total can the review promise?",
+      "options": [
+        "SAR 1,000",
+        "SAR 1,600",
+        "SAR 2,000"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The first two act on different invoice lines and add up. The third acts on tokens that the second already made cheaper, so its saving after the tier change is not known yet.",
+      "misconceptions": [
+        "Drops a saving on a separate invoice line",
+        "",
+        "Adds a saving measured on the old price of the same tokens"
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": "day3",
+      "session": 4,
+      "slide": "savings-do-not-add",
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 45
+    },
+    {
+      "id": "q-review-04",
+      "type": "single",
+      "prompt": "A layout change was measured on a replay of two busy hours and cut the cost of those hours by 80%. The evaluation tasks were not run again. Which sentence belongs in the review?",
+      "options": [
+        "The change saves 80% of the application's monthly spend",
+        "Quality is unchanged, as the prompt holds the same words",
+        "Nothing was left out: every figure comes from the log",
+        "Measured on two busy hours; quality was not retested"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "A review states what was measured and on what, and names what was not. The month is not two busy hours, and the same words in another order are a new prompt until tested.",
+      "misconceptions": [
+        "Extends two busy hours to a month that has quiet nights",
+        "States a result that nobody measured",
+        "Hides the test that was not run",
+        ""
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": "day3",
+      "session": 4,
+      "slide": "anatomy-of-the-review",
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
     }
   ]
 }
