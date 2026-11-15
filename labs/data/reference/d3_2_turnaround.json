@@ -1,0 +1,25 @@
+{
+ "__frame__": [
+  {
+   "schedule": "every hour",
+   "median_h": 1.1588888889,
+   "p95_h": 3.0075833333,
+   "longest_h": 3.7530555556,
+   "within_12h": 1.0
+  },
+  {
+   "schedule": "every 4 hours",
+   "median_h": 2.6272222222,
+   "p95_h": 4.5604722222,
+   "longest_h": 5.3555555556,
+   "within_12h": 1.0
+  },
+  {
+   "schedule": "once a day",
+   "median_h": 11.0825,
+   "p95_h": 15.8811666667,
+   "longest_h": 18.3102777778,
+   "within_12h": 0.5826348055
+  }
+ ]
+}

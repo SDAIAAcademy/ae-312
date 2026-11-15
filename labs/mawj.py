@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 LABS = Path(__file__).resolve().parent
-DATA = LABS / "data"
+DATA = Path(os.environ.get("MAWJ_DATA") or LABS / "data")   # the capstone points this at its scenario
 REF = DATA / "reference"
 ARTIFACTS = LABS / "artifacts"
 QUICK = os.environ.get("MAWJ_QUICK", "0") == "1"

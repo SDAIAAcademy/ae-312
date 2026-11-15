@@ -689,7 +689,8 @@ def gen_hosting(p):
               "wh_per_1k_tokens": {"tier-s": {"input": 0.010, "output": 0.10}, "tier-m": {"input": 0.035, "output": 0.35},
                                    "tier-l": {"input": 0.12, "output": 1.20}}, "cached_input_factor": 0.1,
               "local": {"node_kw": 1.4, "overhead_factor": 1.3}}
-    human = {"synthetic": True, "currency": "SAR", "escalation_to_a_human": 21.0, "rework_of_a_wrong_resolution": 55.0}
+    human = {"synthetic": True, "currency": "SAR", "escalation_to_a_human": 21.0, "rework_of_a_wrong_resolution": 55.0,
+             "floor": {"max_wrong_share_of_resolved": 0.06, "set_by": "the head of billing operations"}}
     return bench, price_sheets, register, batch, energy, human
 
 

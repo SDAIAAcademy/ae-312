@@ -1,0 +1,16 @@
+{
+ "invoice_sar": 8242.62,
+ "gap_pct": 0.75,
+ "node_sar": 3472.0,
+ "layout_saving_pct": 82.2,
+ "router_saving_pct": 38.4,
+ "semantic_sar_month": 233.15,
+ "semantic_wrong_rate": 0.0033,
+ "khulasa_today_sar": 838.22,
+ "khulasa_small_sar": 217.94,
+ "batch_saving_pct": 46.6,
+ "full_cost_per_resolved": {
+  "A": 6.993004113902848,
+  "B": 14.858383297530864
+ }
+}
