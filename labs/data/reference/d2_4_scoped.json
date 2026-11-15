@@ -1,0 +1,25 @@
+{
+ "__frame__": [
+  {
+   "cache": "scoped 0.80",
+   "hit_rate": 0.5470833333,
+   "wrong_rate": 0.2,
+   "wrong_of_hits": 0.365575019,
+   "crossed": 0.0
+  },
+  {
+   "cache": "scoped 0.90",
+   "hit_rate": 0.3429166667,
+   "wrong_rate": 0.0379166667,
+   "wrong_of_hits": 0.1105710814,
+   "crossed": 0.0
+  },
+  {
+   "cache": "scoped 0.95",
+   "hit_rate": 0.2558333333,
+   "wrong_rate": 0.0033333333,
+   "wrong_of_hits": 0.013029316,
+   "crossed": 0.0
+  }
+ ]
+}

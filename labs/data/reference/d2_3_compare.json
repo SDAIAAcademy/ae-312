@@ -1,0 +1,28 @@
+{
+ "__frame__": [
+  {
+   "metric": "hit_rate",
+   "before": 0.0,
+   "after": 0.9995493466,
+   "change_pct": null
+  },
+  {
+   "metric": "cached_share",
+   "before": 0.0,
+   "after": 0.9841954731,
+   "change_pct": null
+  },
+  {
+   "metric": "cost_sar",
+   "before": 60.186597,
+   "after": 10.7315826,
+   "change_pct": -82.1694810225
+  },
+  {
+   "metric": "ttft_ms",
+   "before": 577.604,
+   "after": 307.002,
+   "change_pct": -46.8490522919
+  }
+ ]
+}

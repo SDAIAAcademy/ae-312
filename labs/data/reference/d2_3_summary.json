@@ -1,0 +1,15 @@
+{
+ "before": {
+  "hit_rate": 0.0,
+  "cached_share": 0.0,
+  "cost_sar": 60.186597,
+  "ttft_ms": 577.604
+ },
+ "after": {
+  "hit_rate": 0.9995493465525012,
+  "cached_share": 0.9841954730925961,
+  "cost_sar": 10.731582600000001,
+  "ttft_ms": 307.00199999999995
+ },
+ "saving_pct": 82.2
+}

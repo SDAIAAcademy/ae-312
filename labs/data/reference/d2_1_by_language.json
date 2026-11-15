@@ -1,0 +1,52 @@
+{
+ "__frame__": [
+  {
+   "tier": "tier-l",
+   "reasoning": "high",
+   "en": 0.98,
+   "ar": 0.98,
+   "worst": 0.98,
+   "meets_floor": true
+  },
+  {
+   "tier": "tier-l",
+   "reasoning": "off",
+   "en": 0.98,
+   "ar": 0.96,
+   "worst": 0.96,
+   "meets_floor": true
+  },
+  {
+   "tier": "tier-m",
+   "reasoning": "high",
+   "en": 0.98,
+   "ar": 0.94,
+   "worst": 0.94,
+   "meets_floor": true
+  },
+  {
+   "tier": "tier-m",
+   "reasoning": "off",
+   "en": 0.96,
+   "ar": 0.94,
+   "worst": 0.94,
+   "meets_floor": true
+  },
+  {
+   "tier": "tier-s",
+   "reasoning": "high",
+   "en": 0.92,
+   "ar": 0.78,
+   "worst": 0.78,
+   "meets_floor": false
+  },
+  {
+   "tier": "tier-s",
+   "reasoning": "off",
+   "en": 0.92,
+   "ar": 0.74,
+   "worst": 0.74,
+   "meets_floor": false
+  }
+ ]
+}

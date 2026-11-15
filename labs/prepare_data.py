@@ -497,7 +497,7 @@ def gen_outputs(p, tasks):
                         n_in, cached, n_out, reason = n_in * steps, cached * steps, n_out * steps, reason * steps
                     if status == "error":
                         n_out = reason = 0
-                    per_out = {"tier-s": 6, "tier-m": 12, "tier-l": 22, "local-os": 30}[tier]
+                    per_out = {"tier-s": 4, "tier-m": 7, "tier-l": 11, "local-os": 16}[tier]
                     base = {"tier-s": 350, "tier-m": 500, "tier-l": 800, "local-os": 1500}[tier] * steps
                     lat = int(base + per_out * (n_out + reason) * rng.uniform(0.85, 1.2)) if status == "ok" else rng.randrange(150, 900)
                     rows.append({"app": app, "task": t["id"], "lang": lang, "tier": tier, "reasoning": reasoning, "status": status, "text": text,
@@ -590,45 +590,71 @@ def gen_replay(p):
 
 
 def gen_queries(p):
+    """Questions to the care assistant over the month, each with the id of its right answer.
+
+    Three kinds: questions about the customer's own account (the answer is that customer's alone),
+    frequent general questions (asked again and again in a few wordings, with near-misses such as
+    two plans or activate and deactivate), and a long tail of fault reports.
+    """
     rng = random.Random(p["seed"] + 4)
-    general = []       # (answer_key, [en templates], [ar templates])
+    general = []       # (answer_key, [en templates], [ar templates], weight)
     for name, price, allowance in PLANS:
         general.append((f"price:{name}", [f"How much is the {name} plan?", f"What is the monthly price of the {name} plan?", f"price of {name} per month please"],
-                        [f"كم سعر باقة {name}؟", f"ما هو السعر الشهري لباقة {name}؟", f"سعر باقة {name} في الشهر لو سمحت"]))
-        general.append((f"allowance:{name}", [f"What does the {name} plan include?", f"How much is included in the {name} plan?"],
-                        [f"ماذا تشمل باقة {name}؟", f"كم تشمل باقة {name}؟"]))
+                        [f"كم سعر باقة {name}؟", f"ما هو السعر الشهري لباقة {name}؟", f"سعر باقة {name} في الشهر لو سمحت"], 0.5))
     for en, ar in SERVICES:
         general.append((f"activate:{en}", [f"How do I activate {en}?", f"How can I turn on {en}?", f"I want to activate {en}"],
-                        [f"كيف أفعّل {ar}؟", f"أريد تفعيل {ar}"]))
+                        [f"كيف أفعّل {ar}؟", f"أريد تفعيل {ar}"], 0.6))
         general.append((f"deactivate:{en}", [f"How do I deactivate {en}?", f"How can I turn off {en}?", f"I want to deactivate {en}"],
-                        [f"كيف ألغي تفعيل {ar}؟", f"أريد إلغاء تفعيل {ar}"]))
-    for pid, en, ar, fee, days in TOPICS[:12]:
-        general.append((f"fee:{pid}", [f"What is the fee for {en}?", f"How much does {en} cost?"], [f"كم رسوم {ar}؟", f"ما تكلفة {ar}؟"]))
+                        [f"كيف ألغي تفعيل {ar}؟", f"أريد إلغاء تفعيل {ar}"], 0.3))
+    for pid, en, ar, fee, days in TOPICS:
+        general.append((f"fee:{pid}", [f"What is the fee for {en}?", f"How much does {en} cost?", f"Is there a charge for {en}?"],
+                        [f"كم رسوم {ar}؟", f"ما تكلفة {ar}؟", f"هل توجد رسوم على {ar}؟"], 1.0))
+        general.append((f"time:{pid}", [f"How long does {en} take?", f"How many days for {en}?"],
+                        [f"كم يستغرق {ar}؟", f"كم يوما يحتاج {ar}؟"], 0.7))
     personal = [("balance", ["What is my current balance?", "How much do I owe right now?", "my balance please"], ["كم رصيدي الحالي؟", "كم المبلغ المستحق علي الآن؟"]),
                 ("data_left", ["How much data do I have left?", "What is my remaining data?"], ["كم بقي من بياناتي؟", "ما المتبقي من باقة البيانات؟"]),
                 ("bill_due", ["When is my bill due?", "What is the due date of my bill?"], ["متى موعد سداد فاتورتي؟", "ما تاريخ استحقاق فاتورتي؟"]),
                 ("my_plan", ["Which plan am I on?", "What is my current plan?"], ["ما هي باقتي الحالية؟", "على أي باقة أنا؟"]),
                 ("bill_higher", ["Why is my bill higher this month?", "Why did my bill go up this month?"], ["لماذا فاتورتي أعلى هذا الشهر؟", "لماذا ارتفعت فاتورتي هذا الشهر؟"])]
-    weights = [1 / (i + 1) ** 0.6 for i in range(len(general))]
+    tail_en = (["router", "phone", "SIM", "modem", "tablet", "smart watch", "landline", "TV box"],
+               ["no signal", "slow internet", "dropped calls", "a red light", "no data", "error code 31", "error code 47", "echo on calls", "overheating", "random restarts"],
+               ["this morning", "yesterday", "two days ago", "last week", "the storm", "the update", "moving house", "a trip abroad"],
+               ["Abha", "Taif", "Jazan", "Najran", "Al-Baha", "Tabuk", "Hail", "Arar", "Yanbu", "Bisha"],
+               ["My {d} has {s} since {w} in {p}, what should I do?", "Since {w} my {d} in {p} shows {s}. Any fix?", "{d} problem in {p}: {s} after {w}"])
+    tail_ar = (["الراوتر", "الجوال", "الشريحة", "المودم", "الجهاز اللوحي", "الساعة الذكية", "الهاتف الثابت", "جهاز التلفزيون"],
+               ["لا توجد إشارة", "الإنترنت بطيء", "المكالمات تنقطع", "ضوء أحمر", "لا توجد بيانات", "رمز الخطأ 31", "رمز الخطأ 47", "صدى في المكالمات", "حرارة مرتفعة", "إعادة تشغيل متكررة"],
+               ["منذ الصباح", "منذ أمس", "منذ يومين", "منذ أسبوع", "بعد العاصفة", "بعد التحديث", "بعد الانتقال", "بعد السفر"],
+               ["أبها", "الطائف", "جازان", "نجران", "الباحة", "تبوك", "حائل", "عرعر", "ينبع", "بيشة"],
+               ["{d} عندي فيه مشكلة: {s} {w} في {p}، ما الحل؟", "{w} و{d} في {p}: {s}. ماذا أفعل؟"])
     order = list(range(len(general)))
     rng.shuffle(order)
+    weights = [general[i][3] / (rank + 1) ** 0.35 for rank, i in enumerate(order)]
     custs = [f"c{rng.randrange(60000):05d}" for _ in range(500)]
     rows = []
     for n in range(2400):
         day = 1 + n * p["days"] // 2400
         cust = rng.choice(custs)
         lang = "ar" if rng.random() < 0.6 else "en"
-        if rng.random() < 0.3:
+        r = rng.random()
+        if r < 0.22:
             key, en, ar = rng.choice(personal)
             text = rng.choice(ar if lang == "ar" else en)
-            rows.append({"n": n, "day": day, "customer": cust, "lang": lang, "text": text, "answer_key": f"{key}|{cust}", "used_customer_data": True})
-        else:
-            key, en, ar = general[order[pick_weighted(rng, weights)]]
+            rows.append({"n": n, "day": day, "customer": cust, "lang": lang, "kind": "personal", "text": text,
+                         "answer_key": f"{key}|{cust}", "used_customer_data": True})
+        elif r < 0.62:
+            key, en, ar, _ = general[order[pick_weighted(rng, weights)]]
             text = rng.choice(ar if lang == "ar" else en)
-            if lang == "en" and rng.random() < 0.25:
-                text = rng.choice(["Hi, ", "Hello, ", "Please, "]) + text[0].lower() + text[1:]
+            if lang == "en" and rng.random() < 0.3:
+                text = rng.choice(["Hi, ", "Hello, ", "Please, ", "Quick question: "]) + text[0].lower() + text[1:]
             version = "v2" if (key == "price:Mawj 85" and day >= 15) else "v1"       # the price of one plan changes on day 15
-            rows.append({"n": n, "day": day, "customer": cust, "lang": lang, "text": text, "answer_key": f"{key}|{version}|{lang}", "used_customer_data": False})
+            rows.append({"n": n, "day": day, "customer": cust, "lang": lang, "kind": "general", "text": text,
+                         "answer_key": f"{key}|{version}|{lang}", "used_customer_data": False})
+        else:
+            devices, symptoms, whens, places, templates = tail_ar if lang == "ar" else tail_en
+            d, sy = rng.randrange(len(devices)), rng.randrange(len(symptoms))
+            text = rng.choice(templates).format(d=devices[d], s=symptoms[sy], w=rng.choice(whens), p=rng.choice(places))
+            rows.append({"n": n, "day": day, "customer": cust, "lang": lang, "kind": "fault", "text": text[0].upper() + text[1:],
+                         "answer_key": f"fault:{d}:{sy}|{lang}", "used_customer_data": False})
     return rows
 
 

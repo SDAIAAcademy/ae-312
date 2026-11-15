@@ -1,0 +1,46 @@
+{
+ "__frame__": [
+  {
+   "tier": "tier-l",
+   "reasoning": "high",
+   "pass_rate": 0.98,
+   "p50_latency_s": 10.562,
+   "sar_per_task": 0.13472076
+  },
+  {
+   "tier": "tier-l",
+   "reasoning": "off",
+   "pass_rate": 0.97,
+   "p50_latency_s": 2.7965,
+   "sar_per_task": 0.10204536
+  },
+  {
+   "tier": "tier-m",
+   "reasoning": "high",
+   "pass_rate": 0.96,
+   "p50_latency_s": 6.6555,
+   "sar_per_task": 0.03334854
+  },
+  {
+   "tier": "tier-m",
+   "reasoning": "off",
+   "pass_rate": 0.95,
+   "p50_latency_s": 1.7565,
+   "sar_per_task": 0.02574099
+  },
+  {
+   "tier": "tier-s",
+   "reasoning": "high",
+   "pass_rate": 0.85,
+   "p50_latency_s": 3.6065,
+   "sar_per_task": 0.006496116
+  },
+  {
+   "tier": "tier-s",
+   "reasoning": "off",
+   "pass_rate": 0.83,
+   "p50_latency_s": 1.09,
+   "sar_per_task": 0.004989348
+  }
+ ]
+}

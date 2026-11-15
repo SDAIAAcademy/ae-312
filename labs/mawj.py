@@ -7,7 +7,6 @@ and the reference values behind the safety-net cells. Everything about Mawj is s
 from __future__ import annotations
 
 import gzip
-import hashlib
 import json
 import os
 import re
@@ -219,15 +218,24 @@ def build_prompt(req, layout=CURRENT_LAYOUT, sort_policies=False):
     return "\n\n".join(render_part(req, part, sort_policies) for part in layout)
 
 
+_VOCAB = {}
+
+
+@lru_cache(maxsize=4096)
+def _token_ids(text):
+    return tuple(_VOCAB.setdefault(t, len(_VOCAB)) for t in tokenize(text))
+
+
 def prompt_tokens(req, layout=CURRENT_LAYOUT, sort_policies=False):
+    """The prompt as a list of token ids (integers), part by part: what the prefix cache compares."""
     toks = []
     for part in layout:
         if part == "policies":
             _, sections = _prompt_parts()
             for s in (sorted(req["section_order"]) if sort_policies else req["section_order"]):
-                toks.extend(tokenize(sections[s]))
+                toks.extend(_token_ids(sections[s]))
         else:
-            toks.extend(tokenize(render_part(req, part)))
+            toks.extend(_token_ids(render_part(req, part)))
     return toks
 
 
@@ -254,10 +262,9 @@ class PrefixCache:
 
     def lookup(self, tokens, t):
         """Return (cached_tokens, written_tokens) for a prompt sent at time t (seconds), then store it."""
-        h, cached, alive, hashes = hashlib.md5(), 0, True, []
+        d, cached, alive, hashes = 0, 0, True, []
         for k in range(len(tokens) // self.block):
-            h.update("\x1f".join(tokens[k * self.block:(k + 1) * self.block]).encode("utf-8"))
-            d = h.digest()
+            d = hash((d, tuple(tokens[k * self.block:(k + 1) * self.block])))      # a chain: one value per prefix
             hashes.append(d)
             if alive and t - self.seen.get(d, -1e18) < self.ttl_s:
                 cached = (k + 1) * self.block
@@ -352,8 +359,11 @@ LIVE_MODELS = {
 BASE_URL = os.environ.get("MAWJ_BASE_URL", "https://openrouter.ai/api/v1")
 
 
+_REFUSED = []
+
+
 def live():
-    return bool(os.environ.get("OPENROUTER_API_KEY")) and os.environ.get("MAWJ_LIVE", "1") != "0"
+    return bool(os.environ.get("OPENROUTER_API_KEY")) and os.environ.get("MAWJ_LIVE", "1") != "0" and not _REFUSED
 
 
 def chat(tier, system, user, stand_in=None, max_tokens=300):
@@ -379,8 +389,13 @@ def chat(tier, system, user, stand_in=None, max_tokens=300):
                         "latency_ms": int((time.time() - t0) * 1000)}
             except Exception as e:                      # a busy free model, a rate limit, a refused key
                 last = e
+                if getattr(e, "code", None) in (401, 402, 403):
+                    _REFUSED.append(e.code)             # the key is refused: do not try again in this session
+                    print(f"   the provider refused the key (HTTP {e.code}); the supplied outputs are used from here on")
+                    break
                 time.sleep(2 + 3 * attempt)
-        print(f"   live call failed ({type(last).__name__}); using the stand-in")
+        else:
+            print(f"   live call failed ({type(last).__name__}); using the stand-in for this task")
     s = stand_in or {}
     return {"text": s.get("text", ""), "source": "stand-in", "input_tokens": s.get("input_tokens", 0),
             "output_tokens": s.get("output_tokens", 0), "cached_tokens": s.get("cached_tokens", 0), "latency_ms": s.get("latency_ms", 0)}

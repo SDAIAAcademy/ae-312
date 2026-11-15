@@ -1,0 +1,11 @@
+{
+ "silent_failures": {
+  "ar": 8,
+  "en": 2
+ },
+ "caught_failures": {
+  "ar": 5,
+  "en": 2
+ },
+ "false_alarms": 0
+}

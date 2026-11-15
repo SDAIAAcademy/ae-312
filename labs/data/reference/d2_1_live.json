@@ -1,0 +1,64 @@
+{
+ "__frame__": [
+  {
+   "task": "A-en-03",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  },
+  {
+   "task": "A-en-11",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  },
+  {
+   "task": "A-en-20",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  },
+  {
+   "task": "A-en-34",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  },
+  {
+   "task": "A-en-47",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  },
+  {
+   "task": "A-ar-03",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  },
+  {
+   "task": "A-ar-11",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  },
+  {
+   "task": "A-ar-20",
+   "source": "stand-in",
+   "passed_live": false,
+   "passed_supplied": false
+  },
+  {
+   "task": "A-ar-34",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  },
+  {
+   "task": "A-ar-47",
+   "source": "stand-in",
+   "passed_live": true,
+   "passed_supplied": true
+  }
+ ]
+}

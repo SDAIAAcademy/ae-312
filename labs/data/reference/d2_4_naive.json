@@ -1,0 +1,32 @@
+{
+ "__frame__": [
+  {
+   "cache": "exact",
+   "hit_rate": 0.4458333333,
+   "wrong_rate": 0.205,
+   "wrong_of_hits": 0.4598130841,
+   "crossed": 490.0
+  },
+  {
+   "cache": "semantic 0.80",
+   "hit_rate": 0.7483333333,
+   "wrong_rate": 0.4041666667,
+   "wrong_of_hits": 0.5400890869,
+   "crossed": 490.0
+  },
+  {
+   "cache": "semantic 0.90",
+   "hit_rate": 0.5441666667,
+   "wrong_rate": 0.2420833333,
+   "wrong_of_hits": 0.4448698315,
+   "crossed": 490.0
+  },
+  {
+   "cache": "semantic 0.95",
+   "hit_rate": 0.4570833333,
+   "wrong_rate": 0.2075,
+   "wrong_of_hits": 0.4539653601,
+   "crossed": 490.0
+  }
+ ]
+}

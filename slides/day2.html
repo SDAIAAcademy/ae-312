@@ -1,158 +1,525 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Yesterday you measured where the money goes. Today you lower it, and every saving has to pass a quality floor first. Remind the room of the order: the floor is set by the application's owner before any price is compared. Only one step of one lab calls a model today (Lab 2.1, step 4); without a key it uses supplied outputs.</p></aside>
 </section>
 
 <section class="slide" id="agenda" data-auto="agenda"></section>
 
-<!-- Session 1 -->
-
-<section class="slide section" id="s1" data-auto="section" data-session="1"></section>
-
-<section class="slide" id="s1-idea" data-lo="LO3">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="review-day-1" data-lo="LO1">
+  <div class="kicker">Review of Day 1</div>
+  <h2>Which request is on the bill?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">The dispute agent sends a prompt of 20,000 tokens, 19,200 of them cached. The client times out after the provider has written 300 tokens. How is this attempt billed?</p>
+    <div class="opts">
+      <div class="opt" data-why="Assumes a failed attempt is free: the provider bills what it started to answer">Not at all, because no answer arrived</div>
+      <div class="opt" data-ok>800 input tokens at the input price, 19,200 at the cached price, 300 at the output price</div>
+      <div class="opt" data-why="Forgets the cached discount: input tokens include the cached ones, at a lower price">20,000 tokens at the input price and 300 at the output price</div>
+      <div class="opt" data-why="Counts cached tokens twice: they are part of the 20,000, not on top of them">20,000 at the input price, 19,200 more at the cached price, 300 at the output price</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A timeout is billed for what the provider did. Input includes cached tokens, so only the 800 uncached ones pay the full input price.</div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>Answer: B. This is the cost model of Lab 1.1 in one request, and the kind of arithmetic the supervised check asks for without AI assistance. If the room hesitates, write the formula of yesterday's code slide on the board.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps" data-lo="LO3">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
+<!-- ======================= SESSION 1 ======================= -->
+<section class="slide section" id="s1" data-auto="section" data-session="1"></section>
+
+<section class="slide" id="floor-first" data-label="Floor first" data-lo="LO3">
+  <div class="kicker">The order of work</div>
+  <h2>Set the quality floor first, then cut cost</h2>
   <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+    <div class="step c-navy"><b>1 · Floor</b>the owner states the lowest acceptable pass rate</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>2 · Measure</b>every candidate on your own tasks</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>3 · Choose</b>the cheapest candidate above the floor</div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <div class="callout warn small mt"><b>What goes wrong.</b> Prices are compared first, a cheap configuration is chosen, and the floor is then set wherever that configuration happens to land.</div>
+  <aside class="notes"><p>At Mawj the floors are in data/eval/floors.json: 92% for Anis and Khulasa, 90% for Fasil, in each language. Taghreed, Qutaiba and Humoud set them; the cost engineer does not. This is also the course's responsible-use line: savings are tested for loss of quality before they count.</p></aside>
+</section>
+
+<section class="slide" id="own-tasks" data-label="Own tasks" data-lo="LO3">
+  <div class="kicker">Own-task evaluation</div>
+  <h2>A leaderboard does not know your plans or your customers' Arabic</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li><b>100 labelled tasks per application</b>, half in English and half in Arabic, each with the facts a right answer must hold.</li>
+      <li><b>A grader in code</b>: the facts are there and the answer is in the customer's language.</li>
+      <li><b>Every candidate on the same tasks</b>: three tiers, two reasoning settings, with tokens and latency recorded.</li>
+    </ul>
+    <div class="card c-teal"><h4>One task of Anis</h4><p class="small mb0"><span class="ar">كم سعر باقة Mawj 55 في الشهر وماذا تشمل؟</span><br>Must include: 55, 10. Language: Arabic.</p></div>
+  </div>
+  <aside class="notes"><p>AE-203 built forty golden cases and a grader; this session assumes that skill and uses it to choose a model. An evaluation harness (promptfoo and Inspect are two examples) runs the same matrix against live models; in the lab the outputs are supplied, synthetic and recorded with their token counts, so the lab takes minutes and costs nothing. Evaluation as a discipline is AE-303.</p></aside>
+</section>
+
+<section class="slide" id="six-configurations" data-label="Six settings" data-lo="LO3">
+  <div class="kicker">Lab 2.1 · the care assistant</div>
+  <h2>Six configurations on 100 tasks: quality, latency, cost</h2>
+  <table class="t small">
+    <tr><th>Tier</th><th>Reasoning</th><th class="num">Pass rate</th><th class="num">Median latency</th><th class="num">SAR per task</th></tr>
+    <tr><td><code>tier-s</code></td><td>off</td><td class="num">83%</td><td class="num">1.1 s</td><td class="num">0.0050</td></tr>
+    <tr><td><code>tier-s</code></td><td>high</td><td class="num">85%</td><td class="num">3.6 s</td><td class="num">0.0065</td></tr>
+    <tr class="hl"><td><code>tier-m</code></td><td>off</td><td class="num">95%</td><td class="num">1.8 s</td><td class="num">0.0257</td></tr>
+    <tr><td><code>tier-m</code></td><td>high</td><td class="num">96%</td><td class="num">6.7 s</td><td class="num">0.0333</td></tr>
+    <tr><td><code>tier-l</code></td><td>off</td><td class="num">97%</td><td class="num">2.8 s</td><td class="num">0.1020</td></tr>
+    <tr><td><code>tier-l</code></td><td>high</td><td class="num">98%</td><td class="num">10.6 s</td><td class="num">0.1347</td></tr>
+  </table>
+  <aside class="notes"><p>From the Lab 2.1 solution run on the supplied outputs. Three columns, never one: a configuration is a point in quality, latency and cost. Ask the room to pick before the next slide. Most pick tier-m off, for the right reason; some pick tier-s for its price. The next slide is for them.</p></aside>
+</section>
+
+<section class="slide" id="floor-per-language" data-label="By language" data-lo="LO3">
+  <div class="kicker">The floor holds in each language</div>
+  <h2>The small tier passes in English and fails in Arabic</h2>
+  <div class="bars">
+    <div class="row"><span>tier-s · English</span><div class="bar c-teal" style="--w:92%"></div><span class="val">92%</span></div>
+    <div class="row"><span>tier-s · Arabic</span><div class="bar c-coral" style="--w:74%"></div><span class="val">74%</span></div>
+    <div class="row"><span>tier-m · English</span><div class="bar c-teal" style="--w:96%"></div><span class="val">96%</span></div>
+    <div class="row"><span>tier-m · Arabic</span><div class="bar c-teal" style="--w:94%"></div><span class="val">94%</span></div>
+  </div>
+  <p class="small mt">Floor: 92% in each language. An average of 83% says "a bit low"; the split says who pays for it. Six in ten of Anis's customers write in Arabic.</p>
+  <aside class="notes"><p>Reasoning off in all four bars. A cheaper route must keep the floor in Arabic and in English: that sentence is in the course's responsible-use statement and it is a rubric line of the capstone. Some of the small tier's Arabic failures are answers in English to an Arabic question; read a few in the lab before counting.</p></aside>
+</section>
+
+<section class="slide" id="what-reasoning-buys" data-label="Reasoning" data-lo="LO3">
+  <div class="kicker">Reasoning settings</div>
+  <h2>Reasoning is paid in output tokens and in seconds: buy it where it helps</h2>
+  <div class="cols cols-2">
+    <div class="card c-coral"><h4>Anis, a lookup</h4><p class="small mb0">High reasoning on the medium tier: 95% to 96%, one task. Cost up 30%, latency from 1.8 s to 6.7 s.</p></div>
+    <div class="card c-teal"><h4>Fasil, a decision in several steps</h4><p class="small mb0">High reasoning on the medium tier: 76% to 91%. Without it, no tier reaches the floor of 90%.</p></div>
+  </div>
+  <div class="callout tip small mt"><b>A setting per application.</b> The reasoning setting is a second dial beside the tier, and the right position differs by task.</div>
+  <aside class="notes"><p>From the stretch of Lab 2.1. Reasoning tokens are billed as output (yesterday's cost model). For a care answer the customer also waits four times longer. For the dispute agent the large tier without reasoning scores 86%, below the medium tier with it at 91%: the cheaper model thinking beats the dearer one not thinking, on this task.</p></aside>
+</section>
+
+<section class="slide" id="three-applications-three-answers" data-label="Three answers" data-lo="LO3">
+  <div class="kicker">The results table</div>
+  <h2>Three applications, three different answers</h2>
+  <table class="t small">
+    <tr><th>Application</th><th>Runs on</th><th>Cheapest above the floor</th><th>Finding</th></tr>
+    <tr><td>Anis</td><td>tier-m, off</td><td>tier-m, off</td><td>right-sized as one tier; routing is the next step</td></tr>
+    <tr><td>Khulasa</td><td>tier-m, off</td><td>tier-s, off: 94%, SAR 0.0067 a task</td><td>79% cheaper per task at the floor</td></tr>
+    <tr><td>Fasil</td><td>tier-l, high</td><td>tier-m, high: 91%, SAR 0.21 a task</td><td>passes the floor by one task: not settled</td></tr>
+  </table>
+  <aside class="notes"><p>Khulasa on the small tier scores 96% in English and 92% in Arabic, at the floor exactly: a saving to take to Qutaiba with that number beside it. Fasil on the medium tier is 92% and 90%: on the floor. Do not close that one today. Lab 3.3 looks at what the cheaper configuration did in production.</p></aside>
+</section>
+
+<section class="slide" id="one-task-is-two-points" data-label="Noise" data-lo="LO3">
+  <div class="kicker">How much a table can say</div>
+  <h2>With 50 tasks per language, one task is two points</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>94% and 92% differ by <b>one task</b>. Do not rank on that.</li>
+      <li>A configuration exactly on the floor has passed once, on this sample.</li>
+      <li>More tasks, repeated runs, or a paired comparison narrow it. The size of the saving says how much care it deserves.</li>
+    </ul>
+    <div class="card c-purple flat"><h4>Report it this way</h4><p class="small mb0">"45 of 50 in Arabic, floor 46 of 50" is harder to misread than "90%".</p></div>
+  </div>
+  <aside class="notes"><p>Statistics of evaluation (intervals, paired tests, repeated trials) are AE-303; here the habit is enough: counts beside percentages, and no decision on a one-task difference. This matters for the capstone rubric's routing evaluation line.</p></aside>
+</section>
+
+<section class="slide" id="check-the-recording" data-label="Live check" data-lo="LO3">
+  <div class="kicker">Lab 2.1 · step 4</div>
+  <h2>Supplied outputs are a recording: check a sample of it live</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Sample</b>ten tasks, five per language</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Rerun</b>the same prompt against a live model</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>3 · Compare</b>the same grader; read each disagreement</div>
+  </div>
+  <div class="callout note small mt"><b>What it proves.</b> That the prompt, the task and the grader work on a real model. A free hosted model is not the provider's tier, so it does not confirm the pass rates.</div>
+  <aside class="notes"><p>The step reads OPENROUTER_API_KEY and calls a free hosted model for each tier (the ids are in labs/.env.example; free models change often, check them before the cohort). Without a key, or when the provider refuses it, the step returns the supplied output and says "stand-in": then nothing was checked, and the notebook says so. Free tiers have daily request limits: ten tasks fit, a hundred may not.</p></aside>
+</section>
+
+<section class="slide" id="check-floor-language" data-lo="LO3">
+  <div class="kicker">Checkpoint</div>
+  <h2>95% overall</h2>
+  <div class="quiz" data-type="single" data-lo="LO3">
+    <p class="lead">A cheaper configuration scores 95% on 100 tasks: 50 of 50 in English, 45 of 50 in Arabic. The floor is 92% in each language. Most customers write in Arabic. What do you report?</p>
+    <div class="opts">
+      <div class="opt" data-why="Averages over languages: the overall rate hides the language that fails">It passes: 95% is above the floor</div>
+      <div class="opt" data-why="Moves the floor to fit the candidate: the owner set it before prices were compared">It passes if the floor for Arabic is lowered to 90%</div>
+      <div class="opt" data-why="Discards a usable result: the configuration does meet the floor in English">It fails and should be dropped from the table</div>
+      <div class="opt" data-ok>It fails the floor in Arabic; it is a candidate for English traffic only</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The floor holds per language: 45 of 50 is 90%. The result is still useful: a router can send English there, which is the next session.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. Option C is the cautious wrong answer: a configuration that fails for one group can still serve another, if the router can tell them apart.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-1" data-auto="lab" data-lab="2.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Steps 1 to 3 call no model. Step 4 calls a free hosted model when a key is set; a busy free model or a refused key falls back to the supplied output with a printed line. Typical problems: a grader that ignores language; averaging latency instead of taking the median; choosing on the overall pass rate. The check cells compare with the reference grader on all 600 outputs.</p></aside>
 </section>
 
-<!-- Session 2 -->
-
+<!-- ======================= SESSION 2 ======================= -->
 <section class="slide section" id="s2" data-auto="section" data-session="2"></section>
 
-<section class="slide" id="s2-idea" data-lo="LO3">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="not-every-request" data-label="Why route" data-lo="LO3">
+  <div class="kicker">Routing</div>
+  <h2>Most requests do not need the tier that the hardest ones need</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="stat center"><div class="big">5x</div><div class="lbl">the price of tier-m over tier-s</div></div>
+    <div class="stat center"><div class="big">46 of 50</div><div class="lbl">English tasks of Anis the small tier answers right</div></div>
+    <div class="stat center"><div class="big">37 of 50</div><div class="lbl">Arabic tasks it answers right</div></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <p class="small mt">One tier for everything pays the high price on every easy request. A router sends each request to the cheapest tier that can do it, and has to know which that is.</p>
+  <aside class="notes"><p>The price ratio is from the synthetic sheet; the idea holds for any pair of tiers. The second and third numbers are the reason a router must look at the request: the same tier is good enough for one language and not for the other.</p></aside>
 </section>
 
-<section class="slide" id="s2-steps" data-lo="LO3">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="three-kinds-of-router" data-label="Router kinds" data-lo="LO3">
+  <div class="kicker">Tiers, cascades and learned routers</div>
+  <h2>Three ways to decide where a request goes</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>A rule before the call</h4><p class="small mb0">By something known up front: language, application, intent. Costs nothing. As good as the measurement behind it.</p></div>
+    <div class="card c-cyan"><h4>A cascade</h4><p class="small mb0">Try the cheap tier, check the answer, escalate when the check fails. Pays twice for escalated requests.</p></div>
+    <div class="card c-purple"><h4>A learned router</h4><p class="small mb0">A small model predicts whether the cheap tier will do. Needs training data and its own evaluation.</p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">Lab 2.2 builds the first two. Whichever you use, it is judged the same way: cost per successful outcome at the floor.</p>
+  <aside class="notes"><p>Cascades were studied under the name FrugalGPT; learned routers under RouteLLM, which trains a router between a strong and a weak model from preference data. Both papers report large savings at matched quality on their benchmarks: your tasks decide what you get. Sources: Chen, Zaharia, Zou (2023), FrugalGPT; Ong and others (2024), RouteLLM.</p></aside>
+</section>
+
+<section class="slide" id="check-without-label" data-label="The check" data-lo="LO3">
+  <div class="kicker">The quality check of a cascade</div>
+  <h2>In production nobody tells the router that an answer was wrong</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>What a check can see</h4><p class="small mb0">The call errored. The answer is empty. It is not in the language of the question. It hedges. It does not parse or breaks the schema.</p></div>
+    <div class="card c-coral"><h4>What it cannot see</h4><p class="small mb0">A fluent answer, in the right language, with the wrong fee. Seeing that needs the right answer, or a grader as good as the large tier.</p></div>
+  </div>
+  <div class="callout tip small mt"><b>Measure the check too.</b> On labelled tasks, count the failures it catches, the failures it lets through and the right answers it rejects.</div>
+  <aside class="notes"><p>The check is the heart of a cascade and usually the least tested part. A model grader as check is possible and costs a call of its own; then the cascade's arithmetic must include it. In the lab the check is four lines of code and reads only the status, the text and the question.</p></aside>
+</section>
+
+<section class="slide" id="what-the-check-misses" data-label="Silent failures" data-lo="LO3">
+  <div class="kicker">Lab 2.2 · the check, measured</div>
+  <h2>The check catches the visible failures; in Arabic most are not visible</h2>
+  <table class="t small">
+    <tr><th>Failures of the small tier</th><th class="num">English</th><th class="num">Arabic</th></tr>
+    <tr><td>Caught by the check, escalated</td><td class="num">2</td><td class="num">5</td></tr>
+    <tr><td>Let through: confident and wrong</td><td class="num">2</td><td class="num">8</td></tr>
+    <tr><td>Right answers rejected</td><td class="num">0</td><td class="num">0</td></tr>
+  </table>
+  <p class="small mt">A plain cascade therefore ends at 48 of 50 in English and <b>42 of 50 in Arabic</b>: below the floor in the language of most customers.</p>
+  <aside class="notes"><p>From the Lab 2.2 solution run. The eight Arabic answers are in Arabic, sound sure and quote a wrong price. This table decides the design: escalation cannot rescue Arabic, so Arabic must not start on the small tier.</p></aside>
+</section>
+
+<section class="slide" id="cost-per-successful-outcome" data-label="The unit" data-lo="LO3">
+  <div class="kicker">The number to choose by</div>
+  <h2>Failed first attempts are paid: divide all spend by the successes</h2>
+  <pre class="code s" data-file="cost per successful outcome"><code class="language-python">spend     = sum(cost of EVERY attempt, the rejected ones too)
+successes = number of requests whose final answer was right
+cost_per_successful_outcome = spend / successes</code></pre>
+  <div class="callout warn small mt"><b>Two ways to fool yourself.</b> Counting only the final attempt's cost flatters a cascade. Dividing by requests instead of successes flatters a tier that is cheap and wrong.</div>
+  <aside class="notes"><p>The FinOps Foundation's guidance on AI names this unit: measure cost per successful outcome. Day 3 widens "outcome" from a right answer to a resolved dispute, and "cost" to the people who handle what the model could not. Sources: FinOps Foundation, FinOps for AI overview.</p></aside>
+</section>
+
+<section class="slide" id="router-results" data-label="Four policies" data-lo="LO3">
+  <div class="kicker">Lab 2.2 · the result</div>
+  <h2>The router that keeps both floors costs 38% less per success</h2>
+  <table class="t small">
+    <tr><th>Policy</th><th class="num">English</th><th class="num">Arabic</th><th class="num">SAR per success</th><th>Floor</th></tr>
+    <tr><td>Always tier-s</td><td class="num">92%</td><td class="num">74%</td><td class="num">0.0060</td><td>fails</td></tr>
+    <tr><td>Always tier-m</td><td class="num">96%</td><td class="num">94%</td><td class="num">0.0271</td><td>holds</td></tr>
+    <tr><td>Cascade, s then m</td><td class="num">96%</td><td class="num">84%</td><td class="num">0.0075</td><td>fails</td></tr>
+    <tr class="hl"><td>Cascade for English, Arabic direct to m</td><td class="num">96%</td><td class="num">94%</td><td class="num">0.0167</td><td>holds</td></tr>
+  </table>
+  <div class="caption">100 tasks of the care assistant, half in each language; supplied outputs.</div>
+  <aside class="notes"><p>The cheapest row and the second cheapest both fail. The chosen policy gives up most of the possible saving to keep Arabic at 94%, and still costs 38% less than the medium tier alone. Say on which mix it was measured: the task set is half Arabic, production is about 62%, so the saving on the month is smaller. The router file in artifacts/D2_2/router.json records the policy with these numbers and that caveat: it is the evidence of this outcome.</p></aside>
+</section>
+
+<section class="slide" id="fallback-is-not-escalation" data-label="Fallbacks" data-lo="LO3">
+  <div class="kicker">Two reasons to call a second model</div>
+  <h2>A fallback answers an outage; an escalation answers a doubt</h2>
+  <div class="cols cols-2">
+    <div class="card c-coral"><h4>Fallback</h4><p class="small mb0">The first model errored or timed out after its retries. The gateway calls another model. Protects availability.</p></div>
+    <div class="card c-teal"><h4>Escalation</h4><p class="small mb0">The first model answered and the check rejected the answer. The router calls a stronger tier. Protects quality.</p></div>
+  </div>
+  <ul class="bullets small mt">
+    <li>A fallback target must have passed the same floor, or an outage quietly becomes a quality incident.</li>
+    <li>Both are extra calls: both belong in cost per successful outcome.</li>
+  </ul>
+  <aside class="notes"><p>Gateways configure fallbacks as a list: after a number of retries a call falls back from one model name to another; LiteLLM's router settings are one example. AE-203 set up a fallback model for reliability; here ask what that fallback was evaluated on. In the lab an errored call of the small tier is treated like a failed check and goes to the medium tier. Sources: LiteLLM documentation, fallbacks.</p></aside>
+</section>
+
+<section class="slide" id="switching-costs-cache" data-label="Switching" data-lo="LO3 LO4">
+  <div class="kicker">Cache cost of switching models</div>
+  <h2>A cache belongs to one model: a switch in mid-conversation starts cold</h2>
+  <div class="cols cols-2">
+    <div class="cols cols-2 gap-s">
+      <div class="stat center"><div class="big">0.0047</div><div class="lbl">SAR, a turn on tier-m with a warm cache</div></div>
+      <div class="stat center"><div class="big">0.0247</div><div class="lbl">SAR, the same turn right after a switch</div></div>
+    </div>
+    <ul class="bullets small">
+      <li>The tier that takes over has never seen the prompt: 7,600 input tokens at the full price, <b>5.3 times</b> a warm turn.</li>
+      <li>Route a conversation once, at its start, when you can.</li>
+      <li>For an agent, a switch at step 20 repays the whole history.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From the stretch of Lab 2.2, with the cached layout of the next session. This is why a router's saving measured on single-turn tasks overstates what it does to multi-turn traffic, and why yesterday's agent would be expensive to move between tiers mid-session.</p></aside>
+</section>
+
+<section class="slide" id="check-cascade-cost" data-lo="LO3">
+  <div class="kicker">Checkpoint</div>
+  <h2>What the cascade costs</h2>
+  <div class="quiz" data-type="single" data-lo="LO3">
+    <p class="lead">A cascade sends 100 requests to a tier at SAR 0.005 each. 20 fail the check and go to a tier at SAR 0.025. In the end 95 answers are right. What is the cost per successful outcome?</p>
+    <div class="opts">
+      <div class="opt" data-ok>SAR 0.0105: all 120 calls are paid, divided by 95 successes</div>
+      <div class="opt" data-why="Divides by requests: the five wrong answers were paid for and are not outcomes">SAR 0.0100: total spend divided by 100 requests</div>
+      <div class="opt" data-why="Drops the rejected first attempts: they were billed like any other call">SAR 0.0095: 80 cheap calls and 20 dear ones, divided by 95</div>
+      <div class="opt" data-why="Averages the two prices: ignores how many requests took each path">SAR 0.0150: the mean of the two tiers' prices</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> 100 calls at 0.005 plus 20 at 0.025 is SAR 1.00. Divided by the 95 right answers: SAR 0.0105.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. Do the arithmetic on the board: 0.50 plus 0.50, over 95. Option C is the common one: it forgets that the 20 escalated requests paid for their first attempt too.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-2" data-auto="lab" data-lab="2.2">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>No model is called: routing is replayed on the supplied outputs of both tiers. Typical problems: reading the label inside the check (the check cell cannot detect it, so say it aloud: the check may use the status, the text and the question only); forgetting the cost of the first attempt; routing by the task's language field instead of detecting it from the question. The lab starts from supplied outputs and does not need Lab 2.1.</p></aside>
 </section>
 
-<!-- Session 3 -->
-
+<!-- ======================= SESSION 3 ======================= -->
 <section class="slide section" id="s3" data-auto="section" data-session="3"></section>
 
-<section class="slide" id="s3-idea" data-lo="LO4">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" id="nothing-cached" data-label="Zero cached" data-lo="LO4">
+  <div class="kicker">The care assistant in October</div>
+  <h2>Anis resends 8,400 tokens per request and none of them is cached</h2>
   <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
+    <table class="t small">
+      <tr><th>Part of the prompt</th><th class="num">Tokens</th></tr>
+      <tr><td>Clock</td><td class="num">14</td></tr>
+      <tr><td>Customer profile</td><td class="num">27</td></tr>
+      <tr><td>Instructions and plan sheet</td><td class="num">1,593</td></tr>
+      <tr><td>Policy sections</td><td class="num">6,706</td></tr>
+      <tr><td>History and question</td><td class="num">13 and up</td></tr>
+    </table>
+    <ul class="bullets small">
+      <li>99% of the prompt is the same text for every customer.</li>
+      <li>The provider caches prefixes and the log shows <b>0</b> cached tokens for Anis.</li>
+      <li>The parts are in the order above.</li>
     </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>Token counts are from the lab's plain tokenizer on one replayed request. Ask the room why nothing is cached before the next slide; someone will see the clock. Yesterday's finding returns: the input side is 90% of an Anis request.</p></aside>
 </section>
 
-<section class="slide" id="s3-steps" data-lo="LO4">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="how-a-prefix-cache-matches" data-label="Prefix match" data-lo="LO4">
+  <div class="kicker">How a prefix cache works</div>
+  <h2>A prompt is reused only as far as it is identical from its first token</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>From the start</h4><p class="small mb0">The cache compares prompts from token 1. The first difference ends the match.</p></div>
+    <div class="card c-cyan"><h4>A minimum, in steps</h4><p class="small mb0">One large provider caches from 1,024 tokens and reports cached tokens in multiples of 128.</p></div>
+    <div class="card c-purple"><h4>For minutes</h4><p class="small mb0">An unused entry expires after about 5 minutes with two large providers; a use refreshes it. Longer lifetimes exist, at a price.</p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <div class="callout note small mt"><b>Prices differ too.</b> With one large provider a cached read costs a tenth of the input price and writing a 5-minute entry costs 1.25 times it.</div>
+  <aside class="notes"><p>These are the published rules that the lab's model, M.PrefixCache, takes as parameters: minimum 1,024 tokens, steps of 128, a lifetime of 300 seconds. Providers differ in whether caching is automatic or marked by breakpoints, in lifetimes and in write prices: read the page of yours, and treat every figure here as something to re-verify. How an inference engine keeps and shares this cache is AE-401. Sources: OpenAI documentation, prompt caching; Claude Platform documentation, prompt caching.</p></aside>
+</section>
+
+<section class="slide" id="three-breakers" data-label="Three breakers" data-lo="LO4">
+  <div class="kicker">Lab 2.3 · the diagnosis</div>
+  <h2>Three things break the shared prefix, and one is invisible in the template</h2>
+  <table class="t small">
+    <tr><th>Layout</th><th class="num">Two prompts are equal up to token</th><th>What differs there</th></tr>
+    <tr><td>Today</td><td class="num">13</td><td>a clock with seconds in the first line</td></tr>
+    <tr><td>Clock moved to the end</td><td class="num">2</td><td>the customer's profile</td></tr>
+    <tr><td>Profile after the policies</td><td class="num">1,597</td><td>the policy sections, in another order each time</td></tr>
+    <tr class="hl"><td>Policy sections sorted</td><td class="num">8,301</td><td>the two customers' profiles</td></tr>
+  </table>
+  <aside class="notes"><p>From the Lab 2.3 solution run, comparing two requests of different customers seconds apart. The third breaker is the instructive one: the application builds the policy pack from a set, so the order changes on every request. No review of the prompt template finds it; comparing two real prompts token by token does. Retrieved passages in ranked order and tool lists built from dictionaries break prefixes the same way.</p></aside>
+</section>
+
+<section class="slide" id="stable-first" data-label="The rule" data-lo="LO4">
+  <div class="kicker">Prompt layout</div>
+  <h2>Stable first, variable last</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Same for everyone</b>instructions, plan sheet, policy sections in a fixed order</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Same in a conversation</b>profile, then history</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>3 · New each request</b>the question, then the clock</div>
+  </div>
+  <div class="callout tip small mt"><b>History is a prefix too.</b> Turn 2 extends turn 1, so a conversation reuses its own earlier turns, if nothing that changes sits in front of them.</div>
+  <aside class="notes"><p>The same six parts, the same words, another order. Nothing is removed from the prompt. Ask what else in the room's own applications sits at the top and changes: a request id, a date, a user name, a random example order.</p></aside>
+</section>
+
+<section class="slide" id="before-and-after" data-label="Before, after" data-lo="LO4">
+  <div class="kicker">Lab 2.3 · the result</div>
+  <h2>The same words in another order: 82% cheaper and first token sooner</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="stat center"><div class="big">0 → 98%</div><div class="lbl">of input tokens read from the cache</div></div>
+    <div class="stat center"><div class="big">60.19</div><div class="lbl">SAR for two busy hours before</div></div>
+    <div class="stat center"><div class="big">10.73</div><div class="lbl">SAR after</div></div>
+    <div class="stat center"><div class="big">-47%</div><div class="lbl">median time to first token, 578 to 307 ms</div></div>
+  </div>
+  <p class="small mt">2,219 replayed requests of two evening hours through the cache model. Every request hits once the cache is warm.</p>
+  <aside class="notes"><p>The time to first token comes from a synthetic latency model in the price sheet: its direction is real (cached tokens are not read again), its size is assumed. The cost numbers follow from the price sheet's cached price. This is the largest single saving of the course and it changes no model and no answer.</p></aside>
+</section>
+
+<section class="slide" id="when-caching-loses" data-label="Quiet hours" data-lo="LO4">
+  <div class="kicker">The limits of the result</div>
+  <h2>A cache pays when entries are reused before they expire</h2>
+  <table class="t small">
+    <tr><th>45 requests, several minutes apart</th><th class="num">Hit rate</th><th class="num">SAR</th></tr>
+    <tr><td>No cache</td><td class="num">0%</td><td class="num">1.214</td></tr>
+    <tr><td>5-minute entries, writes at 1.25 times input</td><td class="num">16%</td><td class="num">1.297</td></tr>
+    <tr><td>One-hour entries, writes at 2 times input</td><td class="num">98%</td><td class="num">0.282</td></tr>
+  </table>
+  <div class="callout warn small mt"><b>Do not multiply the peak by the month.</b> At night most entries expire between requests. With a write premium, a short-lived cache then costs more than no cache.</div>
+  <aside class="notes"><p>From the stretch of Lab 2.3, using the published write terms of one provider as an example. The honest monthly estimate replays a whole day, quiet hours included. And quality is not yet measured: the model reads the same text in another order, so the 100 tasks of Lab 2.1 are rerun with the new layout before it ships. Sources: Claude Platform documentation, prompt caching; FinOps Foundation, GenAI FinOps: how token pricing really works.</p></aside>
+</section>
+
+<section class="slide" id="check-prefix" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>The template looks right</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">A prompt template puts 6,000 tokens of instructions and retrieved policy text first and the user's question last. Traffic is steady. The provider reports cached tokens on almost no request. What do you check first?</p>
+    <div class="opts">
+      <div class="opt" data-why="Blames the lifetime: with steady traffic entries are refreshed long before they expire">Whether the cache lifetime is too short</div>
+      <div class="opt" data-why="Blames the size: 6,000 tokens is well above a minimum of about a thousand">Whether the prompt is too short to be cached</div>
+      <div class="opt" data-ok>Whether two real prompts are identical token for token in that first part</div>
+      <div class="opt" data-why="Changes the model before finding the cause: the cache follows the prompt, whatever the tier">Whether a larger tier caches better</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> A template shows the order of the parts, not their content. Text assembled in a varying order, or a value that changes near the top, breaks the prefix on every request.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. This is the third breaker of the lab: policy sections in a different order each time. The tool for it is a token-by-token comparison of two logged prompts.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-3" data-auto="lab" data-lab="2.3">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>No model is called; the cache is a model in labs/mawj.py with the published rules as parameters. Each replay takes a second or two. Typical problems: moving the clock and stopping there; putting the profile after the history; forgetting to sort the sections. The check asks for more than 90% of input tokens from the cache and that no part was dropped. The stretch needs the quiet replay file, also supplied.</p></aside>
 </section>
 
-<!-- Session 4 -->
-
+<!-- ======================= SESSION 4 ======================= -->
 <section class="slide section" id="s4" data-auto="section" data-session="4"></section>
 
-<section class="slide" id="s4-idea" data-lo="LO4">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="response-caches" data-label="Response caches" data-lo="LO4">
+  <div class="kicker">The other kind of cache</div>
+  <h2>A response cache skips the model: it serves an answer it gave before</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>Prefix cache</h4><p class="small mb0">At the provider. The model still answers; it reads less. Cannot return a wrong answer.</p></div>
+    <div class="card c-cyan"><h4>Exact response cache</h4><p class="small mb0">In your application. The same question, word for word, gets the stored answer.</p></div>
+    <div class="card c-coral"><h4>Semantic response cache</h4><p class="small mb0">A question that is close enough to a stored one gets its answer. "Close enough" is a threshold on similarity.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout warn small mt"><b>A new kind of failure.</b> A response cache can serve an answer that was right for another question, another day or another customer.</div>
+  <aside class="notes"><p>The saving is the whole request, so response caches are attractive for a care assistant with repeated questions. The lab's embedding is a small local one, hashed character 3-grams, so that no model or key is needed; it shares the weakness that matters with real embedding models: questions that differ in one decisive word land close together. Entries live in a store the team already runs: a key-value store such as Valkey for exact entries, a vector index such as pgvector for semantic ones.</p></aside>
 </section>
 
-<section class="slide" id="s4-steps" data-lo="LO4">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="hits-and-wrong-answers" data-label="Hits, wrong" data-lo="LO4">
+  <div class="kicker">Lab 2.4 · a cache with no scope</div>
+  <h2>A hit rate is half of a measurement</h2>
+  <table class="t small">
+    <tr><th>Cache</th><th class="num">Hit rate</th><th class="num">Wrong answers, of all questions</th><th class="num">Another customer's answer</th></tr>
+    <tr><td>Exact match</td><td class="num">44.6%</td><td class="num">20.5%</td><td class="num">490</td></tr>
+    <tr><td>Semantic, threshold 0.80</td><td class="num">74.8%</td><td class="num">40.4%</td><td class="num">490</td></tr>
+    <tr><td>Semantic, threshold 0.90</td><td class="num">54.4%</td><td class="num">24.2%</td><td class="num">490</td></tr>
+    <tr><td>Semantic, threshold 0.95</td><td class="num">45.7%</td><td class="num">20.8%</td><td class="num">490</td></tr>
+  </table>
+  <div class="caption">2,400 labelled questions to the care assistant over a month.</div>
+  <aside class="notes"><p>From the Lab 2.4 solution run. A dashboard would show the first column only: three in four questions answered without the model. The second column needs labelled questions: each has the id of its right answer. Ask the room to look at the last column before the next slide: it does not move.</p></aside>
+</section>
+
+<section class="slide" id="close-is-not-same" data-label="A wrong hit" data-lo="LO4">
+  <div class="kicker">What a wrong hit looks like</div>
+  <h2>Two questions that differ in the one word that matters</h2>
+  <div class="chat">
+    <div class="msg user"><span class="who">Asked</span><span class="ar">بعد الانتقال والهاتف الثابت في الطائف: لا توجد بيانات. ماذا أفعل؟</span></div>
+    <div class="msg ai bad"><span class="who">Served from the cache</span>The answer stored for: <span class="ar">بعد الانتقال والهاتف الثابت في الطائف: رمز الخطأ 31. ماذا أفعل؟</span></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">Same device, same city, same wording; one says "no data", the other "error code 31". At threshold 0.80 they are close enough. Plans that differ by a number and "activate" against "deactivate" fail the same way.</p>
+  <aside class="notes"><p>The example is the first wrong hit the lab prints at 0.80: a fault report about a landline in Taif, once with no data and once with error code 31. Similarity measures shared wording, and the decisive word is a small part of the wording. Raising the threshold removes most of these, at the price of hits: that trade is the next table.</p></aside>
+</section>
+
+<section class="slide" id="isolation-is-not-a-threshold" data-label="Isolation" data-lo="LO4">
+  <div class="kicker">Isolation between customers</div>
+  <h2>No threshold stops one customer's answer reaching another</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>"What is my current balance?" from two customers is the <b>same question</b>: similarity 1, and an exact match too.</li>
+      <li>The answers differ because the <b>data</b> differs, not the words.</li>
+      <li>490 answers crossed at every threshold, and with the exact cache.</li>
+    </ul>
+    <div class="card c-coral"><h4>This is a disclosure</h4><p class="small mb0">A balance or a bill shown to the wrong person is personal data disclosed. It is an incident to report to the data protection officer, not a quality metric.</p></div>
+  </div>
+  <aside class="notes"><p>The course's responsible-use statement says it plainly: a semantic cache must never serve one customer's answer to another. At Mawj, Yaqoub would treat each of the 490 as a disclosure of personal data under the organisation's obligations; the national references are the Personal Data Protection Law and its implementing regulation, cited in the course sources. Keep the legal reading to him: the engineering duty is that it cannot happen.</p></aside>
+</section>
+
+<section class="slide" id="scope-the-entries" data-label="Scope" data-lo="LO4">
+  <div class="kicker">Lab 2.4 · the fix and its test</div>
+  <h2>Scope every entry by whose data produced it, and test that nothing crosses</h2>
+  <pre class="code s" data-file="Lab 2.4"><code class="language-python">def scope_of(q):                      # known when the answer is written
+    return f"customer:{q['customer']}" if q["used_customer_data"] else "public"
+
+def test_no_answer_crosses_customers(served):
+    assert served.crossed.sum() == 0</code></pre>
+  <ul class="bullets small mt">
+    <li>An answer that read the customer's account lives in that customer's partition; everything else is shared.</li>
+    <li>The test needs no labels. It fails on the unscoped cache and passes on the scoped one, at every threshold.</li>
+  </ul>
+  <aside class="notes"><p>The application knows, when it writes an answer, whether producing it called a tool that read the account: that flag, not a guess from the wording, decides the partition. Many teams go further and do not cache personal answers at all. Either way the test belongs in the pipeline: it is the passing cross-customer isolation test the outcome asks for.</p></aside>
+</section>
+
+<section class="slide" id="choose-the-threshold" data-label="Threshold" data-lo="LO4">
+  <div class="kicker">Lab 2.4 · the scoped cache</div>
+  <h2>With isolation fixed, the threshold trades hits for wrong answers</h2>
+  <table class="t small">
+    <tr><th>Scoped cache, threshold</th><th class="num">Hit rate</th><th class="num">Wrong answers, of all questions</th><th class="num">Crossed</th></tr>
+    <tr><td>0.80</td><td class="num">54.7%</td><td class="num">20.0%</td><td class="num">0</td></tr>
+    <tr><td>0.90</td><td class="num">34.3%</td><td class="num">3.8%</td><td class="num">0</td></tr>
+    <tr class="hl"><td>0.95</td><td class="num">25.6%</td><td class="num">0.3%</td><td class="num">0</td></tr>
+  </table>
+  <p class="small mt">With at most 1% wrong answers allowed, 0.95 is the choice: a quarter of the questions served without the model, about SAR 233 of Anis's SAR 911 a month.</p>
+  <aside class="notes"><p>The limit of 1% is the owner's decision, like the floor. At 0.80 the cache answers more than half of the questions and gets one in five of all questions wrong: nobody would ship that after measuring it, and many ship it without. The saving is an estimate: hit rate times the month's bill, assuming hits cost as much as other requests.</p></aside>
+</section>
+
+<section class="slide" id="stale-answers" data-label="Staleness" data-lo="LO4">
+  <div class="kicker">Staleness</div>
+  <h2>A cached answer is right until the world changes</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>On day 15 the price of one plan changed. At 0.95 the cache served the <b>old price twice</b>, on days 23 and 25.</li>
+      <li>A 3-day lifetime on every entry removes both, and cuts the hit rate from 25.6% to <b>9.0%</b>.</li>
+      <li>Better: tie entries to the version of what they were built from, and drop them when it changes.</li>
+    </ul>
+    <div class="card c-purple flat"><h4>Three questions for any cache</h4><p class="small mb0">Whose data is in the entry? How long is it true? What tells the cache that it no longer is?</p></div>
+  </div>
+  <aside class="notes"><p>From the stretch of Lab 2.4. Two stale answers in a month sounds small; each one is a customer told a price that Mawj no longer offers. A lifetime is the blunt tool and costs most of the saving here, because questions repeat over weeks. Invalidation by version of the plan sheet keeps the hit rate and needs the application to know what an answer depended on.</p></aside>
+</section>
+
+<section class="slide" id="check-semantic-cache" data-lo="LO4">
+  <div class="kicker">Checkpoint</div>
+  <h2>The balance of another customer</h2>
+  <div class="quiz" data-type="single" data-lo="LO4">
+    <p class="lead">A semantic cache at threshold 0.90 served one customer the account balance of another. The team proposes to raise the threshold to 0.97. What do you answer?</p>
+    <div class="opts">
+      <div class="opt" data-why="Treats isolation as similarity: two customers asking for their balance use identical words">Agreed: at 0.97 only near-identical questions match</div>
+      <div class="opt" data-ok>It will not help: partition entries by customer when the answer used account data, and test it</div>
+      <div class="opt" data-why="Changes the embedding, not the cause: any model places identical questions at similarity 1">Use a stronger embedding model so the two questions separate</div>
+      <div class="opt" data-why="Shortens the exposure without removing it: within the lifetime the answer still crosses">Give the entries a lifetime of one hour</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The questions are the same; the data behind the answers differs. Only the scope of the entry can keep them apart, and a test must prove that it does.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. All three wrong options are things teams really try first. The lab shows 490 crossings at every threshold, exact match included.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-4" data-auto="lab" data-lab="2.4">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>No model and no key: the embedding is computed locally in a second. Typical problems: returning the best match without comparing it to the threshold; dividing wrong answers by hits when the task asks for all questions (both are reported; name the one you quote); scoping by the question's wording instead of the flag written with the answer. The lab starts from the supplied questions and needs no earlier lab.</p></aside>
 </section>
 
-<section class="slide" id="wrap-up">
-  <div class="kicker">Day 2 · wrap-up</div>
-  <h2>Three things to keep</h2>
-  <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+<!-- ======================= CLOSE ======================= -->
+<section class="slide" id="wrap-up" data-label="Wrap-up" data-lo="LO3 LO4">
+  <div class="kicker">Day 2 · three things to keep</div>
+  <h2>Route and cache</h2>
+  <div class="cols cols-3 gap-s">
+    <div class="card c-teal"><h4>The floor first, per language</h4><p class="small mb0">Own tasks, counts beside percentages, and no choice on a one-task difference.</p></div>
+    <div class="card c-cyan"><h4>Cost per successful outcome</h4><p class="small mb0">Every attempt is paid. A router is a result with a date and a traffic mix.</p></div>
+    <div class="card c-coral"><h4>Measure a cache before trusting it</h4><p class="small mb0">Layout for the prefix cache; wrong answers, isolation and staleness for a response cache.</p></div>
   </div>
+  <aside class="notes"><p>Collect the day's measured savings on the board, each with its condition: Khulasa on the small tier (79% per task, at the floor exactly), the router for Anis (38% per success, on a half-Arabic mix), the prompt layout (82% in busy hours), the scoped cache (a quarter of questions at 0.3% wrong). Tomorrow's review chooses three.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
-  <div class="kicker">Next</div>
-  <h2>Day 3: Host or buy, and report</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <div class="kicker">Tomorrow</div>
+  <h1>Host or buy, and report</h1>
+  <p class="lead">Where each dataset may be processed comes before any price. Then utilisation, a batch tier, the cost of a resolved dispute, and two pages for engineering and finance.</p>
+  <ul class="bullets small">
+    <li>Read <code>labs/data/hosting/classification_register.csv</code>: six rows.</li>
+    <li>Think of one saving from today you would defend to a finance partner, and what you would say about its risk.</li>
+  </ul>
+  <aside class="notes"><p>Tomorrow's last lab drafts the review and chooses the capstone scenario. Nothing needs installing.</p></aside>
 </section>
