@@ -1,0 +1,9 @@
+key_id,team,app,env,owner,note
+key-anis-prod,customer-care,anis,prod,Taghreed Al-Omran,
+key-anis-stg,customer-care,anis,staging,Taghreed Al-Omran,
+key-anis-dev,customer-care,anis,dev,Taghreed Al-Omran,
+key-shared-legacy,contact-centre-analytics,khulasa,prod,Qutaiba Al-Ajaji,issued before Maabar had keys per application; read the tags
+key-khulasa-pilot,contact-centre-analytics,khulasa,staging,Qutaiba Al-Ajaji,nightly pilot on the leased accelerator node
+key-fasil-prod,billing-operations,fasil,prod,Humoud Al-Rubaian,
+key-fasil-stg,billing-operations,fasil,staging,Humoud Al-Rubaian,
+key-platform-test,platform,smoke-tests,dev,Murtada Al-Awami,

@@ -1,0 +1,13 @@
+line,provider_key,item,model,quantity,unit,unit_price_sar,amount_sar
+1,up-maabar-01,input tokens,tier-l,59952588,tokens,12.0,719.43
+2,up-maabar-01,cached input tokens,tier-l,146377344,tokens,1.2,175.65
+3,up-maabar-01,output tokens,tier-l,36277857,tokens,48.0,1741.34
+4,up-maabar-01,input tokens,tier-m,567382027,tokens,3.0,1702.15
+5,up-maabar-01,cached input tokens,tier-m,113964800,tokens,0.3,34.19
+6,up-maabar-01,output tokens,tier-m,27982230,tokens,12.0,335.79
+7,up-maabar-01,input tokens,tier-s,48715,tokens,0.6,0.03
+8,up-maabar-01,cached input tokens,tier-s,0,tokens,0.06,0.0
+9,up-maabar-01,output tokens,tier-s,8580,tokens,2.4,0.02
+10,up-direct-7q2f,input tokens,tier-l,2584084,tokens,12.0,31.01
+11,up-direct-7q2f,output tokens,tier-l,646021,tokens,48.0,31.01
+12,node-lease,"accelerator node, on demand",local-os,248,hours,14.0,3472.0

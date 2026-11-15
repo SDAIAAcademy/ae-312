@@ -1,0 +1,56 @@
+{
+ "synthetic": true,
+ "currency": "SAR",
+ "unit": "per million tokens",
+ "tiers": {
+  "tier-s": {
+   "input": 0.6,
+   "cached_input": 0.06,
+   "output": 2.4
+  },
+  "tier-m": {
+   "input": 3.0,
+   "cached_input": 0.3,
+   "output": 12.0
+  },
+  "tier-l": {
+   "input": 12.0,
+   "cached_input": 1.2,
+   "output": 48.0
+  }
+ },
+ "rules": {
+  "input_tokens_include_cached": true,
+  "reasoning_tokens_billed_as": "output",
+  "billed_statuses": [
+   "ok",
+   "timeout"
+  ],
+  "note": "The provider bills a request it started to answer, also when the client gave up (timeout). It does not bill a request it refused (error)."
+ },
+ "batch_discount": 0.5,
+ "in_kingdom_premium": 1.3,
+ "local": {
+  "model": "local-os",
+  "node_sar_per_hour": 14.0,
+  "billing": "per leased hour, used or not"
+ },
+ "latency_model_ms": {
+  "note": "synthetic: time to first token = base + per_1k_uncached * uncached/1000 + per_1k_cached * cached/1000",
+  "tier-s": {
+   "base": 180,
+   "per_1k_uncached": 22,
+   "per_1k_cached": 3
+  },
+  "tier-m": {
+   "base": 260,
+   "per_1k_uncached": 38,
+   "per_1k_cached": 5
+  },
+  "tier-l": {
+   "base": 420,
+   "per_1k_uncached": 70,
+   "per_1k_cached": 9
+  }
+ }
+}

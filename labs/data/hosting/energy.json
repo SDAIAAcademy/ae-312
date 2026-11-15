@@ -1,0 +1,23 @@
+{
+ "synthetic": true,
+ "note": "assumed figures for the labs; replace them with the provider's or with a measurement",
+ "wh_per_1k_tokens": {
+  "tier-s": {
+   "input": 0.01,
+   "output": 0.1
+  },
+  "tier-m": {
+   "input": 0.035,
+   "output": 0.35
+  },
+  "tier-l": {
+   "input": 0.12,
+   "output": 1.2
+  }
+ },
+ "cached_input_factor": 0.1,
+ "local": {
+  "node_kw": 1.4,
+  "overhead_factor": 1.3
+ }
+}

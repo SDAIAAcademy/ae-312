@@ -1,0 +1,7 @@
+dataset,application,content,classification,personal_data,placement_rule,transfer_assessment
+DS-01,anis,plan sheet and policy sections,Public,no,any region,not needed
+DS-02,anis,customer profile line and chat history,Restricted,yes,"in-Kingdom, or outside with an approved transfer assessment",approved 2026-09-14
+DS-03,khulasa,call transcripts,Restricted,yes,"in-Kingdom, or outside with an approved transfer assessment",not approved
+DS-04,fasil,itemised bills and payment records,Restricted,yes,"in-Kingdom, or outside with an approved transfer assessment",not approved
+DS-05,fasil,dispute decisions and refunds,Restricted,yes,in-Kingdom only,not applicable
+DS-06,all,gateway usage log (no prompt text),Restricted,no,in-Kingdom only,not applicable
