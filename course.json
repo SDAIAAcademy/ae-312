@@ -1,0 +1,384 @@
+{
+  "$schema": "https://sdaiaacademy.github.io/engine/schemas/course.schema.json",
+  "engine": "1",
+  "id": "ae-312",
+  "code": "AE-312",
+  "version": "2027.1.0",
+  "lang": "en",
+  "title": {
+    "en": "AI Cost Engineering and Model Routing",
+    "ar": "هندسة تكلفة الذكاء الاصطناعي وتوجيه النماذج"
+  },
+  "tagline": "REPLACE: one line under the title: what participants can do after the course",
+  "description": "Participants make the cost of language model applications measurable, attributable and smaller without losing quality. For a fictional telecom operator running three applications behind one gateway, a bilingual care assistant, a call-summary job and a billing-dispute agent, they work from a month of synthetic usage traces: they model cost per request and session, attribute spend to teams, set budgets, evaluate model tiers and reasoning settings on their own tasks, route with fallbacks, measure prefix and semantic caches, compare hosted and self-hosted serving and report cost per successful outcome. Cluster capacity planning is AE-307; engine-level optimisation is AE-401.",
+  "track": "ai-engineering",
+  "level": 300,
+  "badge": {
+    "name": "AI Engineering",
+    "level": "Associate"
+  },
+  "audience": "Practitioners. Engineers who have completed the level 200 set or can show equivalent work: a deployed model or language model application they built and can explain.",
+  "prerequisites": [
+    "AE-203 Building Applications on Language Models",
+    "AE-205 Deploying AI Services: Containers, Serving and Monitoring",
+    "Groups and joins usage logs with SQL or dataframes",
+    "Has run an evaluation set against a language model application"
+  ],
+  "site": {
+    "url": "https://sdaiaacademy.github.io/ae-312/",
+    "repo": "SDAIAAcademy/ae-312"
+  },
+  "outcomes": [
+    {
+      "id": "LO1",
+      "text": "Compute cost per request and per session from prompt, output and cached tokens, retries, agent steps and accelerator-hours, given a month of usage traces and a synthetic invoice",
+      "level": "Applied",
+      "evidence": "a cost model that reconciles with the invoice within 2%"
+    },
+    {
+      "id": "LO2",
+      "text": "Configure attribution, budgets and limits per team, application and environment on a model gateway, given three applications sharing one gateway",
+      "level": "Applied",
+      "evidence": "a showback table and a replayed spike that trips the hard limit"
+    },
+    {
+      "id": "LO3",
+      "text": "Evaluate model tiers, reasoning settings and a routing policy on the operator's own tasks, choosing by cost per successful outcome at a fixed quality floor, given 100 labelled tasks per application",
+      "level": "Performance",
+      "evidence": "a results table and a router configuration with its measured savings"
+    },
+    {
+      "id": "LO4",
+      "text": "Measure how prefix and semantic caching change cost, latency and answer correctness, including isolation between customers, given replayed traffic for the care assistant",
+      "level": "Applied",
+      "evidence": "hit rates, a wrong-answer rate and a passing cross-customer isolation test"
+    },
+    {
+      "id": "LO5",
+      "text": "Decide between hosted APIs and a self-hosted open-weight model with a break-even analysis that includes utilisation and data-placement rules, given price sheets, a throughput benchmark and the operator's classification register",
+      "level": "Performance",
+      "evidence": "a break-even chart and a recommendation"
+    },
+    {
+      "id": "LO6",
+      "text": "Deliver a cost review with three measured savings options to engineering and finance stakeholders, given an unseen capstone scenario",
+      "level": "Performance",
+      "evidence": "a notebook and a two-page review reporting energy beside cost, defended in ten minutes"
+    }
+  ],
+  "case_study": {
+    "name": "REPLACE: the name of the fictional organisation every lab works on",
+    "summary": "REPLACE: two sentences on the case study and its synthetic data"
+  },
+  "format": "intensive",
+  "format_note": "Intensive: 3 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task",
+  "hours": {
+    "instruction": 5,
+    "lab": 5,
+    "guided_self_study": 5,
+    "assessment": 1,
+    "capstone": 5
+  },
+  "unit": "day",
+  "days": [
+    {
+      "id": "day1",
+      "kind": "day",
+      "title": "Where the money goes",
+      "deck": "slides/day1.html",
+      "sessions": [
+        {
+          "title": "The token cost model",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "1.1",
+            "title": "Compute cost per request for the three applications and reconcile it with the synthetic invoice",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_1_compute_cost_per.ipynb"
+          }
+        },
+        {
+          "title": "Agents, retries and long contexts",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "1.2",
+            "title": "Find the ten most expensive sessions and attribute their cost to steps, retries and context growth",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_2_find_ten_most.ipynb"
+          }
+        },
+        {
+          "title": "Attribution and showback",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO2"
+          ],
+          "lab": {
+            "id": "1.3",
+            "title": "Tag spend by team, application and environment through gateway keys and produce a showback table",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_3_tag_spend_team.ipynb"
+          }
+        },
+        {
+          "title": "Budgets and limits",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO2"
+          ],
+          "lab": {
+            "id": "1.4",
+            "title": "Set soft and hard budgets per application and trip the hard limit with a replayed spike",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_4_set_soft_hard.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "day2",
+      "kind": "day",
+      "title": "Route and cache",
+      "deck": "slides/day2.html",
+      "sessions": [
+        {
+          "title": "Own tasks, several settings",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "2.1",
+            "title": "Score supplied outputs of three model tiers at two reasoning settings on 100 tasks for quality, latency and cost, and rerun ten tasks live to check them",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_1_score_supplied_outputs.ipynb"
+          }
+        },
+        {
+          "title": "Routing and cascades",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "2.2",
+            "title": "Build a two-tier router with a quality check and fallback and measure cost per successful outcome",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_2_build_two_tier.ipynb"
+          }
+        },
+        {
+          "title": "Prompt layout for prefix caching",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO4"
+          ],
+          "lab": {
+            "id": "2.3",
+            "title": "Move stable content to the front of a prompt and measure the cache hit rate and cost",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_3_move_stable_content.ipynb"
+          }
+        },
+        {
+          "title": "Semantic caches and their risks",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO4"
+          ],
+          "lab": {
+            "id": "2.4",
+            "title": "Add a semantic cache, measure hit and wrong-answer rates and test that no answer crosses customers",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_4_add_semantic_cache.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "day3",
+      "kind": "day",
+      "title": "Host or buy, and report",
+      "deck": "slides/day3.html",
+      "sessions": [
+        {
+          "title": "Self-hosting economics",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO5"
+          ],
+          "lab": {
+            "id": "3.1",
+            "title": "Fill a cost model for serving an open-weight model and find break-even utilisation against API prices",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_1_fill_cost_model.ipynb"
+          }
+        },
+        {
+          "title": "Batch versus interactive",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO5"
+          ],
+          "lab": {
+            "id": "3.2",
+            "title": "Move the call-summary job to a batch tier and recompute cost and turnaround",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_2_move_call_summary.ipynb"
+          }
+        },
+        {
+          "title": "Cost per successful outcome",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "3.3",
+            "title": "Join cost with evaluation outcomes and report cost per resolved dispute",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_3_join_cost_evaluation.ipynb"
+          }
+        },
+        {
+          "title": "The cost review",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO6"
+          ],
+          "lab": {
+            "id": "3.4",
+            "title": "Draft a two-page review with three measured savings options, then choose the capstone scenario",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_4_draft_two_page.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "capstone",
+      "kind": "capstone",
+      "title": "Capstone project presentations",
+      "deck": "slides/capstone.html",
+      "subtitle": "REPLACE: the catalog gives 10 minutes for each presentation and nothing about questions; decide whether the questions are inside those minutes, set capstone.talk_minutes and capstone.qa_minutes in course.json and the timers of the now-presenting slide, and remove this line"
+    }
+  ],
+  "capstone": {
+    "summary": "A cost review of an unseen scenario: a public repository with the notebook, measured routing and caching results and a two-page memo with three savings options, defended in ten minutes",
+    "submission": "REPLACE: what participants submit and how: a public repository link, or a shared folder for a course without code",
+    "talk_minutes": 10,
+    "rubric": [
+      {
+        "criterion": "Cost model accuracy",
+        "weight": 20
+      },
+      {
+        "criterion": "Routing evaluation",
+        "weight": 25
+      },
+      {
+        "criterion": "Caching evidence",
+        "weight": 20
+      },
+      {
+        "criterion": "Hosting analysis",
+        "weight": 20
+      },
+      {
+        "criterion": "Review quality",
+        "weight": 15
+      }
+    ]
+  },
+  "labs": {
+    "kind": "notebooks",
+    "base": "labs/"
+  },
+  "tools": [
+    {
+      "slot": "Model gateway with budgets and routing",
+      "examples": [
+        "LiteLLM",
+        "Agent Router"
+      ]
+    },
+    {
+      "slot": "Language model access",
+      "examples": [
+        "a locally served open-weight model",
+        "a free hosted open-weight model",
+        "any commercial API"
+      ]
+    },
+    {
+      "slot": "Evaluation harness",
+      "examples": [
+        "promptfoo",
+        "Inspect"
+      ]
+    },
+    {
+      "slot": "Usage analysis",
+      "examples": [
+        "DuckDB",
+        "pandas"
+      ]
+    },
+    {
+      "slot": "Cache stores",
+      "examples": [
+        "Valkey",
+        "PostgreSQL with pgvector"
+      ]
+    },
+    {
+      "slot": "Local inference server",
+      "examples": [
+        "vLLM",
+        "llama.cpp"
+      ]
+    }
+  ]
+}
