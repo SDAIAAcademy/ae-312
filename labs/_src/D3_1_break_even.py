@@ -19,7 +19,7 @@
 # - [ ] 2 · Cost per request against utilisation (6')
 # - [ ] 3 · Break-even against the API prices, as a chart (7')
 # - [ ] 4 · The classification register first, then the recommendation (7')
-# - [ ] ✱ Stretch · Lease the node one hour a night: does the nightly job change the answer?
+# - [ ] ✱ Stretch · Lease the node one hour a night: does the nightly job change the answer, and would the monthly reservation?
 
 # %%
 import os, sys, subprocess
@@ -284,6 +284,41 @@ try:
     stretch()
 except NotImplementedError:
     print("✱ Stretch: not done yet")
+
+# %% [markdown]
+# ✱ **Stretch, continued · Reserved or by the hour.** The node's price sheet has two prices: by the hour on demand,
+# or reserved for the month whether it is used or not. Write `reservation_break_even_hours(node)`: the leased hours
+# a month above which the reservation costs less. Then decide for three ways of using the node: the pilot's October
+# (`leased` in `data/gpu_hours.csv`), the nightly plan above, and the node of step 4 that runs all month.
+
+# %%
+def reservation_break_even_hours(node):
+    # BEGIN SOLUTION
+    return node["reserved_per_month"] / node["on_demand_per_hour"]
+    # END SOLUTION
+
+
+try:
+    BE_HOURS = reservation_break_even_hours(SHEET["node"])
+except NotImplementedError:
+    BE_HOURS = None
+if BE_HOURS is None:
+    print("✱ Stretch: not done yet")
+else:
+    uses = pd.DataFrame({"use": ["the pilot's October", "the nightly plan", "running all month"],
+                         "leased_hours": [int(M.gpu_hours().leased.sum()), math.ceil(N_MONTH / 31 / CAP_BATCH) * 31, HOURS]})
+    uses["on_demand_sar"] = uses.leased_hours * NODE_ON_DEMAND
+    uses["reserved_sar"] = SHEET["node"]["reserved_per_month"]
+    uses["cheaper"] = np.where(uses.leased_hours > BE_HOURS, "reserved", "on demand")
+    print(f"the reservation pays above {BE_HOURS:,.1f} leased hours a month ({BE_HOURS / HOURS:.1%} of the month)")
+    print(uses.to_string(index=False))
+    M.check(abs(BE_HOURS * NODE_ON_DEMAND - SHEET["node"]["reserved_per_month"]) < 1e-6
+            and list(uses.cheaper) == ["on demand", "on demand", "reserved"],
+            "break-even hours are the reservation over the hourly price; only the node that runs all month should be reserved")
+
+# %% [markdown]
+# 🔍 A reservation is a bet on leased hours, not on requests: it lowers the price of an hour and leaves capacity and
+# utilisation as they were. Reserve only what you expect to run above the break-even every month of the term.
 
 # %% [markdown]
 # ## Checkpoint

@@ -3,7 +3,7 @@
   "engine": "1",
   "id": "ae-312",
   "code": "AE-312",
-  "version": "2027.1.0",
+  "version": "2027.2.0",
   "lang": "en",
   "title": {
     "en": "AI Cost Engineering and Model Routing",
@@ -452,7 +452,7 @@
                 "minutes": 7
               }
             ],
-            "stretch": "Lease the node one hour a night: does the nightly job change the answer?"
+            "stretch": "Lease the node one hour a night: does the nightly job change the answer, and would the monthly reservation?"
           },
           "summary": "A leased accelerator costs the same used or idle: self-hosting is a question of utilisation, after the data rules"
         },

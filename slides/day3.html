@@ -59,7 +59,37 @@
     <div class="stat center"><div class="big">3.36</div><div class="lbl">SAR an hour of operations (SAR 2,500 a month of an engineer's time)</div></div>
   </div>
   <p class="small mt">An API bills tokens: no traffic, no bill. A node bills time: the cost per request is the hourly cost divided by the requests served in that hour.</p>
-  <aside class="notes"><p>All three figures are from data/hosting/price_sheets.json, synthetic. The operations line is the one teams leave out: someone upgrades the serving engine, watches the node at night and re-evaluates the model when a new one is released. Serving engines, quantisation and capacity in depth are AE-401; here the node is a price per hour and a benchmark.</p></aside>
+  <aside class="notes"><p>All three figures are from data/hosting/price_sheets.json, synthetic. The operations line is the one teams leave out: someone upgrades the serving engine, watches the node at night and re-evaluates the model when a new one is released. Serving engines, quantisation and capacity in depth are AE-401; here the node is a price per hour and a benchmark. The next two slides ask which of the first two prices to pay.</p></aside>
+</section>
+
+<section class="slide" id="commit-or-on-demand" data-label="Commit?" data-lo="LO5">
+  <div class="kicker">Committed capacity</div>
+  <h2>A commitment is paid every month of its term; on-demand hours only when leased</h2>
+  <p class="small">A parallel team, not Mawj. A node costs SAR 20 an hour on demand, or SAR 8,400 a month on a 12-month commitment.</p>
+  <table class="t small">
+    <tr><th>Workload</th><th>Leased hours, last six months</th><th class="num">Lowest</th><th class="num">Average</th></tr>
+    <tr><td>A · support assistant, 16 hours a day</td><td>492, 470, 505, 488, 476, 498</td><td class="num">470</td><td class="num">488</td></tr>
+    <tr><td>B · evaluation runs</td><td>610, 150, 520, 90, 380, 330</td><td class="num">90</td><td class="num">347</td></tr>
+    <tr><td>C · a model being retired</td><td>560, 510, 455, 430, 390, 350</td><td class="num">350</td><td class="num">449</td></tr>
+  </table>
+  <p class="small mt">Which workload should take the commitment for the next twelve months?</p>
+  <aside class="notes"><p>Let the room decide before the next slide. Most pick C as well as A, because its average is the second highest. The figures are synthetic and come from labs/_tools/commitment_examples.py. Hours here are leased hours, the time the node is paid for; utilisation in this session is something else, the share of the node's capacity that serves requests. A commitment changes the price of an hour, never the number of requests an hour can serve.</p></aside>
+</section>
+
+<section class="slide" id="commitment-break-even" data-label="Break-even hours" data-lo="LO5">
+  <div class="kicker">The break-even calculation</div>
+  <h2>Commit when every month of the term stays above the break-even hours</h2>
+  <div class="cols cols-2">
+    <pre class="code s" data-file="commitment against on demand"><code class="language-python">break_even_hours = commitment_per_month / on_demand_per_hour
+# 8,400 / 20 = 420 hours, 56.5% of the month</code></pre>
+    <ul class="bullets small">
+      <li><b>A:</b> lowest month 470. Commit: six months cost SAR 50,400, not 58,580.</li>
+      <li><b>B:</b> average 347. On demand: two busy months do not pay for four quiet ones.</li>
+      <li><b>C:</b> falling to 350. On demand: SAR 8,400 a month for SAR 7,000 of hours.</li>
+    </ul>
+  </div>
+  <div class="callout tip small mt"><b>Stable means above break-even for the whole term.</b> Commit the hours you are sure of; buy the peaks on demand.</div>
+  <aside class="notes"><p>A 744-hour month: the commitment's discount is 43.5%, so it needs 56.5% of the hours. C looked right on its six-month average and is wrong for the next twelve. The calculation is the same for any committed price: reserved accelerator hours, provisioned throughput or a committed monthly spend with an API provider. Read the provider's terms for the term, what happens to unused hours and whether the commitment can be resized; they differ, and this course does not quote any. With several nodes, commit the number that runs all term and lease the rest by the hour. The stretch of Lab 3.1 asks the same question of Mawj's own node.</p></aside>
 </section>
 
 <section class="slide" id="capacity-at-the-objective" data-label="Capacity" data-lo="LO5">
@@ -133,7 +163,7 @@ cost_per_request = hourly_cost / served
     <div class="card c-coral"><h4>Costs</h4><p class="small mb0">The open-weight model has to pass the same floor, in both languages. Someone operates it. Every new model release reopens the comparison.</p></div>
   </div>
   <div class="callout note small mt"><b>Write the conditions down.</b> "API today; revisit at 200,000 summaries a month or if the classification changes" is a recommendation. "Self-hosting is too expensive" is not.</div>
-  <aside class="notes"><p>A recommendation with its conditions survives the next price change; a verdict does not. The local model scored 94% in its weaker language on Khulasa's tasks in the supplied outputs, so quality is not what rules it out here. Building and operating the serving side is AE-401, which is where participants who end up above the break-even go next.</p></aside>
+  <aside class="notes"><p>Keep this slide short. A recommendation with its conditions survives the next price change; a verdict does not. The local model held 94% in its weaker language on Khulasa's tasks, so quality does not rule it out here. Building and operating the serving side is AE-401.</p></aside>
 </section>
 
 <section class="slide" id="check-break-even" data-lo="LO5">
