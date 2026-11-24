@@ -6,7 +6,7 @@
     "code": "AE-312",
     "title": "AI Cost Engineering and Model Routing",
     "lang": "en",
-    "version": "2027.1.0"
+    "version": "2027.2.0"
   },
   "questions": [
     {
@@ -1222,6 +1222,37 @@
       "session": 1,
       "slide": "capacity-at-the-objective",
       "level": "analyze",
+      "pool": "practice",
+      "weight": 1,
+      "timer": 60
+    },
+    {
+      "id": "q-host-04",
+      "type": "single",
+      "prompt": "A node costs SAR 16 an hour on demand, or SAR 7,200 a month on a 12-month commitment. A team leased it 380, 395, 372, 410, 388 and 401 hours in the last six months and expects the same next year. What do you recommend?",
+      "options": [
+        "Commit: a committed hour costs SAR 9.68, far below the SAR 16 on-demand hour",
+        "Commit: usage this steady is what a commitment is for",
+        "Stay on demand: every month is below the 450-hour break-even",
+        "Commit once the monthly average passes 400 hours"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The commitment pays above 7,200 / 16 = 450 leased hours a month. The busiest month was 410 hours, SAR 6,560 on demand; the average month, 391 hours, costs SAR 6,256 against 7,200 committed.",
+      "misconceptions": [
+        "Compares hourly rates and forgets that the commitment is paid for every hour, used or not",
+        "Takes steady usage as enough: it must also stay above the break-even hours",
+        "",
+        "Sets the threshold without dividing the commitment by the hourly price"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": 3,
+      "session": 1,
+      "slide": "commitment-break-even",
+      "level": "apply",
       "pool": "practice",
       "weight": 1,
       "timer": 60

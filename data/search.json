@@ -2,9 +2,9 @@
   "v": 1,
   "engine": "1.0.0",
   "build": {
-    "at": "2026-11-15T15:39:40Z",
-    "version": "2027.1.0",
-    "commit": "2f622db"
+    "at": "2026-11-24T16:36:22Z",
+    "version": "2027.2.0",
+    "commit": "0b8041a"
   },
   "lang": "en",
   "dir": "ltr",
@@ -884,8 +884,26 @@
     },
     {
       "deck": "day3",
-      "id": "capacity-at-the-objective",
+      "id": "commit-or-on-demand",
       "n": 8,
+      "session": 1,
+      "title": "A commitment is paid every month of its term; on-demand hours only when leased",
+      "text": "Committed capacity A commitment is paid every month of its term; on-demand hours only when leased A parallel team, not Mawj. A node costs SAR 20 an hour on demand, or SAR 8,400 a month on a 12-month commitment. Workload Leased hours, last six months Lowest Average A · support assistant, 16 hours a day 492, 470, 505, 488, 476, 498 470 488 B · evaluation runs 610, 150, 520, 90, 380, 330 90 347 C · a model being retired 560, 510, 455, 430, 390, 350 350 449 Which workload should take the commitment for the next twelve months?",
+      "href": "../slides/day3.html#commit-or-on-demand"
+    },
+    {
+      "deck": "day3",
+      "id": "commitment-break-even",
+      "n": 9,
+      "session": 1,
+      "title": "Commit when every month of the term stays above the break-even hours",
+      "text": "The break-even calculation Commit when every month of the term stays above the break-even hours break_even_hours = commitment_per_month / on_demand_per_hour # 8,400 / 20 = 420 hours, 56.5% of the month A: lowest month 470. Commit: six months cost SAR 50,400, not 58,580. B: average 347. On demand: two busy months do not pay for four quiet ones. C: falling to 350. On demand: SAR 8,400 a month for SAR 7,000 of hours. Stable means above break-even for the whole term. Commit the hours you are sure of; buy the peaks on demand.",
+      "href": "../slides/day3.html#commitment-break-even"
+    },
+    {
+      "deck": "day3",
+      "id": "capacity-at-the-objective",
+      "n": 10,
       "session": 1,
       "title": "Capacity is what the node serves while it still meets the latency objective",
       "text": "The throughput benchmark Capacity is what the node serves while it still meets the latency objective Concurrent requests Requests a minute 95th percentile latency 1 5.5 11.0 s 4 20.0 12.5 s 16 60.0 17.0 s 32 84.0 26.0 s 64 96.0 48.0 s Objective: 95% of summaries within 20 seconds. Capacity at the objective: 3,600 an hour. A nightly job with no objective can take 5,760.",
@@ -894,7 +912,7 @@
     {
       "deck": "day3",
       "id": "cost-against-utilisation",
-      "n": 9,
+      "n": 11,
       "session": 1,
       "title": "Cost per request falls with utilisation, and only with utilisation",
       "text": "Lab 3.1 · step 2 Cost per request falls with utilisation, and only with utilisation served = capacity_per_hour * utilisation cost_per_request = hourly_cost / served # hourly_cost: the lease, plus operations Utilisation SAR per summary 1% 0.3248 5% 0.0650 18% 0.0180 50% 0.0065 90% 0.0036 Reserved node with operations, SAR 11.69 an hour. The API price of the same summary: SAR 0.0434 on the medium tier and 0.0087 on the small tier, both in-Kingdom.",
@@ -903,7 +921,7 @@
     {
       "deck": "day3",
       "id": "break-even",
-      "n": 10,
+      "n": 12,
       "session": 1,
       "title": "Break-even depends on which API price the node has to beat",
       "text": "Lab 3.1 · step 3 Break-even depends on which API price the node has to beat Against Break-even utilisation Summaries a month needed Times today's volume Medium tier, global 9.7% 260,000 10.4 Medium tier, in-Kingdom 7.5% 200,000 8.0 Small tier, global 48.6% 1,302,000 51.9 Small tier, in-Kingdom 37.4% 1,002,000 39.9 Compare with the right alternative. Yesterday the small tier passed Khulasa's floor. The node has to beat that price, and it needs forty times today's volume to do it.",
@@ -912,7 +930,7 @@
     {
       "deck": "day3",
       "id": "khulasa-four-options",
-      "n": 11,
+      "n": 13,
       "session": 1,
       "title": "Four options for Khulasa: placement, floor, then price",
       "text": "Lab 3.1 · step 4 Four options for Khulasa: placement, floor, then price Option SAR a month Weaker language Placement allowed API, medium tier, global (October) 838 96% no API, medium tier, in-Kingdom 1,090 96% yes API, small tier, in-Kingdom 218 92% yes Self-hosted, reserved node with operations 8,700 94% yes Floor: 92% in each language. The recommendation: the small tier in the in-Kingdom region, SAR 218 a month, with no margin in Arabic.",
@@ -921,7 +939,7 @@
     {
       "deck": "day3",
       "id": "when-to-host-anyway",
-      "n": 12,
+      "n": 14,
       "session": 1,
       "title": "Three reasons to host that the chart does not show, and three costs",
       "text": "Beyond the break-even Three reasons to host that the chart does not show, and three costs Reasons A dataset no outside processor may see. A latency or availability need the provider does not meet. Steady volume near the node's capacity, day and night. Costs The open-weight model has to pass the same floor, in both languages. Someone operates it. Every new model release reopens the comparison. Write the conditions down. \"API today; revisit at 200,000 summaries a month or if the classification changes\" is a recommendation. \"Self-hosting is too expensive\" is not.",
@@ -930,7 +948,7 @@
     {
       "deck": "day3",
       "id": "check-break-even",
-      "n": 13,
+      "n": 15,
       "session": 1,
       "title": "A node at 15%",
       "text": "Checkpoint A node at 15% A team's leased node runs at 15% utilisation. Its break-even against the API tier the team uses today is 10%. A cheaper tier passed the quality floor last week; against it the break-even is 45%. What do you recommend? Keep the node: it is above its break-even Lease a second node to bring the cost per request down Move the work to the cheaper tier, and revisit the node if volume triples Reserve the node for a year to lower its hourly price",
@@ -939,16 +957,16 @@
     {
       "deck": "day3",
       "id": "lab-3-1",
-      "n": 14,
+      "n": 16,
       "session": 1,
       "title": "Break-even utilisation for self-hosting",
-      "text": "Lab 3.1 · 25 min Break-even utilisation for self-hosting Fill a cost model for serving an open-weight model and find break-even utilisation against API prices, after the classification register has said where each dataset may go. D3_1_break_even.ipynb Capacity at the latency objective, from the benchmark 5 min Cost per request against utilisation 6 min Break-even against the API prices, as a chart 7 min The classification register first, then the recommendation 7 min ✱ Stretch: Lease the node one hour a night: does the nightly job change the answer?",
+      "text": "Lab 3.1 · 25 min Break-even utilisation for self-hosting Fill a cost model for serving an open-weight model and find break-even utilisation against API prices, after the classification register has said where each dataset may go. D3_1_break_even.ipynb Capacity at the latency objective, from the benchmark 5 min Cost per request against utilisation 6 min Break-even against the API prices, as a chart 7 min The classification register first, then the recommendation 7 min ✱ Stretch: Lease the node one hour a night: does the nightly job change the answer, and would the monthly reservation?",
       "href": "../slides/day3.html#lab-3-1"
     },
     {
       "deck": "day3",
       "id": "s2",
-      "n": 15,
+      "n": 17,
       "session": 2,
       "title": "Batch versus interactive",
       "text": "Session 2 Batch versus interactive Recompute the cost of a job on a batch tier Estimate turnaround under a submission schedule from completion times Split a workload into what can wait and what cannot 02",
@@ -957,7 +975,7 @@
     {
       "deck": "day3",
       "id": "work-that-can-wait",
-      "n": 16,
+      "n": 18,
       "session": 2,
       "title": "Work that can wait costs half",
       "text": "Batch tiers Work that can wait costs half You submit a file of requests; the provider answers them when it has spare capacity. The published terms of the large providers: half the price, results within 24 hours. No streaming and no conversation: each request stands alone and is matched to its answer by an identifier you set. At Mawj Khulasa summarises a call after it has ended. Nobody is waiting on the line. It has run on the interactive tier since its first day.",
@@ -966,7 +984,7 @@
     {
       "deck": "day3",
       "id": "the-month-on-batch",
-      "n": 17,
+      "n": 19,
       "session": 2,
       "title": "The same month on the batch tier: half, and the failed attempts disappear",
       "text": "Lab 3.2 · steps 1 and 2 The same month on the batch tier: half, and the failed attempts disappear 1,132 SAR, 26,000 calls on the interactive tier, in-Kingdom 561 SAR, the same calls on the batch tier 546 failed interactive attempts that were billed: SAR 10 A batch has no client waiting, so no client times out and pays for an answer it never read.",
@@ -975,7 +993,7 @@
     {
       "deck": "day3",
       "id": "within-24-hours",
-      "n": 18,
+      "n": 20,
       "session": 2,
       "title": "The promise is a ceiling; what you plan with is a distribution",
       "text": "What \"within 24 hours\" means The promise is a ceiling; what you plan with is a distribution 38 min median completion of a batch 2 h 43 95th percentile 6 h 49 the longest of the month What goes wrong. A team tests one batch, sees it finish in half an hour and promises that to the business. One batch in twenty takes more than five times as long.",
@@ -984,7 +1002,7 @@
     {
       "deck": "day3",
       "id": "turnaround",
-      "n": 19,
+      "n": 21,
       "session": 2,
       "title": "Turnaround is the wait for the next submission plus the completion time",
       "text": "Lab 3.2 · step 3 Turnaround is the wait for the next submission plus the completion time Submission schedule Median 95th percentile Within 12 hours Every hour 1.2 h 3.0 h 100% Every 4 hours 2.6 h 4.6 h 100% Once a day 11.1 h 15.9 h 58% Qutaiba Al-Ajaji's need: a summary in the customer's record within 12 hours of the call. The price is the same under all three schedules.",
@@ -993,7 +1011,7 @@
     {
       "deck": "day3",
       "id": "what-cannot-wait",
-      "n": 20,
+      "n": 22,
       "session": 2,
       "title": "Split the workload: 8% of the calls cannot wait",
       "text": "Lab 3.2 · step 4 Split the workload: 8% of the calls cannot wait Urgent · 7.8% complaints flagged for a call back: interactive tier, answer in seconds + The rest · 92.2% batch tier, submitted every 4 hours → SAR 605 a month 47% less than interactive, every summary on time The headline discount is a ceiling. What you save is the discount times the share of work that can wait.",
@@ -1002,7 +1020,7 @@
     {
       "deck": "day3",
       "id": "stacking-discounts",
-      "n": 21,
+      "n": 23,
       "session": 2,
       "title": "Discounts stack only on the tokens they both touch",
       "text": "Lab 3.2 · stretch Discounts stack only on the tokens they both touch Batch halves every token. A cached prefix discounts the stable part of the input only. Khulasa's stable part is its instructions: about 1,000 tokens, 10% of an average prompt. The transcript is the rest and never repeats. Batch plus cache: 7.8% more off the batch price. Worth an afternoon, and it does not change the decision. Compare with Anis Nearly all of Anis's prompt is stable, and the layout change saved 82%. The same technique, a different prompt, a different answer.",
@@ -1011,7 +1029,7 @@
     {
       "deck": "day3",
       "id": "batch-in-operation",
-      "n": 22,
+      "n": 24,
       "session": 2,
       "title": "A batch job needs the same controls as an interactive one",
       "text": "Before it ships A batch job needs the same controls as an interactive one Attribution The batch carries the tags of its application, or its spend lands in \"unallocated\" on the showback. Budget One submitted file can hold a day's spend. The budget is checked before submission, not per request. Partial results Some requests of a batch fail or expire. The job resubmits those, and counts them.",
@@ -1020,7 +1038,7 @@
     {
       "deck": "day3",
       "id": "check-batch",
-      "n": 23,
+      "n": 25,
       "session": 2,
       "title": "A report by the morning",
       "text": "Checkpoint A report by the morning A job classifies 40,000 tickets a day. Its report is read the next morning, and 5% of the tickets are outage reports that an engineer must see within minutes. The batch tier costs half. What do you propose? Move every ticket to the batch tier, submitted once a day Keep every ticket on the interactive tier Move every ticket to the batch tier, submitted every five minutes Outage reports interactive, the rest in batches timed so the report is ready by the morning",
@@ -1029,7 +1047,7 @@
     {
       "deck": "day3",
       "id": "lab-3-2",
-      "n": 24,
+      "n": 26,
       "session": 2,
       "title": "The call-summary job on a batch tier",
       "text": "Lab 3.2 · 25 min The call-summary job on a batch tier Move the call-summary job to a batch tier and recompute cost and turnaround under three submission schedules, keeping urgent calls interactive. D3_2_batch_tier.ipynb What the job costs on the interactive tier 4 min The same month on the batch tier 5 min Turnaround under three submission schedules 9 min Keep the urgent calls interactive, and decide 7 min ✱ Stretch: Stack the batch discount with a cached prefix",
@@ -1038,7 +1056,7 @@
     {
       "deck": "day3",
       "id": "s3",
-      "n": 25,
+      "n": 27,
       "session": 3,
       "title": "Cost per successful outcome",
       "text": "Session 3 Cost per successful outcome Join session cost with evaluation outcomes and report what did not join Compute cost per request, per session and per resolved dispute Compare two configurations at a quality floor, human escalations included 03",
@@ -1047,7 +1065,7 @@
     {
       "deck": "day3",
       "id": "three-denominators",
-      "n": 26,
+      "n": 28,
       "session": 3,
       "title": "The same money over three denominators gives three different stories",
       "text": "The unit that decides The same money over three denominators gives three different stories 0.11 SAR per request of the dispute agent 0.79 SAR per session 1.05 SAR per dispute resolved correctly Humoud Al-Rubaian, who owns Fasil, does not buy requests. He needs disputes resolved, correctly. The unit of the review is the outcome the business wanted.",
@@ -1056,7 +1074,7 @@
     {
       "deck": "day3",
       "id": "what-did-not-join",
-      "n": 27,
+      "n": 29,
       "session": 3,
       "title": "Cost and outcomes live in two systems, and the join never matches completely",
       "text": "Lab 3.3 · step 1 Cost and outcomes live in two systems, and the join never matches completely Rows Count Sessions in the gateway log 3,200 Reviewed outcomes in the billing tool 3,136 Joined 3,076 Sessions without an outcome 124 Outcomes without a session 60 The 124 unreviewed sessions cost SAR 85.82. They were paid for. Cost in and outcome out makes the unit cost look worse; both out makes it look better. Choose one, say which, and report the other number beside it.",
@@ -1065,7 +1083,7 @@
     {
       "deck": "day3",
       "id": "two-configurations",
-      "n": 28,
+      "n": 30,
       "session": 3,
       "title": "On the invoice, configuration B resolves a dispute for a third of the price",
       "text": "Lab 3.3 · step 3 On the invoice, configuration B resolves a dispute for a third of the price Configuration Sessions SAR per session Resolved correctly SAR per resolved dispute A · large tier, high reasoning 733 0.917 81.4% 1.125 B · medium tier, high reasoning 748 0.241 65.0% 0.371 Same period for both: from the day B started, without the incident day. B has taken half of the sessions since then.",
@@ -1074,7 +1092,7 @@
     {
       "deck": "day3",
       "id": "the-floor-in-production",
-      "n": 29,
+      "n": 31,
       "session": 3,
       "title": "B resolves fewer disputes, escalates twice as many and gets more of them wrong",
       "text": "The quality floor, in production B resolves fewer disputes, escalates twice as many and gets more of them wrong A · escalated to a person 11.3% B · escalated to a person 24.9% A · wrong, of those it resolved 5.1% B · wrong, of those it resolved 10.5% Humoud's floor for production: at most 6% of the disputes the agent resolves may be resolved wrongly. A holds it. B does not.",
@@ -1083,7 +1101,7 @@
     {
       "deck": "day3",
       "id": "the-people-in-the-cost",
-      "n": 30,
+      "n": 32,
       "session": 3,
       "title": "With the people who handle its failures, the cheaper configuration costs twice as much",
       "text": "Lab 3.3 · step 4 With the people who handle its failures, the cheaper configuration costs twice as much Per resolved dispute A B Model cost, SAR 1.13 0.37 With escalations and rework, SAR 6.99 14.86 The model's share of the total 16% 2% What a failure costs An escalated dispute is handled by a person: SAR 21. A wrong resolution comes back and is reworked: SAR 55. Figures from billing operations. A review that stops at the invoice would have recommended B. The saving moves to another team's budget, doubled.",
@@ -1092,7 +1110,7 @@
     {
       "deck": "day3",
       "id": "choosing-the-outcome",
-      "n": 31,
+      "n": 33,
       "session": 3,
       "title": "Choose the outcome with the owner of the application, before you measure",
       "text": "For your own applications Choose the outcome with the owner of the application, before you measure Application A request is The outcome is Who records it Anis one answer a conversation closed without a call to an agent the contact centre Khulasa one summary a summary an agent used without editing the customer record tool Fasil one step a dispute resolved correctly the billing review No outcome recorded, no unit cost. When nobody records the outcome, the first recommendation of the review is to start recording it.",
@@ -1101,7 +1119,7 @@
     {
       "deck": "day3",
       "id": "check-cost-per-outcome",
-      "n": 32,
+      "n": 34,
       "session": 3,
       "title": "Half the price per session",
       "text": "Checkpoint Half the price per session A new configuration of an agent costs SAR 0.40 per session against 0.80 today. It completes 60% of sessions correctly against 80%, and each failed session is finished by a person at SAR 10. Which costs less per correctly completed task, people included? The new one: it costs half per session Today's: about SAR 3.50 against about SAR 7.30 The new one: SAR 0.67 against 1.00 per success It cannot be said without the number of sessions",
@@ -1110,7 +1128,7 @@
     {
       "deck": "day3",
       "id": "lab-3-3",
-      "n": 33,
+      "n": 35,
       "session": 3,
       "title": "Cost per resolved dispute",
       "text": "Lab 3.3 · 25 min Cost per resolved dispute Join cost with evaluation outcomes and report cost per resolved dispute for two configurations of the dispute agent, with and without the cost of human escalations. D3_3_cost_per_outcome.ipynb Join session cost with outcomes, and count what did not join 6 min Three unit costs: request, session, resolved dispute 6 min Two configurations at the quality floor 7 min Add the cost of human escalations 6 min ✱ Stretch: An interval for the difference, by resampling sessions",
@@ -1119,7 +1137,7 @@
     {
       "deck": "day3",
       "id": "s4",
-      "n": 34,
+      "n": 36,
       "session": 4,
       "title": "The cost review",
       "text": "Session 4 The cost review Rank savings options by measured saving, quality effect and risk Report energy per thousand requests beside cost Draft a two-page cost review and choose the capstone scenario 04",
@@ -1128,7 +1146,7 @@
     {
       "deck": "day3",
       "id": "two-readers",
-      "n": 35,
+      "n": 37,
       "session": 4,
       "title": "Two pages, two readers, one decision",
       "text": "The cost review Two pages, two readers, one decision Shurooq Al-Hamli, finance Reads the total, the three actions and their owners. Asks: is the saving real, and when does it show on the invoice? Murtada Al-Awami, platform Reads how each figure was measured. Asks: on which traffic, at which floor, and what was not measured? The review asks for a decision. It names the actions, an owner for each, and what will be checked a month later.",
@@ -1137,7 +1155,7 @@
     {
       "deck": "day3",
       "id": "seven-candidates",
-      "n": 36,
+      "n": 38,
       "session": 4,
       "title": "Seven candidates from three days, ranked by what they save",
       "text": "Lab 3.4 · step 2 Seven candidates from three days, ranked by what they save Candidate SAR a month % of the invoice Holds its floor Return the leased node 3,472 42.1 yes Fasil: configuration B for every dispute 2,162 26.2 no Anis: stable prompt layout 749 9.1 yes, to be retested Khulasa: small tier, in-Kingdom 620 7.5 yes, at the floor in Arabic Anis: router, Arabic direct to the medium tier 350 4.2 yes Anis: scoped semantic cache 233 2.8 yes Khulasa: batch every 4 hours 102 1.2 yes",
@@ -1146,7 +1164,7 @@
     {
       "deck": "day3",
       "id": "savings-do-not-add",
-      "n": 37,
+      "n": 39,
       "session": 4,
       "title": "Savings add across invoice lines, not on the same tokens",
       "text": "Before you write a total Savings add across invoice lines, not on the same tokens These three add The node, Anis's layout and Khulasa's tier act on three different lines: SAR 4,841 a month together, 59% of October. These do not The layout, the router and the semantic cache all act on Anis's input tokens. 82% and 38% are not 120%. Each acts on what the one before left. What goes wrong. A slide lists six savings measured separately and sums them. Finance books the sum, and the invoice never shows it.",
@@ -1155,7 +1173,7 @@
     {
       "deck": "day3",
       "id": "energy-beside-cost",
-      "n": 38,
+      "n": 40,
       "session": 4,
       "title": "Report energy beside cost, and say where the figure comes from",
       "text": "Energy per thousand requests Report energy beside cost, and say where the figure comes from Application SAR per 1,000 requests Wh per 1,000 requests Anis 24.48 327 Khulasa 33.72 467 Fasil 109.90 2,257 The leased node drew about 451 kWh in October for 4,500 summaries served: 100 Wh each, against under half a watt-hour on the hosted tier. The option that saves the most money saves the most energy, for the same reason: idle capacity. Assumed, and labelled so. The watt-hours per thousand tokens are assumptions in data/hosting/energy.json. They rank the options; they are not a measurement.",
@@ -1164,7 +1182,7 @@
     {
       "deck": "day3",
       "id": "anatomy-of-the-review",
-      "n": 39,
+      "n": 41,
       "session": 4,
       "title": "Six short sections, in the order the readers ask their questions",
       "text": "Lab 3.4 · step 3 Six short sections, in the order the readers ask their questions 1 · What the month cost The invoice, how closely the model explains it, the showback by team, what could not be attributed. 2 · Three options Each with its saving, its quality in both languages and its risk. 3 · What we refuse The option someone will find on the invoice, and why it fails. 4 · Energy beside cost Before and after, per option, with the source of the figures. 5 · What was not measured In your own words. At least two things. 6 · The decision The total, a date, and for each action an owner and a check.",
@@ -1173,7 +1191,7 @@
     {
       "deck": "day3",
       "id": "the-capstone",
-      "n": 40,
+      "n": 42,
       "session": 4,
       "title": "The capstone is another month at Mawj: nothing you measured carries over",
       "text": "Lab 3.4 · step 4 The capstone is another month at Mawj: nothing you measured carries over A · The care assistant doubles A campaign doubles Anis's traffic, and more spend bypasses the gateway. B · The summary job triples Three times the calls, a larger pilot, a node leased twelve hours a night. C · The dispute agent rolls out Twice the disputes, most of them on the cheaper configuration. You submit a public repository: the notebook, the measured results and the two-page review. You defend it in ten minutes : you recompute one savings figure the assessor picks and explain one routing decision.",
@@ -1182,7 +1200,7 @@
     {
       "deck": "day3",
       "id": "check-review",
-      "n": 41,
+      "n": 43,
       "session": 4,
       "title": "The total on page one",
       "text": "Checkpoint The total on page one A draft review lists a prompt layout change (82% off the assistant's spend), a router (38% off) and a semantic cache (25% off), each measured alone on the same assistant, and promises finance the three together. What do you change? Measure the three applied together in shipping order, or promise only the first Nothing: the three percentages add up to the total saving Report the average of the three, 48% Keep the largest and delete the other two from the review",
@@ -1191,7 +1209,7 @@
     {
       "deck": "day3",
       "id": "lab-3-4",
-      "n": 42,
+      "n": 44,
       "session": 4,
       "title": "The two-page cost review",
       "text": "Lab 3.4 · 25 min The two-page cost review Draft a two-page review with three measured savings options from the numbers of the three days, then choose the capstone scenario and generate its data. D3_4_cost_review.ipynb Collect the measured numbers of the three days 5 min Three options: saving, quality effect, risk, energy 8 min Write the two pages from the template 7 min Choose the capstone scenario and generate its data 5 min ✱ Stretch: Recompute one savings figure live, as in the defence",
@@ -1200,7 +1218,7 @@
     {
       "deck": "day3",
       "id": "wrap-up",
-      "n": 43,
+      "n": 45,
       "session": 4,
       "title": "Host or buy, and report",
       "text": "Day 3 · three things to keep Host or buy, and report Placement, floor, then price The register first. A node is a question of utilisation against the best allowed alternative. The outcome is the unit Cost per resolved dispute, with the failures and the people who clean up after them. Two pages that ask for a decision Three measured options, one refusal, energy beside cost, and what was not measured.",
@@ -1209,7 +1227,7 @@
     {
       "deck": "day3",
       "id": "next",
-      "n": 44,
+      "n": 46,
       "session": 4,
       "title": "Your review, defended",
       "text": "Capstone day Your review, defended An unseen month, a repository with measured results, two pages, and ten minutes in which you recompute one figure while the assessor watches. Generate your scenario and read labs/capstone/README.md before you start. Reconcile the cost model with the invoice first: no other number can be trusted before that. Rehearse the recomputation once, with a timer.",

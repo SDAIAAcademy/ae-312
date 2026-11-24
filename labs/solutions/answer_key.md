@@ -75,7 +75,10 @@ on demand 14.00, reserved 8.33, operations 3.36. Break-even utilisation of the r
 against tier-m global, 7.5% against tier-m in-Kingdom, 48.6% against tier-s global, 37.4% against tier-s in-Kingdom
 (40 times October's volume). Allowed regions: Anis both, Khulasa and Fasil in-Kingdom only. Options for Khulasa, SAR
 a month: tier-m global 838.22 (not allowed), tier-m in-Kingdom 1,089.68, tier-s in-Kingdom 217.94 (recommended),
-self-hosted 8,700. Stretch: one leased hour a night is SAR 434 for the node and 2,934 with operations.
+self-hosted 8,700. Stretch: one leased hour a night is SAR 434 for the node and 2,934 with operations. The
+reservation pays above 442.9 leased hours a month (59.5% of the month): the pilot's 248 hours cost SAR 3,472 on demand
+against 6,200 reserved, the nightly plan's 31 hours 434 against 6,200, and a node running all 744 hours 10,416 on
+demand against 6,200, the only use to reserve.
 
 **Lab 3.2.** 26,000 calls, 7.8% urgent, 546 failed attempts (SAR 10.19). Interactive SAR 1,131.82; all on the batch tier
 560.82. Completion: median 38 minutes, 95th percentile 163, longest 409. Turnaround (median, 95th percentile, share

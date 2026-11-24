@@ -1,7 +1,7 @@
 ---
 course: "AI Cost Engineering and Model Routing"
 code: "AE-312"
-version: "2027.1.0"
+version: "2027.2.0"
 scope: "course"
 language: "en"
 view: "trainee"
@@ -1110,6 +1110,36 @@ Mawj's classification register, kept by Yaqoub Al-Nughaimshi, the data protectio
 
 An API bills tokens: no traffic, no bill. A node bills time: the cost per request is the hourly cost divided by the requests served in that hour.
 
+#### [day3#commit-or-on-demand] A commitment is paid every month of its term; on-demand hours only when leased
+
+*Committed capacity*
+
+A parallel team, not Mawj. A node costs SAR 20 an hour on demand, or SAR 8,400 a month on a 12-month commitment.
+
+| Workload | Leased hours, last six months | Lowest | Average |
+| --- | --- | --- | --- |
+| A · support assistant, 16 hours a day | 492, 470, 505, 488, 476, 498 | 470 | 488 |
+| B · evaluation runs | 610, 150, 520, 90, 380, 330 | 90 | 347 |
+| C · a model being retired | 560, 510, 455, 430, 390, 350 | 350 | 449 |
+
+Which workload should take the commitment for the next twelve months?
+
+#### [day3#commitment-break-even] Commit when every month of the term stays above the break-even hours
+
+*The break-even calculation*
+
+```python
+# file: commitment against on demand
+break_even_hours = commitment_per_month / on_demand_per_hour
+# 8,400 / 20 = 420 hours, 56.5% of the month
+```
+
+- **A:** lowest month 470. Commit: six months cost SAR 50,400, not 58,580.
+- **B:** average 347. On demand: two busy months do not pay for four quiet ones.
+- **C:** falling to 350. On demand: SAR 8,400 a month for SAR 7,000 of hours.
+
+> **Stable means above break-even for the whole term.** Commit the hours you are sure of; buy the peaks on demand.
+
 #### [day3#capacity-at-the-objective] Capacity is what the node serves while it still meets the latency objective
 
 *The throughput benchmark*
@@ -1203,7 +1233,7 @@ Fill a cost model for serving an open-weight model and find break-even utilisati
 - [ ] Cost per request against utilisation (6 min)
 - [ ] Break-even against the API prices, as a chart (7 min)
 - [ ] The classification register first, then the recommendation (7 min)
-- [ ] ✱ Stretch: Lease the node one hour a night: does the nightly job change the answer?
+- [ ] ✱ Stretch: Lease the node one hour a night: does the nightly job change the answer, and would the monthly reservation?
 
 ### Session 2: Batch versus interactive
 

@@ -1,7 +1,7 @@
 ---
 course: "AI Cost Engineering and Model Routing"
 code: "AE-312"
-version: "2027.1.0"
+version: "2027.2.0"
 language: "en"
 view: "trainee"
 source: "https://sdaiaacademy.github.io/ae-312/index.html"
@@ -194,4 +194,4 @@ A cost review of an unseen scenario: a public repository with the notebook, meas
 
 SDAIA Academy · AI Engineering Track · AI Cost Engineering and Model Routing
 
-Course version 2027.1.0 · engine 1.0.0 · built 2026-11-15 · commit 2f622db
+Course version 2027.2.0 · engine 1.0.0 · built 2026-11-24 · commit 0b8041a

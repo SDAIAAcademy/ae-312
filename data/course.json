@@ -2,9 +2,9 @@
   "v": 1,
   "engine": "1.0.0",
   "build": {
-    "at": "2026-11-15T15:39:40Z",
-    "version": "2027.1.0",
-    "commit": "2f622db"
+    "at": "2026-11-24T16:36:22Z",
+    "version": "2027.2.0",
+    "commit": "0b8041a"
   },
   "lang": "en",
   "dir": "ltr",
@@ -15,7 +15,7 @@
   "course": {
     "id": "ae-312",
     "code": "AE-312",
-    "version": "2027.1.0",
+    "version": "2027.2.0",
     "title": "AI Cost Engineering and Model Routing",
     "tagline": "Make the cost of language model applications measurable, attributable and smaller, without losing quality",
     "description": "Participants make the cost of language model applications measurable, attributable and smaller without losing quality. For a fictional telecom operator running three applications behind one gateway, a bilingual care assistant, a call-summary job and a billing-dispute agent, they work from a month of synthetic usage traces: they model cost per request and session, attribute spend to teams, set budgets, evaluate model tiers and reasoning settings on their own tasks, route with fallbacks, measure prefix and semantic caches, compare hosted and self-hosted serving and report cost per successful outcome. Cluster capacity planning is AE-307; engine-level optimisation is AE-401.",
@@ -509,7 +509,7 @@
                   "minutes": 7
                 }
               ],
-              "stretch": "Lease the node one hour a night: does the nightly job change the answer?"
+              "stretch": "Lease the node one hour a night: does the nightly job change the answer, and would the monthly reservation?"
             }
           },
           {
